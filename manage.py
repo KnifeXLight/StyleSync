@@ -12,9 +12,6 @@ def drop_tables():
 
 def seed():
     with app.app_context():
-        #add random items
-        # db.session.add(User(name="John",email="jok@gkl.com",password="123"))
-        # db.session.commit()
         user = db.session.query(User).filter_by(id=1).first()
         print(user)
         db.session.add(Items(name="shirt",image_url="/Assets/shirt.png",user =user))
@@ -62,7 +59,6 @@ def seed():
         db.session.add(Tags(item = db.session.query(Items).filter_by(id=3).first(),category = db.session.query(Categories).filter_by(id=9).first()))
         db.session.add(Tags(item = db.session.query(Items).filter_by(id=4).first(),category = db.session.query(Categories).filter_by(id=10).first()))
         db.session.commit()
-        print(db.session.query(Items).filter_by(id=1).first().tags)
         db.session.add(Outfit(user = user))
         db.session.commit()
         outfit = db.session.query(Outfit).filter_by(id=1).first()
@@ -73,23 +69,12 @@ def seed():
         db.session.add(OutfitItems(outfit=outfit,item=db.session.query(Items).filter_by(id=5).first()))
         db.session.add(OutfitItems(outfit=outfit,item=db.session.query(Items).filter_by(id=6).first()))
         db.session.commit()
-        print(db.session.query(Outfit).filter_by(id=1).first().outfit_items)
-        print("Database seeded")
-
 
 
 
 if __name__ == "__main__":
-    drop_tables()
-    create_tables()
-#     seed()
-# with app.app_context():
-#     print(db.session.query(Items).filter_by(id=2).first().tags)
-#     print(db.session.query(Items).filter_by(id=3).first().tags)
-#     print(db.session.query(Items).filter_by(id=4).first().tags)
-#     print(db.session.query(Items).filter_by(id=5).first().tags)
-#     print(db.session.query(Items).filter_by(id=6).first().tags)
-#     print(db.session.query(Tags).filter_by(id=1).first().item)
-#     print(db.session.query(Tags).filter_by(id=1).first().category)
-#     print(db.session.query(Outfit).filter_by(id=1).first().outfit_items)
-#     print("Database seeded")
+    # drop_tables()
+    # create_tables()
+    seed()
+with app.app_context():
+    print("Database seeded")
