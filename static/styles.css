@@ -1,0 +1,455 @@
+@media screen and (min-width:750px) {
+    .menu {
+        display: flex;
+        flex-direction: column;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 5;
+        grid-row-end: auto;
+        text-align: center;
+        font-size: 25px;
+
+    }
+    
+    .menu-item {
+        cursor: pointer;
+        margin-bottom: 10px;
+    }
+    
+    .menu-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        transition: transform 0.3s;
+    }
+    
+    .sub-menu {
+        display: none;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .sub-menu.open {
+        display: block;
+    }
+    
+    .menu-item.active .menu-icon {
+        transform: scaleX(-1);
+    }
+
+    .grid-container {
+        display:grid;
+        grid-template-columns: 350px 65%;
+        grid-template-rows: 50px 30px 80px 80px auto;
+        column-gap:20px;
+        row-gap:20px;
+    }
+
+    .logo {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        
+
+    }
+
+    .weather {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin:auto;
+    }
+
+    .logo p {
+        margin: 0;    
+        font-size: 70px;
+        color: #3562BD;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        text-align: center;
+    }
+
+
+
+    .welcome p {
+        margin: 0;    
+        font-size: 40px;
+        color: black;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        text-align:center;
+        align-self: end;
+    }
+
+    .menutitle {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 4;
+        grid-row-end: 5;
+        justify-content: center;
+        display:flex;
+    }
+
+    .menutitle p {
+        margin: 0;    
+        font-size: 40px;
+        color: black;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        text-align: center;
+
+    }
+
+    .outfits {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 6;
+        display: grid;
+        grid-template-columns: 20% 45% 35%;
+        grid-template-rows: auto;
+        column-gap:0px;
+        row-gap:0px;
+    }
+
+    .accessories {
+        margin-top:60px;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 6;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 150px 150px 150px 150px 150px;
+        column-gap:0px;
+        row-gap:20px;
+        text-align: center;
+    }
+
+    .clothing {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 5;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 50px 300px 400px 150px;
+        column-gap:0px;
+        row-gap:0px;
+        text-align: center;
+
+    }
+
+    .jackets {
+        margin-top: 60px;
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 2;
+        grid-row-end: 6;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 400px 400px;
+        column-gap:0px;
+        row-gap:0px;
+        text-align: center;
+
+    }
+
+    .footer {
+        grid-column-start: 1;
+        grid-column-end: 5;
+        grid-row-start: 6;
+        grid-row-end: 7;
+        text-align: center;
+    }
+
+    .hat {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .necklace {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jewelry1 {
+        grid-row-start: 3;
+        grid-row-end: 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jewelry2 {
+        grid-row-start: 4;
+        grid-row-end: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .jewelry3 {
+        grid-row-start: 5;
+        grid-row-end: 6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .welcome {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 100px;
+        
+
+    }
+    .top {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        
+    }
+
+    .bottom {
+        grid-row-start: 3;
+        grid-row-end: 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .shoes {
+        grid-row-start: 4;
+        grid-row-end: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .sweater {
+        grid-row-start: 1;
+        grid-row-end: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .jacket {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .clothing img {
+        width: 95%;
+        height: 95%;
+        object-fit: contain;
+    }
+
+    .accessories img {
+        width: 80%;
+        height: 80%;
+        object-fit:contain;
+    }
+
+    .jackets img {
+        width: 90%;
+        height: 90%;
+        object-fit:contain;
+    }
+
+    .outfitnav {
+        grid-row-start: 5;
+        grid-row-end: 6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+    }
+
+    .outfitnav img {
+        width:50%;
+        height:50%;
+    }
+
+    .wardrobe-container {
+        display:grid;
+        grid-template-columns:350px 1fr;
+        grid-template-rows:120px 120px auto;
+    }
+
+    .wardrobe-menu {
+        grid-column:1;
+        grid-row: 3;
+        display: block;
+        align-items:start;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .wardrobe-menu ul {
+        margin-top: 40px;
+        list-style-type: none;
+        margin-left:10px;
+        text-align: start;
+        font-size: 27px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-rows: 200px;
+        grid-auto-rows: 200px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        /* grid-template-columns: repeat(4, 200px); */
+        /* grid-template-rows: 200px auto; */
+        gap: 10px;
+        grid-column: 2;
+        grid-row:3;
+        margin-top:-40px;
+        }
+
+    .wardrobe-title {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row:1;
+        text-align: center;
+        justify-content: center;
+        object-fit: contain;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .wardrobe-button {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row:2;
+    }
+
+    .wardrobe-button img {
+        object-fit:contain;
+        width: 30%;
+        height: 30%;
+        text-align: center;
+        justify-content: center;
+        display: block;
+        margin: auto;
+    }
+        
+        .grid-item {
+        width: 200px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+        }
+        
+        .grid-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        }
+
+        .wardrobe-logo {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row:1;
+            text-align: center;
+            margin: 0;    
+            font-size: 70px;
+            color: #3562BD;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+        }
+
+        .wardrobe-weather {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row:2;
+            display: block;
+            margin:auto;
+
+        }
+        /* .card-body {
+            text-align: center;
+        } */
+
+        .card {
+            width: 200px;
+            display: inline-flex;
+        }
+
+        .picture {
+            width: 20px;
+            /* display: inline-flex; */
+            --bs-card-spacer-y: 1rem;
+            --bs-card-spacer-x: 1rem;
+            --bs-card-title-spacer-y: 0.5rem;
+            --bs-card-title-color: ;
+            --bs-card-subtitle-color: ;
+            --bs-card-border-width: var(--bs-border-width);
+            --bs-card-border-color: var(--bs-border-color-translucent);
+            --bs-card-border-radius: var(--bs-border-radius);
+            --bs-card-box-shadow: ;
+            --bs-card-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
+            --bs-card-cap-padding-y: 0.5rem;
+            --bs-card-cap-padding-x: 1rem;
+            --bs-card-cap-bg: rgba(var(--bs-body-color-rgb), 0.03);
+            --bs-card-cap-color: ;
+            --bs-card-height: ;
+            --bs-card-color: ;
+            --bs-card-bg: var(--bs-body-bg);
+            --bs-card-img-overlay-padding: 1rem;
+            --bs-card-group-margin: 0.75rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: var(--bs-card-height);
+            color: var(--bs-body-color);
+            word-wrap: break-word;
+            background-color: var(--bs-card-bg);
+            background-clip: border-box;
+            border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+            border-radius: var(--bs-card-border-radius);
+        }
+
+        .offcanvas.offcanvas-bottom {
+            height: 90vh; /* Adjust as needed */
+            max-height: calc(100vh - 60px); /* Adjust for offcanvas header height if needed */
+            /* Change 60px to the actual height of your offcanvas header, if it has a fixed height */
+        }
+
+        .row {
+            width: 200px;
+        }
+
+        .offcanvas-footer {
+            justify-content: center;
+        }
+        
+        .highlight {
+            border: 2px solid red;
+        }
+
+}

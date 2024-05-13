@@ -1,0 +1,102 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<body>
+      <script src="/code/Static/script.js"></script>
+      <script src="{{ url_for('static', filename='/script.js') }}"></script>
+      <div class="grid-container">
+        <div class="logo">
+            <p>stylesync</p>
+        </div>
+        <div class="weather">
+            <img src="{{ url_for('static', filename='/pics/weatherwidget3.png') }}" alt="weather">
+            <!-- <img src="/code/Assets/weatherwidget3.png" alt="weather"> -->
+        </div>
+        <div class="menutitle">
+            <p>Saved Outfits</p>
+        </div>
+        <div class="menu">
+            <div class="menu-item">
+                <img class="menu-icon" src="{{ url_for('static', filename='/pics/arrow.png') }}" alt="Image">
+                Work
+                <ul class="sub-menu">
+                  <li><a href="home.html">Outfit1</a></li>
+                  <li><a href="home.html">Outfit2</a></li>
+                  <li><a href="home.html">Outfit3</a></li>
+                </ul>
+              </div>
+              <div class="menu-item">
+                <img class="menu-icon" src="{{ url_for('static', filename='/pics/arrow.png') }}" alt="Image">
+                Beach
+                <ul class="sub-menu">
+                  <li><a href="home.html">Outfit1</a></li>
+                  <li><a href="home.html">Outfit2</a></li>
+                  <li><a href="home.html">Outfit3</a></li>
+                </ul>
+              </div>
+              <div class="menu-item">
+                <img class="menu-icon" src="{{ url_for('static', filename='/pics/arrow.png') }}" alt="Image">
+                Club
+                <ul class="sub-menu">
+                  <li><a href="home.html">Outfit1</a></li>
+                  <li><a href="home.html">Outfit2</a></li>
+                  <li><a href="home.html">Outfit3</a></li>
+                </ul>
+              </div>
+
+        </div>
+        <div class="outfits">
+            <div class="welcome">
+                <p>Good Morning Misha!</p>
+            </div>
+            <div class="accessories">
+                <div class="hat">
+                    <img src="{{ url_for('static', filename='/pics/hatghost.png') }}" alt="hat">
+                </div>
+                <div class="necklace">
+                    <img src="{{ url_for('static', filename='/pics/necklaceghost.png') }}" alt="necklace">
+                </div>
+                <div class="jewelry1">
+                    <img src="{{ url_for('static', filename='/pics/watch.jpg') }}" alt="jewelry1">
+                </div>
+                <div class="jewelry2">
+                    <img src="{{ url_for('static', filename='/pics/onering.png') }}" alt="jewelry2">
+                </div>
+                <div class="jewelry3">
+                    <img src="{{ url_for('static', filename='/pics/onering.png') }}" alt="jewelry2">
+                </div>
+
+            </div>
+            <div class="clothing">
+                <div class="top">
+                    <img src="{{ url_for('static', filename='/pics/shirt.jpg') }}" alt="top">
+                </div>
+                <div class="bottom">
+                    <img src="{{ url_for('static', filename='/pics/jeansghost.png') }}" alt="bottom">
+                </div>
+                <div class="shoes">
+                    <img src="{{ url_for('static', filename='/pics/shoesghost.png') }}" alt="shoes">
+                </div>
+                <div class="outfitnav">
+                    <img src="{{ url_for('static', filename='/pics/arrowleft.png') }}" alt="previousoutfit">
+                    <img src="{{ url_for('static', filename='/pics/arrowright.png') }}" alt="nextoutfit">
+                    
+                </div>
+            </div>
+            <div class="jackets">
+                <div class="sweater">
+                    <img src="{{ url_for('static', filename='/pics/hoodie.jpg') }}" alt="sweater">
+                </div>
+                <div class="jacket">
+                    <img src="{{ url_for('static', filename='/pics/jacketghost.png') }}" alt="jacket">
+                </div>
+            </div>
+            
+        </div>
+        <div class="footer">
+            <p>All rights reserved</p>
+        </div>
+      </div> 
+{% endblock %}
+   
+
+    

@@ -1,0 +1,21 @@
+{% extends '/auth/base.html' %}
+{% block content %}
+<div class="container bg-white p-4 rounded shadow" style="max-width: 400px; text-align: center;">
+    <h1 class="mb-4"><span class="font-weight-bold" style="color: blueviolet;">StyleSync Login</span></h1>
+    <form method="post" action="/auth/login">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+            {{ messages[0] }}
+            </div>  
+        {% endif %}
+    {% endwith %}
+        <input type="email" name="email" class="form-control mb-3" placeholder="Username (e-mail)" required>
+        <input type="password" name="password" class="form-control mb-3" placeholder="Password" required>
+        <button type="submit" class="btn btn-block"style="background-color: blueviolet; color: white;">Login</button>
+    </form>
+    <div class="footer mt-4">
+        <p class="mb-0">Don't have an account? <a href="/auth/register" style="color: blueviolet;">Sign Up</a></p>
+    </div>
+</div>
+{% endblock %}
