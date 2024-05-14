@@ -72,10 +72,9 @@ def seed():
         db.session.commit()
 
 
-
 if __name__ == "__main__":
-    # drop_tables()
-    # create_tables()
-    seed()
+    drop_tables()
+    create_tables()
+    # seed()
 with app.app_context():
     print("Database seeded")
