@@ -63,7 +63,7 @@ class Items(db.Model):
     id = mapped_column(Integer, primary_key=True)
     name = mapped_column(String(200), nullable=False)
     image_url = mapped_column(String(200), nullable=False)
-    user_id = mapped_column(Integer, ForeignKey(User.id), nullable=False)
+    user_id = mapped_column(Integer, ForeignKey(User.id), nullable=True)
     user = relationship('User', back_populates='items')
     item_tags = relationship('Tags', back_populates='item')
     outfit_items = relationship('OutfitItems', back_populates='item')

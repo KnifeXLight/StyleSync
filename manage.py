@@ -15,6 +15,7 @@ def seed():
         user = db.session.query(User).filter_by(id=1).first()
         print(user)
         db.session.add(Items(name="shirt",image_url="/Assets/shirt.png",user =user))
+
         
         db.session.commit()
         item = db.session.query(Items).filter_by(id=1).first()
@@ -73,6 +74,8 @@ def seed():
 
 
 if __name__ == "__main__":
-    drop_tables()
-    create_tables()
+    # drop_tables()
+    # create_tables()
+    seed()
+with app.app_context():
     print("Database seeded")
