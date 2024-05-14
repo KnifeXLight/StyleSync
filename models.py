@@ -1,59 +1,80 @@
-from sqlalchemy import Boolean, Float, Numeric, ForeignKey, Integer, String, DECIMAL, DateTime, DATETIME
+from sqlalchemy import (
+    Boolean,
+    Float,
+    Numeric,
+    ForeignKey,
+    Integer,
+    String,
+    DECIMAL,
+    DateTime,
+    DATETIME,
+)
 from sqlalchemy.orm import mapped_column, relationship
 from db import db
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship, backref
 
 class User(UserMixin, db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    name = mapped_column(String(200), nullable=False)
-    email = mapped_column(String(200), nullable=False, unique=True)
-    password = mapped_column(String(200), nullable=False)
-    items = relationship('Items', back_populates='user')
-
-# * Type of clothing (eg. pants, shirt, shoes)
-class Categories(db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    name = mapped_column(String(200), nullable=False)
-    tags = relationship('Tags', back_populates='category')
-    # items = relationship('Items', back_populates='categories_items')
-
-# * Items Table (Closet Items)
-class Items(db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    name = mapped_column(String(200), nullable=False)
-    image_url = mapped_column(String(200), nullable=False)
-    user_id = mapped_column(Integer, ForeignKey(User.id), nullable=False)
-    # categories_id = mapped_column(Integer, ForeignKey('Categories.id'), nullable=False)
-    user = relationship('User', back_populates='items')
-    item_tags = relationship('Tags', back_populates='item')
-    outfit_items = relationship('OutfitItems', back_populates='item')
-    # categories_items = relationship('Categories', back_populates='items')
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(200), nullable=False)
+    email = db.Column(String(200), nullable=False, unique=True)
+    password = db.Column(String(200), nullable=False)
+    items = relationship("Item", back_populates="user")
+    outfits = relationship("Outfit", back_populates="user")
 
 
-# * Tags... (Style, Weather, Occasion, etc.)
-class Tags(db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    item_id = mapped_column(Integer, ForeignKey(Items.id), nullable=False)
-    category_id = mapped_column(Integer, ForeignKey(Categories.id), nullable=False)
-    item = relationship('Items', back_populates='item_tags')
-    category = relationship('Categories', back_populates='tags')
+class Item(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(200), nullable=False)
+    image_url = db.Column(String(200), nullable=False)
+    user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
+    user = relationship("User", back_populates="items")
+    item_tags = relationship("Tag", back_populates="item")
+    outfit_items = relationship("OutfitItem", back_populates="item")
 
-# * Outfit Tables needed for the Outfit database
+
+class Category(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(200), nullable=False)
+    tags = relationship("Tag", back_populates="category")
+    filters = relationship("Filter", back_populates="category")
+
+
+class Filter(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    name = db.Column(String(200), nullable=False)
+    category_id = db.Column(Integer, ForeignKey('category.id'), nullable=False)
+    category = relationship("Category", back_populates="filters")
+    tags = relationship("Tag", back_populates="filter")
+
+
+class Tag(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    item_id = db.Column(Integer, ForeignKey('item.id'), nullable=False)
+    category_id = db.Column(Integer, ForeignKey('category.id'), nullable=False)
+    filter_id = db.Column(Integer, ForeignKey('filter.id'), nullable=False)
+    item = relationship("Item", back_populates="item_tags")
+    category = relationship("Category", back_populates="tags")
+    filter = relationship("Filter", back_populates="tags")
+
+
 class Outfit(db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    user_id = mapped_column(Integer, ForeignKey(User.id), nullable=False)
-    created = mapped_column(DateTime, nullable=True, default=None)
-    rating = mapped_column(Integer, nullable=True)
-    user = relationship('User')
-    outfit_items = relationship('OutfitItems', back_populates='outfit')
+    id = db.Column(Integer, primary_key=True)
+    user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
+    created = db.Column(DateTime, nullable=True, default=None)
+    rating = db.Column(Integer, nullable=True)
+    user = relationship("User", back_populates="outfits")
+    outfit_items = relationship("OutfitItem", back_populates="outfit")
 
-# * Outfit Items Table (Junction Table for many to many)
-class OutfitItems(db.Model):
-    id = mapped_column(Integer, primary_key=True)
-    outfit_id = mapped_column(Integer, ForeignKey(Outfit.id), nullable=False)
-    item_id = mapped_column(Integer, ForeignKey(Items.id), nullable=False)
-    outfit = relationship('Outfit', back_populates='outfit_items')
-    item = relationship('Items', back_populates='outfit_items')
+
+class OutfitItem(db.Model):
+    id = db.Column(Integer, primary_key=True)
+    outfit_id = db.Column(Integer, ForeignKey('outfit.id'), nullable=False)
+    item_id = db.Column(Integer, ForeignKey('item.id'), nullable=False)
+    outfit = relationship("Outfit", back_populates="outfit_items")
+    item = relationship("Item", back_populates="outfit_items")
+
 
 
 # class Image(db.Model):
@@ -103,7 +124,6 @@ class OutfitItems(db.Model):
 #     wardrobe_colour = relationship('Wardrobe_Colour')
 #     wardrobe_feeling = relationship('Wardrobe_Feeling')
 #     wardrobe_style = relationship('Wardrobe_Style')
-
 
 
 # # # * Relations:
@@ -162,4 +182,3 @@ class OutfitItems(db.Model):
 #     rating = mapped_column(Integer, nullable=True)
 
 # After creating the below categories for db, we need to add the foreign keys into Outfit Table
-
