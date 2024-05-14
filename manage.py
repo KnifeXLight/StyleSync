@@ -15,6 +15,7 @@ def seed():
         user = db.session.query(User).filter_by(id=1).first()
         print(user)
         db.session.add(Items(name="shirt",image_url="/Assets/shirt.png",user =user))
+
         
         db.session.commit()
         item = db.session.query(Items).filter_by(id=1).first()
@@ -69,7 +70,6 @@ def seed():
         db.session.add(OutfitItems(outfit=outfit,item=db.session.query(Items).filter_by(id=5).first()))
         db.session.add(OutfitItems(outfit=outfit,item=db.session.query(Items).filter_by(id=6).first()))
         db.session.commit()
-
 
 
 if __name__ == "__main__":
