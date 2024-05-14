@@ -73,8 +73,6 @@ def seed():
 
 
 if __name__ == "__main__":
-    # drop_tables()
-    # create_tables()
-    seed()
-with app.app_context():
+    drop_tables()
+    create_tables()
     print("Database seeded")
