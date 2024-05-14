@@ -23,6 +23,8 @@ def test_create_and_drop_tables(client):
     assert 'user' in db.get_tables()  # Assuming 'user' is one of your tables
     assert 'wardrobe' in db.get_tables()  # Assuming 'wardrobe' is one of your tables
 
+# ! get tables doesn't work
+
     # Check if tables are dropped
     drop_tables()
     assert 'user' not in db.get_tables()
