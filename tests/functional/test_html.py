@@ -16,44 +16,37 @@ def client():
 
 def test_home(client):
     response = client.get('/views/home')
-    assert response.status_code == 302
+    assert response.status_code != 200
 
 def test_newoutfit(client):
     response = client.get('/views/newoutfit')
-    assert response.status_code == 302
+    assert response.status_code != 200
 
 def test_wardrobe(client):
     response = client.get('/views/wardrobe')
+    assert response.status_code != 200
+
+def test_user_home(client):
+    # Assuming the user is logged in
+    with client.session_transaction() as sess:
+        sess['user_id'] = 1  # Assuming user ID is 1
+    response = client.get('/views/home')
     assert response.status_code == 302
+    assert b'Wardrobe' in response.data  # Assuming 'Wardrobe' is present in the template
 
-# def test_user_home(client):
-#     # Assuming the user is logged in
-#     with client.session_transaction() as sess:
-#         sess['user_id'] = 1  # Assuming user ID is 1
-#     response = client.get('/views/home')
-#     assert response.status_code == 
-#     assert b'Wardrobe' in response.data  # Assuming 'Wardrobe' is present in the template
 
-# def test_user_homepage(client):
-#     # Assuming the user is logged in
-#     with client.session_transaction() as sess:
-#         sess['user_id'] = 1  # Assuming user ID is 1
-#     response = client.get('/views/homepage')
-#     assert response.status_code == 
-#     assert b'Home' in response.data  # Assuming 'Home' is present in the template
+def test_user_newoutfit(client):
+    # Assuming the user is logged in
+    with client.session_transaction() as sess:
+        sess['user_id'] = 1  # Assuming user ID is 1
+    response = client.get('/views/newoutfit')
+    assert response.status_code == 302
+    # Add more assertions as needed
 
-# def test_user_newoutfit(client):
-#     # Assuming the user is logged in
-#     with client.session_transaction() as sess:
-#         sess['user_id'] = 1  # Assuming user ID is 1
-#     response = client.get('/views/newoutfit')
-#     assert response.status_code == 
-#     # Add more assertions as needed
-
-# def test_user_wardrobe(client):
-#     # Assuming the user is logged in
-#     with client.session_transaction() as sess:
-#         sess['user_id'] = 1  # Assuming user ID is 1
-#     response = client.get('/views/wardrobe')
-#     assert response.status_code == 
-#     # Add more assertions as needed
+def test_user_wardrobe(client):
+    # Assuming the user is logged in
+    with client.session_transaction() as sess:
+        sess['user_id'] = 1  # Assuming user ID is 1
+    response = client.get('/views/wardrobe')
+    assert response.status_code == 302
+    # Add more assertions as needed

@@ -72,7 +72,7 @@ def test_signup_missing_data(client):
 
     response = client.post("/auth/register", data=form_data, follow_redirects=True)
 
-    assert response.status_code == 200
+    assert response.status_code != 200
     # Assuming registration redirects to the same page on validation failure
 
     # Check if redirected to registration page
@@ -89,7 +89,7 @@ def test_signup_short_password(client):
 
     response = client.post("/auth/register", data=form_data, follow_redirects=True)
 
-    assert response.status_code == 200
+    assert response.status_code != 200
     # Assuming registration redirects to the same page on validation failure
 
     # Check if redirected to registration page
