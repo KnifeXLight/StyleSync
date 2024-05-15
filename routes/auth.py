@@ -28,8 +28,8 @@ def signup():
     print(password)
     if not email or not name or not password:
         return redirect(url_for("authorization.register"))
-    # if len(passwords) < 8:
-    #     return redirect(url_for("authorization.register"))
+    if len(password) < 8:
+        return redirect(url_for("authorization.register"))
     if email == "" or name == "" or password == "":
         return redirect(url_for("authorization.register"))
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
