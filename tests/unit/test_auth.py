@@ -36,9 +36,20 @@ def successful_register_post():
 def test_successful_register_post(successful_register_post):
     assert successful_register_post.status_code == 200  # Assuming successful registration returns status code 200
 
+# @pytest.fixture(scope="module")
+# def fail_register_post():
+#     url = "http://localhost:8888/auth/register"
+#     data = {"email": "Jimbob42@test.ca", "name": "Jimbob", "password": "password"}
+#     response = requests.post(url, data=data)
+#     return response
 
-
-
+def test_fail_register_post():
+    url = "http://localhost:8888/auth/register"
+    # data = {"email": "Jimbob42@test.ca", "name": "Jimbob", "password": "password"}
+    # response = requests.post(url, data=data)
+    # assert successful_register_post.status_code == 302
+    # # assert "email": 
+    # return response
 
 
 
