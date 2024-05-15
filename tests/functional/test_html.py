@@ -15,16 +15,20 @@ def client():
         yield client
 
 def test_home(client):
-    response = client.get('/views/home')
-    assert response.status_code != 200
+    response = client.get('/views/home', follow_redirects=True)
+    assert response.status_code != 200  # Assuming the login page redirects to the home page after successful login
+    assert b'Welcome to the home page' in response.data  # Adjust this assertion based on the content of your home page
+
 
 def test_newoutfit(client):
     response = client.get('/views/newoutfit')
     assert response.status_code != 200
+    assert response.headers['Location'] == 'https://localhost:8888/'
 
 def test_wardrobe(client):
     response = client.get('/views/wardrobe')
     assert response.status_code != 200
+    assert response.headers['Location'] == 'https://localhost:8888/'
 
 def test_user_home(client):
     # Assuming the user is logged in
