@@ -68,9 +68,9 @@ def add_mock_data():
         db.session.commit()
 
 if __name__ == '__main__':
-    # drop_tables()
-    # create_tables()
-    add_mock_data()
+    drop_tables()
+    create_tables()
+    # add_mock_data()
     print("Mock data added successfully")
 
 
