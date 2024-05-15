@@ -26,6 +26,10 @@ def test_wardrobe(client):
     response = client.get('/views/wardrobe')
     assert response.status_code == 302
 
+def test_profile(client):
+    response = client.get('/views/profile')
+    assert response.status_code == 302
+
 # def test_user_home(client):
 #     # Assuming the user is logged in
 #     with client.session_transaction() as sess:
