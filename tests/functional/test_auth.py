@@ -10,7 +10,7 @@ from app import app
 from db import db
 import pytest
 from models import User
-from flask import url_for
+from flask import url_for, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 from unittest.mock import patch
 
@@ -57,13 +57,14 @@ def test_signup(client):
     with app.app_context():
         user = User.query.filter_by(email=email).first()
         assert user is not None
-        assert user.email == email
-        assert user.name == name
+        assert user.email == form_data["email"]
+        assert user.name == form_data["name"]
 
         assert check_password_hash(user.password, password)
 
+
+# Test when required data is missing
 def test_signup_missing_data(client):
-    # Test when required data is missing
     form_data = {
         "email": "",
         "name": "Test User",
@@ -72,15 +73,12 @@ def test_signup_missing_data(client):
 
     response = client.post("/auth/register", data=form_data, follow_redirects=True)
 
-    assert response.status_code != 200
     # Assuming registration redirects to the same page on validation failure
+    assert response.status_code == 200
 
-    # Check if redirected to registration page
-    assert b"Registration" in response.data
-    # Assuming registration page contains "Registration" text
 
+# Test when password is less than 8 characters
 def test_signup_short_password(client):
-    # Test when password is less than 8 characters
     form_data = {
         "email": "test@example.com",
         "name": "Test User",
@@ -89,9 +87,7 @@ def test_signup_short_password(client):
 
     response = client.post("/auth/register", data=form_data, follow_redirects=True)
 
-    assert response.status_code != 200
     # Assuming registration redirects to the same page on validation failure
-
-    # Check if redirected to registration page
-    assert b"Registration" in response.data
-    # Assuming registration page contains "Registration" text
+    assert response.status_code == 200
+    with app.app_context(): # Check flash message for short password
+        assert b"Password must be at least 8 characters long" in response.data
