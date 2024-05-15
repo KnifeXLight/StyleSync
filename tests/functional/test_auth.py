@@ -27,15 +27,17 @@ def client():
     with app.app_context():
         db.drop_all()
 
+# Test home page
 def test_home(client):
         response = client.get("/")
         assert response.status_code == 200
 
-
+# Test user registration page
 def test_register(client):
         response = client.get("/auth/register")
         assert response.status_code ==  200
 
+# Test user registration
 def test_signup(client):
     
     email = "test@example.com"
@@ -47,6 +49,7 @@ def test_signup(client):
         "name": name,
         "password": password
     }
+    
     with app.test_request_context():
         response = client.post(url_for("authorization.signup"), data=form_data, follow_redirects=True)
 
