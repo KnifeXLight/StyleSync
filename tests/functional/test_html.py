@@ -13,12 +13,12 @@ def client():
     app.config['TESTING'] = True
     with app.test_client() as client:
         yield client
-
+# this is the original code, I DONT KNOW WHAT TO DO HERE RIGHT NOW!!!!!!!
 def test_home(client):
     response = client.get('/views/home', follow_redirects=True)
     assert response.status_code != 200  # Assuming the login page redirects to the home page after successful login
     assert b'Welcome to the home page' in response.data  # Adjust this assertion based on the content of your home page
-
+# CHATGPT answer, SOME CHANGES BUT THE SAME LOL, XDDDDDDDDDD 
 def test_redirect_to_login(client):
     response = client.get('/', follow_redirects=True)
     assert response.status_code == 200  # Assuming the login page returns status code 200
