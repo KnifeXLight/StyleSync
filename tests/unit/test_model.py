@@ -59,3 +59,5 @@ def test_user_items_relationship(setup_database):
         assert len(retrieved_user.items) == 1
         assert retrieved_user.items[0].name == 'Test Item'
         assert retrieved_user.password == 'password'
+        
+    #! Need to fix the hashing of password in models.py
