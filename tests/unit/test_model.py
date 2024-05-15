@@ -1,51 +1,61 @@
 import pytest
-from models import User, Image, Type, Wardrobe
+from sqlalchemy import inspect
+import sys
+import os
+
+# Add the app_folder to the system path to allow imports
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
+from app import app
+from db import db
+from models import User, Items, Categories, Tags, Outfit, OutfitItems
+
+# * Fixture to set up an in-memory SQLite database for testing. * #
 
 @pytest.fixture
-def sample_user():
-    return User(
-        id=1,
-        name='Test User',
-        email='test@example.com',
-        password='test_password'
-    )
+def setup_database():
+    # Use an in-memory database for testing
+    app.config['TESTING'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' 
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@pytest.fixture
-def sample_image():
-    return Image(name='Test Image', image_url='https://example.com/test_image.jpg')
-
-@pytest.fixture
-def sample_type():
-    return Type(name='Test Type')
-
-@pytest.fixture
-def sample_wardrobe(sample_user, sample_image, sample_type):
-    return Wardrobe(name='Test Wardrobe', user=sample_user, image=sample_image, type=sample_type)
+    with app.app_context():
+        db.create_all()
+        yield
+        db.drop_all()
 
 
-# ---------------------------- #
-# * Tests are below * #
+# ------------------- #
+# * Test to ensure that all required database tables exist. * #
+def test_models_exist(setup_database):
+    with app.app_context():
+        inspector = inspect(db.engine)
+        tables = inspector.get_table_names()
 
-def test_to_json(sample_user):
-    json_data = sample_user.to_json()
-    assert json_data['id'] == 1
-    assert json_data['name'] == 'Test User'
+        assert 'user' in tables
+        assert 'items' in tables
+        assert 'categories' in tables
+        assert 'tags' in tables
+        assert 'outfit' in tables
+        assert 'outfit_items' in tables
 
-def test_user(sample_user):
-    assert sample_user.name == 'Test User'
-    assert sample_user.email == 'test@example.com'
-    # assert sample_user.password == 'test_password'
-    assert sample_user.password != 'test_password'
 
-def test_image(sample_image):
-    assert sample_image.name == 'Test Image'
-    assert sample_image.image_url == 'https://example.com/test_image.jpg'
+# ------------------- #
+# * Test to verify the relationship between the User and Items models. * #
+def test_user_items_relationship(setup_database):
+    with app.app_context():
+        # Create a user
+        user = User(name='Test User', email='test@example.com', password='password')
+        db.session.add(user)
+        db.session.commit()
 
-def test_type(sample_type):
-    assert sample_type.name == 'Test Type'
+        # Create an item associated with the user
+        item = Items(name='Test Item', image_url='http://example.com/image.png', user_id=user.id)
+        db.session.add(item)
+        db.session.commit()
 
-def test_wardrobe(sample_wardrobe, sample_user, sample_image, sample_type):
-    assert sample_wardrobe.name == 'Test Wardrobe'
-    assert sample_wardrobe.user == sample_user
-    assert sample_wardrobe.image == sample_image
-    assert sample_wardrobe.type == sample_type
+        # Verify the relationship
+        retrieved_user = db.session.get(User, user.id)
+        assert len(retrieved_user.items) == 1
+        assert retrieved_user.items[0].name == 'Test Item'
+        assert retrieved_user.password == 'password'
