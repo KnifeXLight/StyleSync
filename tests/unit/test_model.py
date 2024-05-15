@@ -35,9 +35,9 @@ def test_models_exist(setup_database):
         assert 'user' in tables
         assert 'item' in tables
         assert 'category' in tables
-        assert 'tags' in tables
+        assert 'tag' in tables
         assert 'outfit' in tables
-        assert 'outfit_items' in tables
+        assert 'outfit_item' in tables
 
 
 # ------------------- #
@@ -59,5 +59,7 @@ def test_user_items_relationship(setup_database):
         assert len(retrieved_user.items) == 1
         assert retrieved_user.items[0].name == 'Test Item'
         assert retrieved_user.password == 'password'
+        assert retrieved_user.email == 'test@example.com'
+        assert retrieved_user.name == 'Test User'
         
 #! Need to fix the hashing of password in models.py
