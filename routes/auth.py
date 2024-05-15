@@ -72,6 +72,7 @@ def login_post():
         return redirect(url_for("authorization.home"))
     login_user(user, remember=remember)
     return redirect(url_for("html.home"))
+
 @auth_routes_bp.route("/auth/logout")
 @login_required
 def logout():

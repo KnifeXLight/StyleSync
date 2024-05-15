@@ -76,6 +76,7 @@ class OutfitItem(db.Model):
     item = relationship("Item", back_populates="outfit_items")
 
 
+
 # class Image(db.Model):
 #     id = mapped_column(Integer, primary_key=True)
 #     name = mapped_column(String(500), nullable=True)
