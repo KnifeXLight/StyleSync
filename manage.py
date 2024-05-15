@@ -2,21 +2,37 @@ from app import app
 from db import db
 from models import User, Item,Category, Outfit,Filter,Tag,OutfitItem
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+import sys
+
+# Create all tables
 def create_tables():
     with app.app_context():
         db.create_all()
 
+# Drop all tables
 def drop_tables():
     with app.app_context():
         db.drop_all()
 
 
-# Create all tables
 # Add mock data
 def add_mock_data():
     with app.app_context():
         
+        name1 = "Test User 1"
+        email1 = "test1@example.com"
+        password1 = "testpassword"
+
+        name2 = "Test User 2"
+        email2 = "test2@example.com"
+        password2 = "testpassword"
         # Create Users
+        user1 = User(name=name1, email=email1, password=generate_password_hash(password1, method="scrypt"))
+        user2 = User(name=name2, email=email2, password=generate_password_hash(password2, method="scrypt"))
+        
+        db.session.add_all([user1, user2])
+        db.session.commit()
 
 # Query for users
         user1 = db.session.query(User).filter_by(id=1).first()
@@ -68,21 +84,19 @@ def add_mock_data():
         db.session.commit()
 
 if __name__ == '__main__':
-    drop_tables()
-    create_tables()
-    # add_mock_data()
-    print("Mock data added successfully")
-
-
-# if __name__ == "__main__":
-# #     seed()
-# with app.app_context():
-#     print(db.session.query(Items).filter_by(id=2).first().item_tags)
-#     print(db.session.query(Items).filter_by(id=3).first().item_tags)
-#     print(db.session.query(Items).filter_by(id=4).first().item_tags)
-#     print(db.session.query(Items).filter_by(id=5).first().item_tags)
-#     print(db.session.query(Items).filter_by(id=6).first().item_tags)
-#     print(db.session.query(Tags).filter_by(id=1).first().item)
-#     print(db.session.query(Tags).filter_by(id=1).first().category)
-#     print(db.session.query(Outfit).filter_by(id=1).first().outfit_items)
-#     print("Database seeded")
+    argv = sys.argv
+    if len(argv) > 1 and argv[1] == 'drop':
+        drop_tables()
+        print("Tables dropped successfully")
+        sys.exit()
+    elif len(argv) > 1 and argv[1] == 'create':
+        create_tables()
+        print("Tables created successfully")
+        sys.exit()
+    elif len(argv) > 1 and argv[1] == 'seed':
+        add_mock_data()
+        print("Mock data added successfully")
+        sys.exit()
+    else:
+        print("Invalid command. Please use 'create', 'drop', or 'seed' as arguments")
+        sys.exit()
