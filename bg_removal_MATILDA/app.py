@@ -10,11 +10,17 @@ app = Flask(__name__)
 # Define the upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-ALLOWED_EXTENSIONS = {'png'}
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
 
+# defines only allowed extension as png
+ALLOWED_EXTENSIONS = {'png'}
+
+#limits file size to 16 MB
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+
+# checks that a period is in filename (signifies extentsion), splits the filename into the part before the period and after, selects the second item which is the extension, makes it lower case, then checks to see if its in allowed extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/')
 def home():
@@ -35,7 +41,8 @@ def upload_image():
     
     if not allowed_file(file.filename):
         return jsonify({'error': 'File type not allowed'})
-
+    
+    #message if file is too large
     if file.content_length > MAX_CONTENT_LENGTH:
         return jsonify({'error': 'File size exceeds limit'})
     
@@ -64,39 +71,6 @@ def upload_image():
         except Exception as e:
             return jsonify({'error': str(e)})
     return jsonify({'error': 'Unknown error'})
-
-
-
-
-# @app.route('/uploadtest', methods=['GET', 'POST'])
-# def upload_test():
-#     if request.method == 'GET':
-#         return render_template('uploadtest.html')
-#     elif request.method == 'POST':
-#         if 'file' not in request.files:
-#             return jsonify({'error': 'No file part for upload test'})
-
-#         file = request.files['file']
-
-#         if file.filename == '':
-#             return jsonify({'error': 'No selected file for upload test'})
-
-#         try:
-#             # Open the input image
-#             input_image = Image.open(file)
-
-#             # Process the image (e.g., remove background)
-#             output_image = remove(input_image)
-
-#             # Save the processed image to a file on the server
-#             output_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'processed_image.png')
-#             output_image.save(output_filename)
-
-#             # Return a JSON response with the filename of the processed image
-#             return jsonify({'filename': 'processed_image.png'})
-
-#         except Exception as e:
-#             return jsonify({'error': str(e)})
     
 if __name__ == '__main__':
     app.run(debug=True)
