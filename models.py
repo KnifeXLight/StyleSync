@@ -31,8 +31,8 @@ class Item(db.Model):
     image_url = db.Column(String(200), nullable=False)
     user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship("User", back_populates="items")
-    item_tags = relationship("Tag", back_populates="item")
-    outfit_items = relationship("OutfitItem", back_populates="item")
+    item_tags = relationship("Tag", back_populates="item", cascade="all, delete-orphan")
+    outfit_items = relationship("OutfitItem", back_populates="item", cascade="all, delete-orphan")
 
 # * Category Table (Categories for the items, e.g. Tops, Bottoms, Shoes, etc.)
 class Category(db.Model):
