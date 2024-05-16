@@ -75,60 +75,60 @@ def add_mock_data():
         # Create Items
         # User 1 items
         # User 1 accessories
-        item2 = Item(name='beige tote', image_url='/static/items/Accessories/beige_tote.png', user=user1)
-        item3 = Item(name='black purse', image_url='/static/items/Accessories/black_purse.png', user=user1)
-        item4 = Item(name='ghostbracelet3', image_url='/static/items/Accessories/ghostbracelet3.png', user=user1)
-        item5 = Item(name='ghosthat2', image_url='/static/items/Accessories/ghosthat2.png', user=user1)
-        item6 = Item(name='olive green tote', image_url='/static/items/Accessories/olive_green_tote.png', user=user1)
-        item7 = Item(name='white cap ', image_url='/static/items/Accessories/white_cap.png', user=user1)
+        item2 = Item(name='beige tote', image_url='/items/Accessories/beige_tote.png', user=user1)
+        item3 = Item(name='black purse', image_url='/items/Accessories/black_purse.png', user=user1)
+        item4 = Item(name='ghostbracelet3', image_url='/items/Accessories/ghostbracelet3.png', user=user1)
+        item5 = Item(name='ghosthat2', image_url='/items/Accessories/ghosthat2.png', user=user1)
+        item6 = Item(name='olive green tote', image_url='/items/Accessories/olive_green_tote.png', user=user1)
+        item7 = Item(name='white cap ', image_url='/items/Accessories/white_cap.png', user=user1)
     
         # User 1 bottoms
-        item8 = Item(name='black leather A-line skirt', image_url='/static/items/bottoms/black_leather_A-line_skirt.png', user=user1)
-        item9 = Item(name='black leather H-line skirt', image_url='/static/items/bottoms/black_leather_H-line_skirt.png', user=user1)
-        item10 = Item(name='dark washed denim bell jeans', image_url='/static/items/bottoms/dark_washed_denim_bell_jeans.png', user=user1)
-        item11 = Item(name='light washed denim skirt', image_url='/static/items/bottoms/light_washed_denim_skirt.png', user=user1)
-        item12 = Item(name='dark washed denim short', image_url='/static/items/bottoms/dark_washed_denim_short.png', user=user1)
-        item13 = Item(name='dark washed jeans', image_url='/static/items/bottoms/dark_washed_jeans.png', user=user1)
-        item14 = Item(name='light pink tennis skirt', image_url='/static/items/bottoms/light_pink_tennis_skirt.png', user=user1)
+        item8 = Item(name='black leather A-line skirt', image_url='/items/bottoms/black_leather_A-line_skirt.png', user=user1)
+        item9 = Item(name='black leather H-line skirt', image_url='/items/bottoms/black_leather_H-line_skirt.png', user=user1)
+        item10 = Item(name='dark washed denim bell jeans', image_url='/items/bottoms/dark_washed_denim_bell_jeans.png', user=user1)
+        item11 = Item(name='light washed denim skirt', image_url='/items/bottoms/light_washed_denim_skirt.png', user=user1)
+        item12 = Item(name='dark washed denim short', image_url='/items/bottoms/dark_washed_denim_short.png', user=user1)
+        item13 = Item(name='dark washed jeans', image_url='/items/bottoms/dark_washed_jeans.png', user=user1)
+        item14 = Item(name='light pink tennis skirt', image_url='/items/bottoms/light_pink_tennis_skirt.png', user=user1)
 
         # User 1 tops
-        item15 = Item(name='black short sleeve dress', image_url='/static/items/overalls&dresses/black_short_sleeve_dress.png', user=user1)
-        item16 = Item(name='black sleeveless dress', image_url='/static/items/overalls&dresses/black_sleeveless_dress.png', user=user1)
+        item15 = Item(name='black short sleeve dress', image_url='/items/overalls&dresses/black_short_sleeve_dress.png', user=user1)
+        item16 = Item(name='black sleeveless dress', image_url='/items/overalls&dresses/black_sleeveless_dress.png', user=user1)
 
         # User 1 shoes
-        item17 = Item(name='black knee high boots', image_url='/static/items/shoes/black_knee_high_boots.png', user=user1)
-        item18 = Item(name='black leather loafers', image_url='/static/items/shoes/black_leather_loafers.png', user=user1)
-        item19 = Item(name='black stilettos', image_url='/static/items/shoes/black_stilettos.png', user=user1)
-        item20 = Item(name='brown flat sandals', image_url='/static/items/shoes/brown_flat_sandals.png', user=user1)
-        item21 = Item(name='camel ankle boots', image_url='/static/items/shoes/camel_ankle_boots.png', user=user1)
+        item17 = Item(name='black knee high boots', image_url='/items/shoes/black_knee_high_boots.png', user=user1)
+        item18 = Item(name='black leather loafers', image_url='/items/shoes/black_leather_loafers.png', user=user1)
+        item19 = Item(name='black stilettos', image_url='/items/shoes/black_stilettos.png', user=user1)
+        item20 = Item(name='brown flat sandals', image_url='/items/shoes/brown_flat_sandals.png', user=user1)
+        item21 = Item(name='camel ankle boots', image_url='/items/shoes/camel_ankle_boots.png', user=user1)
 
         # User 2 items
         # User 2 accessories
-        item22 = Item(name='black scarf', image_url='/static/items/Accessories/black_scarf.png', user=user2)
-        item23 = Item(name='black socks', image_url='/static/items/Accessories/black_socks.png', user=user2)
-        item24 = Item(name='ghostbracelet2', image_url='/static/items/Accessories/ghostbracelet2.png', user=user2)
-        item25 = Item(name='ghosthat3', image_url='/static/items/Accessories/ghosthat3.png', user=user2)
-        item26 = Item(name='ghosthat4', image_url='/static/items/Accessories/ghosthat4.png', user=user2)
-        item27 = Item(name='grey scarf', image_url='/static/items/Accessories/grey_scarf.png', user=user2)
-        item28 = Item(name='red tie', image_url='/static/items/Accessories/red_tie.png', user=user2)
+        item22 = Item(name='black scarf', image_url='/items/Accessories/black_scarf.png', user=user2)
+        item23 = Item(name='black socks', image_url='/items/Accessories/black_socks.png', user=user2)
+        item24 = Item(name='ghostbracelet2', image_url='/items/Accessories/ghostbracelet2.png', user=user2)
+        item25 = Item(name='ghosthat3', image_url='/items/Accessories/ghosthat3.png', user=user2)
+        item26 = Item(name='ghosthat4', image_url='/items/Accessories/ghosthat4.png', user=user2)
+        item27 = Item(name='grey scarf', image_url='/items/Accessories/grey_scarf.png', user=user2)
+        item28 = Item(name='red tie', image_url='/items/Accessories/red_tie.png', user=user2)
 
         # User 2 bottoms
-        item29 = Item(name='beige pants', image_url='/static/items/bottoms/beige_pants.png', user=user2)
+        item29 = Item(name='beige pants', image_url='/items/bottoms/beige_pants.png', user=user2)
 
         # User 2 shoes
-        item30 = Item(name='black flip flops', image_url='/static/items/shoes/black_flip_flops.png', user=user2)
-        item31 = Item(name='black leather dress shoes', image_url='/static/items/shoes/black_leather_dress_shoes.png', user=user2)
+        item30 = Item(name='black flip flops', image_url='/items/shoes/black_flip_flops.png', user=user2)
+        item31 = Item(name='black leather dress shoes', image_url='/items/shoes/black_leather_dress_shoes.png', user=user2)
 
         # User 2 tops
-        item32 = Item(name='black dress shirt', image_url='/static/items/tops/black_dress_shirt.png', user=user2)
-        item33 = Item(name='black hoodie', image_url='/static/items/tops/black_hoodie.png', user=user2)
-        item34 = Item(name='black leather jacket', image_url='/static/items/tops/black_leather_jacket.png', user=user2)
-        item35 = Item(name='black nike hoodie', image_url='/static/items/tops/black_nike_hoodie.png', user=user2)
-        item36 = Item(name='black suit top and tie', image_url='/static/items/tops/black_suit_top_and_tie.png', user=user2)
-        item37 = Item(name='black suit top', image_url='/static/items/tops/black_suit_top.png', user=user2)
-        item38 = Item(name='blue sweater', image_url='/static/items/tops/blue_sweater.png', user=user2)
-        item39 = Item(name='dusty blue sweater', image_url='/static/items/tops/dusty_blue_sweater.png', user=user2)
-        item40 = Item(name='white dress shirt', image_url='/static/items/tops/white_dress_shirt.png', user=user2)
+        item32 = Item(name='black dress shirt', image_url='/items/tops/black_dress_shirt.png', user=user2)
+        item33 = Item(name='black hoodie', image_url='/items/tops/black_hoodie.png', user=user2)
+        item34 = Item(name='black leather jacket', image_url='/items/tops/black_leather_jacket.png', user=user2)
+        item35 = Item(name='black nike hoodie', image_url='/items/tops/black_nike_hoodie.png', user=user2)
+        item36 = Item(name='black suit top and tie', image_url='/items/tops/black_suit_top_and_tie.png', user=user2)
+        item37 = Item(name='black suit top', image_url='/items/tops/black_suit_top.png', user=user2)
+        item38 = Item(name='blue sweater', image_url='/items/tops/blue_sweater.png', user=user2)
+        item39 = Item(name='dusty blue sweater', image_url='/items/tops/dusty_blue_sweater.png', user=user2)
+        item40 = Item(name='white dress shirt', image_url='/items/tops/white_dress_shirt.png', user=user2)
 
         db.session.add_all([item2,item3,item4,item5,item6,item7,item8,item9,
                             item10,item11,item12,item13,item14,item15,item16,item17,item18,item19,
