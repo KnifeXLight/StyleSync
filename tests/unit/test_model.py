@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 
 from app import app
 from db import db
-from models import User, Items, Categories, Tags, Outfit, OutfitItems
+from models import User, Item, Category, Tag, Outfit, OutfitItem
 
 # * Fixture to set up an in-memory SQLite database for testing. * #
 
@@ -33,11 +33,11 @@ def test_models_exist(setup_database):
         tables = inspector.get_table_names()
 
         assert 'user' in tables
-        assert 'items' in tables
-        assert 'categories' in tables
-        assert 'tags' in tables
+        assert 'item' in tables
+        assert 'category' in tables
+        assert 'tag' in tables
         assert 'outfit' in tables
-        assert 'outfit_items' in tables
+        assert 'outfit_item' in tables
 
 
 # ------------------- #
@@ -50,7 +50,7 @@ def test_user_items_relationship(setup_database):
         db.session.commit()
 
         # Create an item associated with the user
-        item = Items(name='Test Item', image_url='http://example.com/image.png', user_id=user.id)
+        item = Item(name='Test Item', image_url='http://example.com/image.png', user_id=user.id)
         db.session.add(item)
         db.session.commit()
 
@@ -59,5 +59,7 @@ def test_user_items_relationship(setup_database):
         assert len(retrieved_user.items) == 1
         assert retrieved_user.items[0].name == 'Test Item'
         assert retrieved_user.password == 'password'
+        assert retrieved_user.email == 'test@example.com'
+        assert retrieved_user.name == 'Test User'
         
-    #! Need to fix the hashing of password in models.py
+#! Need to fix the hashing of password in models.py
