@@ -1,29 +1,25 @@
 import sys
 import os
-import requests
+import pytest
+from flask import url_for, redirect, request, flash, session
+from flask_login import login_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Add the app_folder to the system path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-# from functional import register, login, logout
 from app import app
 from db import db
-import pytest
 from models import User
-from flask import url_for, redirect
-from werkzeug.security import generate_password_hash, check_password_hash
-from unittest.mock import patch
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
+    app.config['WTF_CSRF_ENABLED'] = False
     client = app.test_client()
-
     with app.app_context():
         db.create_all()
-
     yield client
-
     with app.app_context():
         db.drop_all()
 
@@ -94,3 +90,42 @@ def test_signup_short_password(client):
     assert response.status_code == 200
     with app.app_context(): # Check flash message for short password
         assert b"Password must be at least 8 characters long" in response.data
+
+
+from routes.auth import login_post, logout
+
+# Test case for login_post route
+def test_login_post(client, monkeypatch):
+    # Create a test user
+    hashed_password = generate_password_hash('password')
+    user = User(name='Test User', email='test@example.com', password=hashed_password)
+    with app.app_context():
+        db.session.add(user)
+        db.session.commit()
+
+    # Define mock request form data
+    with app.test_request_context('/auth/login', method='POST', data={'email': 'test@example.com', 'password': 'password'}):
+        def mock_execute(statement):
+            return user
+
+        # Patch db session execute method to return the test user
+        monkeypatch.setattr(db.session, 'execute', mock_execute)
+
+        # Call the login_post function
+        response = login_post()
+
+        # Assert flash message and redirection
+        assert 'Email or Password is incorrect' not in session
+        assert response.location == url_for('authorization.home', _external=True)
+
+# Test case for logout route
+def test_logout(client):
+    # Simulate logged-in user
+    with app.test_request_context('/auth/logout'):
+        session['user_id'] = 1
+
+        # Call the logout function
+        response = logout()
+
+        # Assert redirection
+        assert response.location == url_for('authorization.home', _external=True)
