@@ -50,5 +50,23 @@ def upload_image():
             return jsonify({'error': str(e)})
     return jsonify({'error': 'Unknown error'})
 
+
+@app.route('/uploadtest', methods=['GET', 'POST'])
+def upload_test():
+    if request.method == 'GET':
+        return render_template('uploadtest.html')
+    elif request.method == 'POST':
+        # This block is for handling the test upload
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part for upload test'})
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return jsonify({'error': 'No selected file for upload test'})
+
+        # Handle the test upload as needed
+        return jsonify({'message': 'Test upload successful'})  
+
 if __name__ == '__main__':
     app.run(debug=True)
