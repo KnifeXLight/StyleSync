@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, jsonify
 from rembg import remove
 from PIL import Image
 import os
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('uploadtest.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -51,22 +52,37 @@ def upload_image():
     return jsonify({'error': 'Unknown error'})
 
 
-@app.route('/uploadtest', methods=['GET', 'POST'])
-def upload_test():
-    if request.method == 'GET':
-        return render_template('uploadtest.html')
-    elif request.method == 'POST':
-        # This block is for handling the test upload
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file part for upload test'})
 
-        file = request.files['file']
 
-        if file.filename == '':
-            return jsonify({'error': 'No selected file for upload test'})
+# @app.route('/uploadtest', methods=['GET', 'POST'])
+# def upload_test():
+#     if request.method == 'GET':
+#         return render_template('uploadtest.html')
+#     elif request.method == 'POST':
+#         if 'file' not in request.files:
+#             return jsonify({'error': 'No file part for upload test'})
 
-        # Handle the test upload as needed
-        return jsonify({'message': 'Test upload successful'})  
+#         file = request.files['file']
 
+#         if file.filename == '':
+#             return jsonify({'error': 'No selected file for upload test'})
+
+#         try:
+#             # Open the input image
+#             input_image = Image.open(file)
+
+#             # Process the image (e.g., remove background)
+#             output_image = remove(input_image)
+
+#             # Save the processed image to a file on the server
+#             output_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'processed_image.png')
+#             output_image.save(output_filename)
+
+#             # Return a JSON response with the filename of the processed image
+#             return jsonify({'filename': 'processed_image.png'})
+
+#         except Exception as e:
+#             return jsonify({'error': str(e)})
+    
 if __name__ == '__main__':
     app.run(debug=True)

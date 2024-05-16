@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Test</title>
-    <link rel="stylesheet" href="uploadcss.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='uploadcss.css') }}">
 </head>
 <body>
     <div class="area">
-        <form id="uploadForm" enctype="multipart/form-data" method="post" action="/uploadtest">
-            <input type="file" id="upload" name="file" />
-            <input type="submit" value="Upload" />
-        </form>
+        <input type="file" id="upload" />
+        <p>Upload photo</p>
     </div>
 
-    <script src="uploadscript.js"></script>
+    <script src="{{ url_for('static', filename='uploadscript.js') }}"></script>
 </body>
 </html>

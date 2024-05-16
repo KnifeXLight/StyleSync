@@ -1,26 +1,22 @@
 var upload = document.getElementById('upload');
 
-function onFile() {
-    var me = this,
-        file = upload.files[0],
-        name = file.name.replace(/\.[^/.]+$/, '');
+function uploadFile(file) {
+    var formData = new FormData();
+    formData.append('file', file);
 
-    if (file.type === '' ||
-        file.type === 'audio/mp3' ||       
-        file.type === 'file/text' ||
-        file.type === 'audio/mpeg' ||
-        file.type === 'audio/wav' ||
-        file.type === 'audio/x-wav' ||
-        file.type === 'audio/wave' ||
-        file.type === 'audio/x-pn-wav') {
-        if (file.size < (3000 * 1024)) {
-            upload.parentNode.className = 'area uploading';
-        } else {
-            window.alert('File size is too large, please ensure you are uploading a file of less than 3MB');
-        }
-    } else {
-        window.alert('File type ' + file.type + ' not supported');
-    }
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Uploaded:', data);
+        // Handle the response as needed
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors if any
+    });
 }
 
 upload.addEventListener('dragenter', function (e) {
@@ -32,9 +28,14 @@ upload.addEventListener('dragleave', function (e) {
 }, false);
 
 upload.addEventListener('dragdrop', function (e) {
-    onFile();
+    e.preventDefault();
+    upload.parentNode.className = 'area';
+    var file = e.dataTransfer.files[0];
+    uploadFile(file);
 }, false);
 
 upload.addEventListener('change', function (e) {
-    onFile();
+    var file = e.target.files[0];
+    uploadFile(file);
 }, false);
+
