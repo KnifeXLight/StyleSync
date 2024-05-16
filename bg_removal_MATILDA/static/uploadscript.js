@@ -11,6 +11,7 @@ function uploadFile(file) {
     .then(response => response.json())
     .then(data => {
         console.log('Uploaded:', data);
+        alert(data.message);
         // Handle the response as needed
     })
     .catch(error => {
@@ -38,4 +39,3 @@ upload.addEventListener('change', function (e) {
     var file = e.target.files[0];
     uploadFile(file);
 }, false);
-

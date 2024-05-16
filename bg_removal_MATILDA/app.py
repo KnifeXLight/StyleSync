@@ -3,12 +3,18 @@ from rembg import remove
 from PIL import Image
 import os
 from io import BytesIO
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
 # Define the upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'png'}
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def home():
@@ -26,6 +32,14 @@ def upload_image():
     # submit an empty part without filename
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
+    
+    if not allowed_file(file.filename):
+        return jsonify({'error': 'File type not allowed'})
+
+    if file.content_length > MAX_CONTENT_LENGTH:
+        return jsonify({'error': 'File size exceeds limit'})
+    
+    filename = secure_filename(file.filename)
     
     if file:
         # Save the uploaded image to the upload folder
