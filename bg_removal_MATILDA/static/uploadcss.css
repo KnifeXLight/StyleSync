@@ -2,21 +2,21 @@
 
 
     .area {
-    width: 50%;
-    height: 50%;
+    width: 900px;
+    height: 500px;
     position: absolute;
     border: 4px dashed #000;
-    background-image: url("{{ url_for('static', filename='uploadbutton.png') }}");
+    /* background-image: url("{{ url_for('static', filename='uploadbutton.png') }}"); */
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 64px 64px;
+    background-size: 75% 75%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     filter: alpha(opacity=50);
-    -khtml-opacity: 0.5;
-    -moz-opacity: 0.5;
-    opacity: 0.5;
+    -khtml-opacity: 1;
+    -moz-opacity: 1;
+    opacity: 1;
     text-align: center;
 }
 

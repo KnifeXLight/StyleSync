@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Test</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='uploadcss.css') }}">
+    <style>
+        .area {
+            background-image: url("{{ url_for('static', filename='uploadbutton.png') }}");
+        }
+    </style>
 </head>
 <body>
     <div class="area">
         <input type="file" id="upload" />
-        <p>Upload photo</p>
     </div>
 
     <script src="{{ url_for('static', filename='uploadscript.js') }}"></script>
