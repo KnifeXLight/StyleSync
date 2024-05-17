@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(__file__), '../../')))
 
 from db import db
-from models import User
+from models import User, Item
 from app import app
 
 # This is a fixture that creates a test client for the app
@@ -140,3 +140,39 @@ def test_wardrobe_not_logged_in(client):
     # Attempt to access the wardrobe page without logging in
     response = client.get('/views/wardrobe', follow_redirects=False)
     assert response.status_code == 302
+
+def test_item_logged_in(logged_in_client):
+    with app.app_context():
+        item = Item(name="Test Item", user_id=1, image_url="test_image_url")
+        db.session.add(item)
+        db.session.commit()
+        item_id = item.id
+
+    response = logged_in_client.get(f'/views/item/{item_id}')
+    assert response.status_code == 200
+    assert b'Test Item' in response.data
+
+def test_item_not_logged_in(client):
+    response = client.get('/views/item/1', follow_redirects=False)
+    assert response.status_code == 302
+
+def test_delete_item_logged_in(logged_in_client):
+    with app.app_context():
+        item = Item(name="Test Item", user_id=1, image_url="test_image_url")
+        db.session.add(item)
+        db.session.commit()
+        item_id = item.id
+
+    response = logged_in_client.get(f'/views/items/{item_id}', follow_redirects=True)
+    assert response.status_code == 200
+    with app.app_context():
+        assert db.session.query(Item).filter_by(id=item_id).first() is None
+
+def test_delete_item_not_logged_in(client):
+    response = client.get('/views/items/1', follow_redirects=False)
+    assert response.status_code == 302
+
+def test_delete_item_not_existing(logged_in_client):
+    response = logged_in_client.get('/views/items/999', follow_redirects=True)
+    assert response.status_code == 404
+

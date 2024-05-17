@@ -24,7 +24,7 @@ def newoutfit():
 @html_routes_bp.route("/wardrobe")
 @login_required
 def wardrobe():
-    statement = db.session.query(Outfit).filter(Outfit.user_id == current_user.id).all()
+    # statement = db.session.query(Outfit).filter(Outfit.user_id == current_user.id).all()
     return render_template("/html/wardrobe.html", user = current_user)
 @html_routes_bp.route("/item/<int:id>")
 @login_required
@@ -35,6 +35,8 @@ def item(id):
 @login_required
 def delete_item(id):
     item = db.session.query(Item).filter(Item.id == id).first()
+    if not item:
+        return redirect(url_for("html.wardrobe")), 404
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for("html.wardrobe"))

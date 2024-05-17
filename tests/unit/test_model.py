@@ -1,4 +1,4 @@
-from matplotlib import category
+# from matplotlib import category
 import pytest
 from sqlalchemy import inspect
 import sys
