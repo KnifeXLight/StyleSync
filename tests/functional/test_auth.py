@@ -92,45 +92,6 @@ def test_signup_short_password(client):
         assert b"Password must be at least 8 characters long" in response.data
 
 
-# from routes.auth import login_post, logout
-
-# # Test case for login_post route
-# def test_login_post(client, monkeypatch):
-#     # Create a test user
-#     with app.app_context():
-#         hashed_password = generate_password_hash('password')
-#         user = User(name='Test User', email='test@example.com', password=hashed_password)
-#         db.session.add(user)
-#         db.session.commit()
-
-#     # Define mock request form data
-#     with app.test_request_context('/auth/login', method='POST', data={'email': 'test@example.com', 'password': 'password'}):
-#         def mock_execute(statement):
-#             return user
-
-#         # Patch db session execute method to return the test user
-#         monkeypatch.setattr(db.session, 'execute', mock_execute)
-
-#         # Call the login_post function
-#         response = login_post()
-
-#         # Assert flash message and redirection
-#         assert 'Email or Password is incorrect' not in session
-#         assert response.location == url_for('authorization.home', _external=True)
-
-# # Test case for logout route
-# def test_logout(client):
-#     # Simulate logged-in user
-#     with app.test_request_context('/auth/logout'):
-#         session['user_id'] = 1
-
-#         # Call the logout function
-#         response = logout()
-
-#         # Assert redirection
-#         assert response.location == url_for('authorization.home', _external=True)
-
-
 def test_login(client):
     with app.app_context():
         # Create a test user
@@ -140,6 +101,8 @@ def test_login(client):
 
     # Make a POST request to login with the test user credentials
     response = client.post('/auth/login', data={'email': 'test@example.com', 'password': 'password'}, follow_redirects=True)
+    # Check if login was successful and user is redirected to the correct page
+    assert response.status_code == 200
 
 def test_logout(client):
     with app.app_context():
@@ -153,3 +116,6 @@ def test_logout(client):
 
     # Make a GET request to logout
     response = client.get('/auth/logout', follow_redirects=True)
+    print(response.data)
+    # Check if logout was successful
+    assert response.status_code == 200
