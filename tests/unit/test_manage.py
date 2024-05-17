@@ -8,32 +8,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from manage import create_tables, drop_tables, add_mock_data
 from models import User, Item, Category, Tag, Outfit, OutfitItem, Filter
 from db import db
-from app import app
-import pytest
 
-# Add the app_folder to the system path to allow imports
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '../../')))
-
-
-@pytest.fixture
-def setup_database():
-    app.config['TESTING'] = True
-    # Use an in-memory database for testing
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+def test_drop_tables(app):
     with app.app_context():
-        db.create_all()
-        yield
-        db.drop_all()
-
-
-def test_drop_tables(setup_database):
-    with app.app_context():
-
         # Drop tables and check they don't exist
-        drop_tables()
+        drop_tables(app)
         inspector = inspect(db.engine)  # Re-inspect to refresh the state
         assert 'user' not in inspector.get_table_names()
         assert 'items' not in inspector.get_table_names()
@@ -42,10 +21,10 @@ def test_drop_tables(setup_database):
         assert 'outfit' not in inspector.get_table_names()
         assert 'outfit_items' not in inspector.get_table_names()
 
-def test_create_tables(setup_database):
+def test_create_tables(app):
     with app.app_context():
         # Create tables and check they exist
-        create_tables()
+        create_tables(app)
         inspector = inspect(db.engine)
         assert 'user' in inspector.get_table_names()
         assert 'item' in inspector.get_table_names()
@@ -55,9 +34,9 @@ def test_create_tables(setup_database):
         assert 'outfit_item' in inspector.get_table_names()
 
 
-def test_add_mock_data(setup_database):
+def test_add_mock_data(app):
     with app.app_context():
-        add_mock_data()
+        add_mock_data(app)
         
         # Verify users
         user1 = User.query.filter_by(email="test1@example.com").first()
