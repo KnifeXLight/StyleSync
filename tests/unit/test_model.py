@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from app import app
 from db import db
 from models import User, Item, Category, Tag, Outfit, OutfitItem
+from models import User, Item, Category, Tag, Outfit, OutfitItem
 
 # * Fixture to set up an in-memory SQLite database for testing. * #
 
@@ -37,7 +38,11 @@ def test_models_exist(setup_database):
         assert 'item' in tables
         assert 'category' in tables
         assert 'tag' in tables
+        assert 'item' in tables
+        assert 'category' in tables
+        assert 'tag' in tables
         assert 'outfit' in tables
+        assert 'outfit_item' in tables
         assert 'outfit_item' in tables
 
 

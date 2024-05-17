@@ -15,6 +15,7 @@ from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, backref
 
+# * User Table (Users in the database for login)
 class User(UserMixin, db.Model):
     id = db.Column(Integer, primary_key=True)
     name = db.Column(String(200), nullable=False)
@@ -23,24 +24,24 @@ class User(UserMixin, db.Model):
     items = relationship("Item", back_populates="user")
     outfits = relationship("Outfit", back_populates="user")
 
-
+# * Item Table (Items in the wardrobe)
 class Item(db.Model):
     id = db.Column(Integer, primary_key=True)
     name = db.Column(String(200), nullable=False)
     image_url = db.Column(String(200), nullable=False)
     user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship("User", back_populates="items")
-    item_tags = relationship("Tag", back_populates="item")
-    outfit_items = relationship("OutfitItem", back_populates="item")
+    item_tags = relationship("Tag", back_populates="item", cascade="all, delete-orphan")
+    outfit_items = relationship("OutfitItem", back_populates="item", cascade="all, delete-orphan")
 
-
+# * Category Table (Categories for the items, e.g. Tops, Bottoms, Shoes, etc.)
 class Category(db.Model):
     id = db.Column(Integer, primary_key=True)
     name = db.Column(String(200), nullable=False)
     tags = relationship("Tag", back_populates="category")
     filters = relationship("Filter", back_populates="category")
 
-
+# * Filter Table (Filters for the items)
 class Filter(db.Model):
     id = db.Column(Integer, primary_key=True)
     name = db.Column(String(200), nullable=False)
@@ -48,7 +49,7 @@ class Filter(db.Model):
     category = relationship("Category", back_populates="filters")
     tags = relationship("Tag", back_populates="filter")
 
-
+# * Tag Table (Tags for the items)
 class Tag(db.Model):
     id = db.Column(Integer, primary_key=True)
     item_id = db.Column(Integer, ForeignKey('item.id'), nullable=False)
@@ -58,7 +59,7 @@ class Tag(db.Model):
     category = relationship("Category", back_populates="tags")
     filter = relationship("Filter", back_populates="tags")
 
-
+# * Outfit Table (Outfits created by the user)
 class Outfit(db.Model):
     id = db.Column(Integer, primary_key=True)
     user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
@@ -67,7 +68,7 @@ class Outfit(db.Model):
     user = relationship("User", back_populates="outfits")
     outfit_items = relationship("OutfitItem", back_populates="outfit")
 
-
+# * OutfitItem Table (Junction Table between Outfit and Item)
 class OutfitItem(db.Model):
     id = db.Column(Integer, primary_key=True)
     outfit_id = db.Column(Integer, ForeignKey('outfit.id'), nullable=False)
