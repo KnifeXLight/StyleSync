@@ -7,29 +7,14 @@ import os
 # Add the app_folder to the system path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from app import app
 from db import db
 from models import User, Item, Category, Tag, Outfit, OutfitItem
 from models import User, Item, Category, Tag, Outfit, OutfitItem
 
-# * Fixture to set up an in-memory SQLite database for testing. * #
-
-@pytest.fixture
-def setup_database():
-    # Use an in-memory database for testing
-    app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:' 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    with app.app_context():
-        db.create_all()
-        yield
-        db.drop_all()
-
 
 # ------------------- #
 # * Test to ensure that all required database tables exist. * #
-def test_models_exist(setup_database):
+def test_models_exist(app):
     with app.app_context():
         inspector = inspect(db.engine)
         tables = inspector.get_table_names()
@@ -48,7 +33,7 @@ def test_models_exist(setup_database):
 
 # ------------------- #
 # * Test to verify the relationship between the User and Items models. * #
-def test_user_items_relationship(setup_database):
+def test_user_items_relationship(app):
     with app.app_context():
         # Create a user
         user = User(name='Test User', email='test@example.com', password='password') # type: ignore
