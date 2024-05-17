@@ -54,64 +54,62 @@ def test_create_tables(setup_database):
         assert 'outfit' in inspector.get_table_names()
         assert 'outfit_item' in inspector.get_table_names()
 
+
 def test_add_mock_data(setup_database):
     with app.app_context():
-        drop_tables()
-        create_tables()
         add_mock_data()
-
+        
         # Verify users
         user1 = User.query.filter_by(email="test1@example.com").first()
         user2 = User.query.filter_by(email="test2@example.com").first()
-        assert user1 is not None
-        assert user2 is not None
+        assert user1 is not None, "User 1 not created"
+        assert user2 is not None, "User 2 not created"
         assert user1.name == "Test User 1"
         assert user2.name == "Test User 2"
 
         # Verify categories
-        category1 = Category.query.filter_by(name="Clothing").first()
-        category2 = Category.query.filter_by(name="Accessories").first()
-        assert category1 is not None
-        assert category2 is not None
+        category1 = Category.query.filter_by(name="Type").first()
+        category2 = Category.query.filter_by(name="Weather").first()
+        category3 = Category.query.filter_by(name="Style").first()
+        assert category1 is not None, "Category 'Type' not created"
+        assert category2 is not None, "Category 'Weather' not created"
+        assert category3 is not None, "Category 'Style' not created"
 
         # Verify filters
-        filter1 = Filter.query.filter_by(name="Color").first()
-        filter2 = Filter.query.filter_by(name="Size").first()
-        assert filter1 is not None
-        assert filter2 is not None
+        filters = Filter.query.all()
+        filter_names = [filter.name for filter in filters]
+        expected_filters = [
+            'Upper Wear', 'Leg Wear', 'Shoes', 'Accessories',
+            'Sunny', 'Windy', 'Snowy', 'Clear', 'Rainy',
+            'Casual', 'Street', 'Formal', 'Sporty', 'Classic', 'Fancy'
+        ]
+        for filter_name in expected_filters:
+            assert filter_name in filter_names, f"Filter '{filter_name}' not created"
 
         # Verify items
-        item1 = Item.query.filter_by(name="Red Shirt").first()
-        item2 = Item.query.filter_by(name="Blue Jeans").first()
-        item3 = Item.query.filter_by(name="Green Hat").first()
-        assert item1 is not None
-        assert item2 is not None
-        assert item3 is not None
+        items = Item.query.all()
+        item_names = [item.name for item in items]
+        expected_items = [
+            'beige tote', 'black purse', 'ghostbracelet3', 'ghosthat2', 'olive green tote', 'white cap',
+            'black leather A-line skirt', 'black leather H-line skirt', 'dark washed denim bell jeans',
+            'light washed denim skirt', 'dark washed denim short', 'dark washed jeans', 'light pink tennis skirt',
+            'black short sleeve dress', 'black sleeveless dress', 'black knee high boots', 'black leather loafers',
+            'black stilettos', 'brown flat sandals', 'camel ankle boots', 'black scarf', 'black socks',
+            'ghostbracelet2', 'ghosthat3', 'ghosthat4', 'grey scarf', 'red tie', 'beige pants', 'black flip flops',
+            'black leather dress shoes', 'black dress shirt', 'black hoodie', 'black leather jacket', 'black nike hoodie',
+            'black suit top and tie', 'black suit top', 'blue sweater', 'dusty blue sweater', 'white dress shirt'
+        ]
+        for item_name in expected_items:
+            assert item_name in item_names, f"Item '{item_name}' not created"
 
         # Verify tags
-        tag1 = Tag.query.filter_by(
-            item_id=item1.id, category_id=category1.id, filter_id=filter1.id).first()
-        tag2 = Tag.query.filter_by(
-            item_id=item2.id, category_id=category1.id, filter_id=filter2.id).first()
-        tag3 = Tag.query.filter_by(
-            item_id=item3.id, category_id=category2.id, filter_id=filter1.id).first()
-        assert tag1 is not None
-        assert tag2 is not None
-        assert tag3 is not None
+        tags = Tag.query.all()
+        assert len(tags) == 90, f"Expected 90 tags, but got {len(tags)}"
 
         # Verify outfits
-        outfit1 = Outfit.query.filter_by(user_id=user1.id).first()
-        outfit2 = Outfit.query.filter_by(user_id=user2.id).first()
-        assert outfit1 is not None
-        assert outfit2 is not None
+        outfits = Outfit.query.all()
+        assert len(outfits) == 4, f"Expected 4 outfits, but got {len(outfits)}"
 
         # Verify outfit items
-        outfit_item1 = OutfitItem.query.filter_by(
-            outfit_id=outfit1.id, item_id=item1.id).first()
-        outfit_item2 = OutfitItem.query.filter_by(
-            outfit_id=outfit1.id, item_id=item2.id).first()
-        outfit_item3 = OutfitItem.query.filter_by(
-            outfit_id=outfit2.id, item_id=item3.id).first()
-        assert outfit_item1 is not None
-        assert outfit_item2 is not None
-        assert outfit_item3 is not None
+        outfit_items = OutfitItem.query.all()
+        assert len(outfit_items) == 16, f"Expected 16 outfit items, but got {len(outfit_items)}"

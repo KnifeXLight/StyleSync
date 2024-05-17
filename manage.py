@@ -80,7 +80,7 @@ def add_mock_data():
         item4 = Item(name='ghostbracelet3', image_url='/items/Accessories/ghostbracelet3.png', user=user1)
         item5 = Item(name='ghosthat2', image_url='/items/Accessories/ghosthat2.png', user=user1)
         item6 = Item(name='olive green tote', image_url='/items/Accessories/olive_green_tote.png', user=user1)
-        item7 = Item(name='white cap ', image_url='/items/Accessories/white_cap.png', user=user1)
+        item7 = Item(name='white cap', image_url='/items/Accessories/white_cap.png', user=user1)
     
         # User 1 bottoms
         item8 = Item(name='black leather A-line skirt', image_url='/items/bottoms/black_leather_A-line_skirt.png', user=user1)
@@ -309,6 +309,12 @@ if __name__ == '__main__':
     elif len(argv) > 1 and argv[1] == 'seed':
         add_mock_data()
         print("Mock data added successfully")
+        sys.exit()
+    elif len(argv) > 1 and argv[1] == 'reset':
+        drop_tables()
+        create_tables()
+        add_mock_data()
+        print("Tables reset successfully")
         sys.exit()
     else:
         print("Invalid command. Please use 'create', 'drop', or 'seed' as arguments")
