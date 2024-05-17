@@ -13,7 +13,7 @@ from db import db
 from models import User
 from app import app
 
-
+# This is a fixture that creates a test client for the app
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
