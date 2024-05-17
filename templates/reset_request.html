@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags and Bootstrap CSS -->
+  </head>
+  <body>
+    <div class="container">
+      <h2>Reset Password</h2>
+      <form method="POST" action="{{ url_for('reset_request') }}">
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Request Password Reset</button>
+      </form>
+    </div>
+  </body>
+</html>
