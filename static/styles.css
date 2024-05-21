@@ -421,6 +421,7 @@
             --bs-card-bg: var(--bs-body-bg);
             --bs-card-img-overlay-padding: 1rem;
             --bs-card-group-margin: 0.75rem;
+            --bs-navbar-active-color: purple;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -452,4 +453,7 @@
             border: 2px solid red;
         }
 
+}
+.nav-link.active {
+    --bs-navbar-active-color: purple;
 }
