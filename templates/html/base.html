@@ -27,10 +27,10 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="{{url_for('html.home')}}">My Outfits</a>
-            <a class="nav-link" href="{{url_for('html.newoutfit')}}">New Outfit</a>
-            <a class="nav-link" href="{{url_for('html.wardrobe')}}">Wardrobe</a>
-            <a class="nav-link" href ="{{url_for('html.new_item')}}">New Item</a>
+            <a class="nav-link {% if request.endpoint == 'html.home' %} active {% else %} {% endif %}" aria-current="page" href="{{url_for('html.home')}}">My Outfits</a>
+            <a class="nav-link {% if request.endpoint == 'html.newoutfit' %} active {% else %} {% endif %}" href="{{url_for('html.newoutfit')}}">New Outfit</a>
+            <a class="nav-link {% if request.endpoint == 'html.wardrobe' %} active {% else %} {% endif %}" href="{{url_for('html.wardrobe')}}">Wardrobe</a>
+            <a class="nav-link {% if request.endpoint == 'html.new_item' %} active {% else %} {% endif %}" href ="{{url_for('html.new_item')}}">New Item</a>
             <div class="dropstart">
               <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle"></i>

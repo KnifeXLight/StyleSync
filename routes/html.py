@@ -15,6 +15,7 @@ html_routes_bp = Blueprint("html", __name__)
 @login_required
 def home():
     print(current_user)
+    print(request.endpoint)
     return render_template("/html/wardrobe.html", user=current_user)
 
 @html_routes_bp.route("/homepage")
