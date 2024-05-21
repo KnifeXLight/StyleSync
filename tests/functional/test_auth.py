@@ -1,3 +1,4 @@
+import re
 import sys
 import os
 import pytest
@@ -12,17 +13,42 @@ from app import app
 from db import db
 from models import User
 
+# This is a fixture that creates a test client for the app
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
+    app.config['TESTING'] = 'sqlite:///test.db'
     app.config['WTF_CSRF_ENABLED'] = False
     client = app.test_client()
+
     with app.app_context():
         db.create_all()
-    yield client
-    with app.app_context():
+        yield client
+        db.session.remove()
         db.drop_all()
 
+@pytest.fixture
+def auth_client(client):
+    with app.app_context():
+        # Create a test user if it doesn't exist
+        yield login_user(User(name='test user', email='test@example.com', password=generate_password_hash('password')))
+
+@pytest.fixture
+def logged_in_client(client):
+    with app.app_context():
+        # Create a test user if it doesn't exist
+        test_user = User.query.filter_by(email='test@example.com').first()
+        if not test_user:
+            test_user = User(name='test user', email='test@example.com', password=generate_password_hash('password'))
+            db.session.add(test_user)
+            db.session.commit()
+
+    # Log in the test user
+        client.post('/auth/login', data={'email': 'test@example.com', 'password': 'password'}, follow_redirects=True)
+    
+        with client.session_transaction() as sess:
+            sess['user_id'] = test_user.id
+    
+    return client
 # Test home page
 def test_home(client):
         response = client.get("/")
@@ -92,54 +118,28 @@ def test_signup_short_password(client):
         assert b"Password must be at least 8 characters long" in response.data
 
 
-# from routes.auth import login_post, logout
-
-# # Test case for login_post route
-# def test_login_post(client, monkeypatch):
-#     # Create a test user
-#     with app.app_context():
-#         hashed_password = generate_password_hash('password')
-#         user = User(name='Test User', email='test@example.com', password=hashed_password)
-#         db.session.add(user)
-#         db.session.commit()
-
-#     # Define mock request form data
-#     with app.test_request_context('/auth/login', method='POST', data={'email': 'test@example.com', 'password': 'password'}):
-#         def mock_execute(statement):
-#             return user
-
-#         # Patch db session execute method to return the test user
-#         monkeypatch.setattr(db.session, 'execute', mock_execute)
-
-#         # Call the login_post function
-#         response = login_post()
-
-#         # Assert flash message and redirection
-#         assert 'Email or Password is incorrect' not in session
-#         assert response.location == url_for('authorization.home', _external=True)
-
-# # Test case for logout route
-# def test_logout(client):
-#     # Simulate logged-in user
-#     with app.test_request_context('/auth/logout'):
-#         session['user_id'] = 1
-
-#         # Call the logout function
-#         response = logout()
-
-#         # Assert redirection
-#         assert response.location == url_for('authorization.home', _external=True)
-
-
 def test_login(client):
     with app.app_context():
-        # Create a test user
-        user = User(name='Test User', email='test@example.com', password='password')
-        db.session.add(user)
-        db.session.commit()
+        response = client.post('/auth/login', data=dict(
+        email='test@example.com',
+        password='test_password'
+    ), follow_redirects=True)
+    assert response.status_code == 200
+    print (response.data)
+    assert response.request.path == '/'
 
-    # Make a POST request to login with the test user credentials
-    response = client.post('/auth/login', data={'email': 'test@example.com', 'password': 'password'}, follow_redirects=True)
+# def test_login(client):
+#     url = "/auth/login"
+#     data = dict(email="test@example.com", password="password")
+#     response = client.post(url, data=data)
+#     assert response.status_code == 302
+
+#     url = url_for("html.home", _external=False)
+#     response = client.get(url)
+#     assert response.status_code == 200
+#     assert response.location.endswith('/html/home')
+#     print (response.data)
+#     assert response.status_code == 200
 
 def test_logout(client):
     with app.app_context():
@@ -153,3 +153,7 @@ def test_logout(client):
 
     # Make a GET request to logout
     response = client.get('/auth/logout', follow_redirects=True)
+
+    # Check if the logout was successful by checking if the user is redirected to the login page
+    assert response.status_code == 200  # Ensure the response status code is 200 (OK)
+    assert response.request.path == '/'  # Ensure the current URL is the home page URL
