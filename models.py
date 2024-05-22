@@ -12,9 +12,15 @@ from sqlalchemy import (
 from sqlalchemy.orm import mapped_column, relationship
 from db import db
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, backref
-
+from time import time
+import jwt
+import os
+from datetime import datetime, timedelta
+from itsdangerous import URLSafeTimedSerializer
+from flask import current_app
 # * User Table (Users in the database for login)
 class User(UserMixin, db.Model):
     id = db.Column(Integer, primary_key=True)
@@ -23,7 +29,23 @@ class User(UserMixin, db.Model):
     password = db.Column(String(200), nullable=False)
     items = relationship("Item", back_populates="user")
     outfits = relationship("Outfit", back_populates="user")
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expiration = db.Column(db.DateTime, nullable=True)
 
+    def get_reset_token(self, expires_sec=1800):
+        s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        return s.dumps(self.email, salt=current_app.config['SECURITY_PASSWORD_SALT'])
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        try:
+            email = s.loads(token, salt=current_app.config['SECURITY_PASSWORD_SALT'], max_age=1800)
+        except:
+            return None
+        return User.query.filter_by(email=email).first()
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method="scrypt")
 # * Item Table (Items in the wardrobe)
 class Item(db.Model):
     id = db.Column(Integer, primary_key=True)
