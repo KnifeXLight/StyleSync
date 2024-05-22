@@ -16,6 +16,7 @@ function uploadFile(file) {
         var responseString = JSON.stringify(data);
         // Display the response in the designated element
         document.getElementById('uploadmessage').innerText = responseString;
+        window.location.replace("http://localhost:8888/views/wardrobe");
     })
     .catch(error => {
         console.error('Error:', error);

@@ -128,7 +128,7 @@ def upload_image():
             # Remove the uploaded image
 
             os.remove(filename)
-            
+        
             return jsonify({'filename': 'processed_' + file.filename})
         except Exception as e:
             return jsonify({'error': str(e)})
