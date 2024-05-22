@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, request, Blueprint, redirect, session, jsonify
+from flask import Flask, url_for, render_template, request, Blueprint, redirect, session, jsonify, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required,current_user
 from db import db
@@ -46,6 +46,7 @@ def delete_item(id):
     item = db.session.query(Item).filter(Item.id == id).first()
     db.session.delete(item)
     db.session.commit()
+    flash("Item deleted",category= "success")
     return redirect(url_for("html.wardrobe"))
 @html_routes_bp.route("/wardrobe/filter")
 @login_required
@@ -128,7 +129,7 @@ def upload_image():
             # Remove the uploaded image
 
             os.remove(filename)
-        
+            flash("Item added",category= "success")
             return jsonify({'filename': 'processed_' + file.filename})
         except Exception as e:
             return jsonify({'error': str(e)})
