@@ -1,0 +1,26 @@
+{% extends '/html/base.html' %}
+{% block content %}
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <div class="profile-container">
+            <div class="profile-name">Name</div>
+            <div class="profile-name-box">
+                <form>
+                    <input type="text" class="profile-name-box" placeholder="Misha"><br>
+                </form>
+            </div>
+            <div class="profile-save">
+                <button class="profile-save-button" type="button">Save</button> 
+            </div>
+            <div class="date-title">Date Registered</div>
+            <div class="date-text">1-12-2024</div>
+            <div class="email-title">Email</div>
+            <div class="email-text">test@test.com</div>
+            <div class="email-change-link">Change Email</div>
+            <div class="password-title">Password</div>
+            <div class="password-text">********</div>
+            <div class="password-change-link">Change Password</div>
+        </div>
+{% endblock %} 
