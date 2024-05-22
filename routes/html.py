@@ -11,10 +11,10 @@ def home():
     print(current_user)
     return render_template("/html/wardrobe.html", user=current_user)
 
-@html_routes_bp.route("/homepage")
-@login_required
-def homepage():
-    return render_template("/html/home.html", user  = current_user)
+# @html_routes_bp.route("/homepage")
+# @login_required
+# def homepage():
+#     return render_template("/html/home.html", user  = current_user)
 
 @html_routes_bp.route("/newoutfit")
 @login_required
