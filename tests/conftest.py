@@ -9,7 +9,7 @@ from app import create_app
 # Add the app_folder to the system path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from db import db
-from models import User
+from models import User, Item
 
 @pytest.fixture
 def app():
@@ -42,6 +42,20 @@ def logged_in_client(client, app):
                 sess['user_id'] = test_user.id
     
     return client
+
+@pytest.fixture
+def test_item(client, app):
+    with client:
+        with app.app_context():
+            item = Item(name="Test Item", user_id=1, image_url="test_image_url")
+            db.session.add(item)
+            db.session.commit()
+            print(item.image_url)
+            print(item.name)
+            print(item.id)
+            yield item
+            # db.session.delete(item)
+            # db.session.commit()
 
 @pytest.fixture
 def failed_login_password(client, app):
