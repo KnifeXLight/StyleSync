@@ -167,13 +167,9 @@ def allowed_file(filename):
 @html_routes_bp.route("/profile")
 @login_required
 def profile():
-<<<<<<< HEAD
     return render_template("/html/profile.html", user  = current_user)
 
 @html_routes_bp.route("/about")
 @login_required
 def about():
     return render_template("/html/about.html", user  = current_user)
-=======
-    return render_template("/html/profile.html", user=current_user)
->>>>>>> a1a7656227ac981d5c7f16b120ea3b03b4c31beb
