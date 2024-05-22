@@ -1,3 +1,4 @@
+import re
 import sys
 import os
 from werkzeug.security import check_password_hash

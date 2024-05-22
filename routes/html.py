@@ -40,3 +40,8 @@ def delete_item(id):
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for("html.wardrobe"))
+
+@html_routes_bp.route("/profile")
+@login_required
+def profile():
+    return render_template("/html/profile.html", user  = current_user)

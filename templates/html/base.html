@@ -36,8 +36,8 @@
               </a>
             
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuicon">
-                <li><a class="dropdown-item" href="#"> <i class="bi bi-person"></i> My Profile</a></li>
-                <li><a class="dropdown-item" href="#"> <i class="bi bi-gear-fill"></i> Settings</a></li>
+                <li><a class="dropdown-item" href="{{url_for('html.profile')}}"> <i class="bi bi-person"></i> My Profile</a></li>
+                <!-- <li><a class="dropdown-item" href="#"> <i class="bi bi-gear-fill"></i> Settings</a></li> -->
                 <li>{% if current_user.is_authenticated %}
                 <a class="dropdown-item" href="{{url_for('authorization.logout')}}"> <i class="bi bi-box-arrow-right"></i> Logout</a>
                 {% else %}
