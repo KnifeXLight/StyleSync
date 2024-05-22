@@ -1,0 +1,52 @@
+
+
+
+    .area {
+    width: 900px;
+    height: 500px;
+    position: absolute;
+    border: 4px dashed #000;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 75% 75%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    filter: alpha(opacity=50);
+    opacity: .9;
+    text-align: center;
+}
+
+.area input {
+    width: 400%;
+    height: 100%;
+    margin-left: -300%;
+    border: none;
+    cursor: pointer;
+}
+
+.area input:focus {
+    outline: none;
+}
+
+.area .spinner {
+    display: none;
+    margin-top: 50%;
+}
+
+.area:hover,
+.area.dragging,
+.area.uploading {
+    filter: alpha(opacity=100);
+    opacity: 1;
+}
+
+.area.uploading {
+    background: none;
+}
+
+#uploadmessage {
+    font-size: large;
+    display:block;
+    text-align: center;
+}

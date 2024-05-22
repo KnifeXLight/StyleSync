@@ -1,15 +1,16 @@
-from flask import Flask
+from flask import Flask, url_for, render_template, request, Blueprint, redirect, session, jsonify, flash
 from db import db
 from pathlib import Path
 from routes import auth_routes_bp, html_routes_bp
 from flask_login import LoginManager
 from models import User
 
-
 def create_app(testing=False):
     # Initialize the Flask app
     app = Flask(__name__)
     app.secret_key = "supersecret"
+    UPLOAD_FOLDER = 'items'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     if testing:
         # In-memory database for testing
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
@@ -38,6 +39,15 @@ def create_app(testing=False):
 
     return app
 
+# defines only allowed extension as png
+ALLOWED_EXTENSIONS = {'png'}
+
+#limits file size to 16 MB
+MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+
+# checks that a period is in filename (signifies extentsion), splits the filename into the part before the period and after, selects the second item which is the extension, makes it lower case, then checks to see if its in allowed extensions
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 if __name__ == "__main__":
     app = create_app()
