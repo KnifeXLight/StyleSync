@@ -43,3 +43,8 @@ def delete_item(id):
 @login_required
 def profile():
     return render_template("/html/profile.html", user  = current_user)
+
+@html_routes_bp.route("/about")
+@login_required
+def about():
+    return render_template("/html/about.html", user  = current_user)
