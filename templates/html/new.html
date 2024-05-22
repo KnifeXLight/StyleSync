@@ -1,0 +1,21 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='uploadcss.css') }}">
+    <style>
+        .area {
+            background-image: url("{{ url_for('static', filename='uploadbutton.png') }}");
+        }
+    </style>
+</head>
+    <div class="area">
+        <input type="file" id="upload" />
+    </div>
+    <div id="uploadmessage">
+    </div>
+    <script src="{{ url_for('static', filename='uploadscript.js') }}"></script>
+{% endblock %}
