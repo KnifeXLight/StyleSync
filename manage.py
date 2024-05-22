@@ -1,4 +1,4 @@
-from app import app
+from app import create_app
 from db import db
 from models import User, Item,Category, Outfit,Filter,Tag,OutfitItem
 from datetime import datetime
@@ -6,18 +6,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import sys
 
 # Create all tables
-def create_tables():
+def create_tables(app):
     with app.app_context():
         db.create_all()
 
 # Drop all tables
-def drop_tables():
+def drop_tables(app):
     with app.app_context():
         db.drop_all()
 
 
 # Add mock data
-def add_mock_data():
+def add_mock_data(app):
     with app.app_context():
         
         name1 = "Test User 1"
@@ -299,21 +299,21 @@ def add_mock_data():
 if __name__ == '__main__':
     argv = sys.argv
     if len(argv) > 1 and argv[1] == 'drop':
-        drop_tables()
+        drop_tables(app=create_app())
         print("Tables dropped successfully")
         sys.exit()
     elif len(argv) > 1 and argv[1] == 'create':
-        create_tables()
+        create_tables(app=create_app())
         print("Tables created successfully")
         sys.exit()
     elif len(argv) > 1 and argv[1] == 'seed':
-        add_mock_data()
+        add_mock_data(app=create_app())
         print("Mock data added successfully")
         sys.exit()
     elif len(argv) > 1 and argv[1] == 'reset':
-        drop_tables()
-        create_tables()
-        add_mock_data()
+        drop_tables(app=create_app())
+        create_tables(app=create_app())
+        add_mock_data(app=create_app())
         print("Tables reset successfully")
         sys.exit()
     else:

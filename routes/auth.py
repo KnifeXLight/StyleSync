@@ -38,8 +38,6 @@ def signup():
     if len(password) < 8:
         flash('Password must be at least 8 characters long')
         return redirect(url_for("authorization.register"))
-    if email == "" or name == "" or password == "":
-        return redirect(url_for("authorization.register"))
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(
         name=name,

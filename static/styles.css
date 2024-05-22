@@ -453,6 +453,88 @@
             border: 2px solid red;
         }
 
+        .profile-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+            grid-template-rows: repeat(13, 50px); /* 13 rows with a height of 50 pixels */
+            grid-gap: 10px; /* Gap between grid items */
+            padding: 20px; /* Padding around the grid */
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            align-items: end;
+        }
+
+        .profile-name-box {
+            grid-column:2;
+            grid-row:3;
+            height:40px;
+            width:200px;
+            font-size:20px;
+        }
+        .profile-save {
+            grid-column:3;
+            grid-row:3;
+            font-size: 20px;
+        }
+        .profile-save-button {
+            width:80px;
+            height:30px;
+            background-color:antiquewhite;
+        }
+        .date-title {
+            grid-column:2;
+            grid-row:5;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+
+        .date-text {
+            grid-column:2;
+            grid-row:6;
+        }
+
+        .email-title {
+            grid-column:2;
+            grid-row:8;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+        .email-text {
+            grid-column:2;
+            grid-row:9;
+        }
+        .email-change-link {
+            grid-column:3;
+            grid-row:9;
+        }
+        .password-title {
+            grid-column:2;
+            grid-row:11;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+        .password-text {
+            grid-column:2;
+            grid-row:12;
+        }
+        .password-change-link {
+            grid-column:3;
+            grid-row:12;
+            font-size: 17px;
+        }
+
 }
 .nav-link.active {
     --bs-navbar-active-color: purple;
