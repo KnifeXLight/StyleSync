@@ -44,16 +44,16 @@ def test_signup(client):
 
 # Test when required data is missing
 def test_signup_missing_data(client):
-    form_data = {
-        "email": "",
-        "name": "Test User",
-        "password": "password123"
-    }
+        form_data = {
+            "email": "",
+            "name": "Test User",
+            "password": "password123"
+        }
 
-    response = client.post("/auth/register", data=form_data, follow_redirects=True)
-    # Assuming registration redirects to the same page on validation failure
-    assert response.status_code == 200
-
+        response = client.post("/auth/register", data=form_data, follow_redirects=True)
+        # Assuming registration redirects to the same page on validation failure
+        assert response.status_code == 200
+            
 
 # Test when password is less than 8 characters
 def test_signup_short_password(client):
@@ -66,3 +66,4 @@ def test_signup_short_password(client):
     response = client.post("/auth/register", data=form_data, follow_redirects=True)
     assert response.status_code == 200
     assert b"Password must be at least 8 characters long" in response.data
+
