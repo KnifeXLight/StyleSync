@@ -24,6 +24,7 @@
         --bs-navbar-active-color: purple;
       }
     </style>
+    {% block head %} {% endblock %} 
   </head>
   <body class="container-fluid" style="max-width: 100vw; overflow-x: hidden">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -58,7 +59,7 @@
               href="{{url_for('html.new_item')}}"
               >New Item</a
             >
-            <div class="dropstart">
+            <div class="dropdown">
               <a
                 class="btn btn-secondary"
                 href="#"
@@ -70,7 +71,7 @@
                 <i class="bi bi-person-circle"></i>
               </a>
 
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuicon">
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuicon">
                 <li><a class="dropdown-item" href="{{url_for('html.profile')}}"> <i class="bi bi-person"></i> My Profile</a></li>
                 <!-- <li><a class="dropdown-item" href="#"> <i class="bi bi-gear-fill"></i> Settings</a></li> -->
                 <li>{% if current_user.is_authenticated %}

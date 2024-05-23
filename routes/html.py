@@ -127,7 +127,7 @@ def upload_image():
         return jsonify({'error': 'File size exceeds limit'})
 
     filename = secure_filename(file.filename)
-    filename_final = secure_filename(file.filename)
+    # filename_final = secure_filename(file.filename)
     filename_without_extension = filename.rsplit('.', 1)[0]
     print(filename)
     if file:
@@ -161,10 +161,33 @@ def upload_image():
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-    return redirect(url_for("html.wardrobe"))
+    # return redirect(url_for("html.wardrobe"))
 
 
-@html_routes_bp.route("/profile")
+@html_routes_bp.route("/profile", methods=["GET"])
 @login_required
 def profile():
     return render_template("/html/profile.html", user=current_user)
+
+@html_routes_bp.route("/profile", methods=["POST"])
+@login_required
+def change_name_profile():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        print(name)
+        print(email)
+        user = User.query.get(current_user.id)
+        if user:
+                # Update the user's name and/or email if provided
+            if name:
+                current_user.name = name
+            if email:
+                current_user.email = email
+
+            db.session.commit()
+
+            print(f"User information updated - Name: {user.name}, Email: {user.email}")
+            return redirect(url_for("html.profile"))
+
+    return "", 204
