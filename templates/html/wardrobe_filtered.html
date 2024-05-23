@@ -1,0 +1,278 @@
+{% extends '/html/base.html' %} {% block content %}
+<head>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+</head>
+<div class="container-fluid" style="overflow-x: unset">
+  <div class="row flex-nowrap">
+    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
+      <div
+        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100"
+      >
+        <p
+          class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none"
+        >
+          <span class="fs-5 d-none d-sm-inline">Style Sync</span>
+        </p>
+        <hr />
+        <ul
+          class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+          id="menu"
+        >
+          <li class="nav-item">
+            <div
+              id="ww_2a86b77fb94b6"
+              v="1.3"
+              loc="auto"
+              a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3,"el_phw":3}'
+            >
+              <a
+                href="https://weatherwidget.org/"
+                id="ww_2a86b77fb94b6_u"
+                target="_blank"
+                >Weather widget</a
+              >
+            </div>
+            <script
+              async
+              src="https://app2.weatherwidget.org/js/?id=ww_2a86b77fb94b6"
+            ></script>
+          </li>
+          <li>
+            <form action="/" method="post">
+              <p>Filters</p>
+
+          </li>
+          <li class="w-100">
+            <div class="accordion w-100" id="outfitAccordion">
+              <div class="accordion-item w-100">
+                <h2 class="accordion-header" id="headingWork">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseWork"
+                    aria-expanded="true"
+                    aria-controls="collapseWork"
+                  >
+                    Work
+                  </button>
+                </h2>
+                <div
+                  id="collapseWork"
+                  class="accordion-collapse collapse show"
+                  aria-labelledby="headingWork"
+                  data-bs-parent="#outfitAccordion"
+                >
+                  <div class="accordion-body">
+                    <ul class="list-unstyled">
+                      <li><a href="home.html">Outfit1</a></li>
+                      <li><a href="home.html">Outfit2</a></li>
+                      <li><a href="home.html">Outfit3</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingBeach">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseBeach"
+                    aria-expanded="false"
+                    aria-controls="collapseBeach"
+                  >
+                    Beach
+                  </button>
+                </h2>
+                <div
+                  id="collapseBeach"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingBeach"
+                  data-bs-parent="#outfitAccordion"
+                >
+                  <div class="accordion-body">
+                    <ul class="list-unstyled">
+                      <li><a href="home.html">Outfit1</a></li>
+                      <li><a href="home.html">Outfit2</a></li>
+                      <li><a href="home.html">Outfit3</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingClub">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseClub"
+                    aria-expanded="false"
+                    aria-controls="collapseClub"
+                  >
+                    Club
+                  </button>
+                </h2>
+                <div
+                  id="collapseClub"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingClub"
+                  data-bs-parent="#outfitAccordion"
+                >
+                  <div class="accordion-body">
+                    <ul class="list-unstyled">
+                      <li><a href="home.html">Outfit1</a></li>
+                      <li><a href="home.html">Outfit2</a></li>
+                      <li><a href="home.html">Outfit3</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a
+              href="#submenu2"
+              data-bs-toggle="collapse"
+              class="nav-link px-0 align-middle"
+            >
+              <i class="fs-4 bi-bootstrap"></i>
+              <span class="ms-1 d-none d-sm-inline">Bootstrap</span></a
+            >
+            <ul
+              class="collapse nav flex-column ms-1"
+              id="submenu2"
+              data-bs-parent="#menu"
+            >
+              <li class="w-100">
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Item</span> 1</a
+                >
+              </li>
+              <li>
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Item</span> 2</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#submenu3"
+              data-bs-toggle="collapse"
+              class="nav-link px-0 align-middle"
+            >
+              <i class="fs-4 bi-grid"></i>
+              <span class="ms-1 d-none d-sm-inline">Products</span>
+            </a>
+            <ul
+              class="collapse nav flex-column ms-1"
+              id="submenu3"
+              data-bs-parent="#menu"
+            >
+              <li class="w-100">
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Product</span> 1</a
+                >
+              </li>
+              <li>
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Product</span> 2</a
+                >
+              </li>
+              <li>
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Product</span> 3</a
+                >
+              </li>
+              <li>
+                <a href="#" class="nav-link px-0">
+                  <span class="d-none d-sm-inline">Product</span> 4</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" class="nav-link px-0 align-middle">
+              <i class="fs-4 bi-people"></i>
+              <span class="ms-1 d-none d-sm-inline">Customers</span>
+            </a>
+          </li>
+        </ul>
+        <hr />
+        <div class="dropdown pb-4">
+          <a
+            href="#"
+            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            id="dropdownUser1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://github.com/mdo.png"
+              alt="hugenerd"
+              width="30"
+              height="30"
+              class="rounded-circle"
+            />
+            <span class="d-none d-sm-inline mx-1">loser</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+        {% for x in user.items %}
+        <div>
+          <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{x.id}}" aria-controls="offcanvasBottom" style="width: 25rem">
+            <img class="card-img-top object-fit-scale" width="150" height="150" src="{{ url_for('static', filename = x.image_url) }}" alt="Image"/>
+            <div class="card-body">
+              <h5 class="card-title text-center">{{x.name}}</h5>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Offcanvas element for each item -->
+    <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottom{{x.id}}" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="d-flex justify-content-center flex-column align-items-center">
+                <!-- Content for the offcanvas goes here -->
+                <div class="flex-item">
+                <p>Selected Picture Details...{{x.id}}</p>
+                <p>{{x.name}}</p>
+                </div>
+                <div>  
+                <img src="{{ url_for('static', filename = x.image_url) }}" alt="Image" width="150" height="150"/>
+                </div>
+                <div>              <a href="{{url_for('html.item', id=x.id)}}">
+                    <button class="btn-primary btn">View</button>
+                  </a>
+                <a href="{{url_for('html.delete_item', id=x.id)}}">
+                  <button class="btn-danger btn">Delete</button>
+                </a>
+                </div>  
+            </div>
+            <div class="offcanvas-footer d-flex justify-content-center mt-3"></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+      
+
+      {% endblock %}
+    </div>
+  </div>
+</div>

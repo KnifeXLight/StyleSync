@@ -1,0 +1,38 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <main>
+        <section class="about-us">
+            <h2>About Us</h2>
+                <p>Once upon a time, in the bustling city of Vancouver, six students from different corners of the globe found themselves studying at the prestigious British Columbia Institute of Technology.
+                There was Misha, with his keen eye for design and a passion for blending cultural influences; Tanish, the coding wizard from India who could turn pixels into magic; Matilda, the trendsetting fashionista from Seoul with an innate sense of style that turned heads wherever she went;
+                Charley, the marketing maestro from Taiwan, whose charisma could sell ice to Eskimos; Matthew, the detail-oriented strategist from China who kept the team focused; and Angad, the creative genius from India who added a touch of whimsy to every project.
+
+                <p>Their journey began in a cramped dorm room, where Misha lamented about the struggle of keeping up with the latest fashion trends while juggling classes and part-time jobs.
+                Tanish, always tinkering with his laptop, suggested they build an app to streamline the process. Angad's eyes lit up with excitement as he imagined a platform where fashion enthusiasts like themselves could discover new styles and trends from around the world.
+                Charley saw the potential for a global community of fashionistas, where users could share their outfits, get feedback, and even shop directly from the app. Matthew brought structure to their brainstorming sessions, keeping them organized and on track.
+                And Matilda infused the project with her creative flair, adding a touch of magic to every design.</p>
+                
+                <p>Thus, fueled by passion and a shared vision, the six embarked on a journey of creativity and collaboration. Late nights turned into early mornings as they brainstormed, designed, and coded their way to creating the ultimate fashion app.
+                They faced challenges along the way, from coding bugs to design dilemmas, but their determination never wavered.</p>
+                
+                <p>Finally, after months of hard work and sleepless nights, the app was ready to launch. They called it "StyleSync," a name that encapsulated their diverse backgrounds and the fusion of ideas that brought their vision to life.</p>
+                
+                <p>As they hit the "publish" button and watched their creation go live, they couldn't help but feel a sense of pride and accomplishment.
+                Little did they know, StyleSync would soon become a global sensation, connecting fashion lovers from every corner of the world and revolutionizing the way people discover and express their personal style.</p>
+                
+                <p>And so, the tale of six students who dared to dream big and chase their passion continues to inspire aspiring entrepreneurs and fashionistas alike, proving that with creativity, determination, and a sprinkle of magic, anything is possible.</p>
+        </section>
+    </main>
+    <footer class="aboutfooter">
+        <ul>
+            <li><a href="#">Donate</a></li>
+            <li><a href="mailto:style@sync.com">Contact</a></li>
+            <li><a href="{{url_for('html.about')}}">About</a></li>
+        </ul>
+    </footer>
+{% endblock %} 

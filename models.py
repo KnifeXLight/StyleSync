@@ -12,8 +12,16 @@ from sqlalchemy import (
 from sqlalchemy.orm import mapped_column, relationship
 from db import db
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, backref
+# from time import time
+
+# from datetime import datetime, timedelta
+from itsdangerous import URLSafeTimedSerializer
+from flask import current_app
+# * User Table (Users in the database for login)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(Integer, primary_key=True)
@@ -22,6 +30,26 @@ class User(UserMixin, db.Model):
     password = db.Column(String(200), nullable=False)
     items = relationship("Item", back_populates="user")
     outfits = relationship("Outfit", back_populates="user")
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expiration = db.Column(db.DateTime, nullable=True)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        return s.dumps(self.email, salt=current_app.config['SECURITY_PASSWORD_SALT'])
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        try:
+            email = s.loads(
+                token, salt=current_app.config['SECURITY_PASSWORD_SALT'], max_age=1800)
+        except:
+            return None
+        return User.query.filter_by(email=email).first()
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method="scrypt")
+# * Item Table (Items in the wardrobe)
 
 
 class Item(db.Model):
@@ -30,8 +58,12 @@ class Item(db.Model):
     image_url = db.Column(String(200), nullable=False)
     user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship("User", back_populates="items")
-    item_tags = relationship("Tag", back_populates="item")
-    outfit_items = relationship("OutfitItem", back_populates="item")
+    item_tags = relationship("Tag", back_populates="item",
+                             cascade="all, delete-orphan")
+    outfit_items = relationship(
+        "OutfitItem", back_populates="item", cascade="all, delete-orphan")
+
+# * Category Table (Categories for the items, e.g. Tops, Bottoms, Shoes, etc.)
 
 
 class Category(db.Model):
@@ -40,6 +72,8 @@ class Category(db.Model):
     tags = relationship("Tag", back_populates="category")
     filters = relationship("Filter", back_populates="category")
 
+# * Filter Table (Filters for the items)
+
 
 class Filter(db.Model):
     id = db.Column(Integer, primary_key=True)
@@ -47,6 +81,8 @@ class Filter(db.Model):
     category_id = db.Column(Integer, ForeignKey('category.id'), nullable=False)
     category = relationship("Category", back_populates="filters")
     tags = relationship("Tag", back_populates="filter")
+
+# * Tag Table (Tags for the items)
 
 
 class Tag(db.Model):
@@ -58,6 +94,8 @@ class Tag(db.Model):
     category = relationship("Category", back_populates="tags")
     filter = relationship("Filter", back_populates="tags")
 
+# * Outfit Table (Outfits created by the user)
+
 
 class Outfit(db.Model):
     id = db.Column(Integer, primary_key=True)
@@ -67,6 +105,8 @@ class Outfit(db.Model):
     user = relationship("User", back_populates="outfits")
     outfit_items = relationship("OutfitItem", back_populates="outfit")
 
+# * OutfitItem Table (Junction Table between Outfit and Item)
+
 
 class OutfitItem(db.Model):
     id = db.Column(Integer, primary_key=True)
@@ -74,7 +114,6 @@ class OutfitItem(db.Model):
     item_id = db.Column(Integer, ForeignKey('item.id'), nullable=False)
     outfit = relationship("Outfit", back_populates="outfit_items")
     item = relationship("Item", back_populates="outfit_items")
-
 
 
 # class Image(db.Model):

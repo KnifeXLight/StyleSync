@@ -1,0 +1,28 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <p>{{item.name}}</p>
+    <div class="item-container">
+        <div class="item-image
+        ">
+        <img src="{{ url_for('static', filename=item.image_url) }}" alt="Image">
+        </div>
+        <div class="item-title">
+            <p>Item Title</p>
+        </div>
+        <div class="item-description">
+            <p>Item Description</p>
+        </div>
+        <div class="item-price">
+            <p>Item Price</p>
+        </div>
+        <div class="item-button">
+            <button>Buy Now</button>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

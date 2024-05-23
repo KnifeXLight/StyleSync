@@ -3,6 +3,12 @@ from db import db
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
+# from flask_mail import Mail, Message
+from time import time
+# import jwt
+# import os
+
+
 
 
 auth_routes_bp = Blueprint("authorization", __name__)
@@ -11,6 +17,7 @@ auth_routes_bp = Blueprint("authorization", __name__)
 @auth_routes_bp.route("/")
 def home():
     return render_template("/auth/login.html")
+
 
 
 @auth_routes_bp.route("/auth/register")
@@ -28,9 +35,8 @@ def signup():
     print(password)
     if not email or not name or not password:
         return redirect(url_for("authorization.register"))
-    # if len(passwords) < 8:
-    #     return redirect(url_for("authorization.register"))
-    if email == "" or name == "" or password == "":
+    if len(password) < 8:
+        flash('Password must be at least 8 characters long')
         return redirect(url_for("authorization.register"))
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(
@@ -71,10 +77,23 @@ def login_post():
         flash('Email or Password is incorrect')
         return redirect(url_for("authorization.home"))
     login_user(user, remember=remember)
-    return redirect(url_for("html.home"))
+    return redirect(url_for("html.wardrobe"))
 
 @auth_routes_bp.route("/auth/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("authorization.home"))
+@auth_routes_bp.route("/auth/reset_password")
+def reset_password():
+    return render_template("/auth/reset_password.html")
+# @auth_routes_bp.route("/auth/reset_password", methods=["POST"])
+# def reset_password_post():
+#     email = request.form.get("email")
+#     user = User.query.filter_by(email=email).first()
+#     if user:
+#         token = user.get_reset_token()
+#         send_email(user)
+#         print(token)
+#         return redirect(url_for("authorization.home"))
+#     return redirect(url_for("authorization.home"))

@@ -421,6 +421,7 @@
             --bs-card-bg: var(--bs-body-bg);
             --bs-card-img-overlay-padding: 1rem;
             --bs-card-group-margin: 0.75rem;
+            --bs-navbar-active-color: purple;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -452,4 +453,137 @@
             border: 2px solid red;
         }
 
+        .profile-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns with equal width */
+            grid-template-rows: repeat(13, 50px); /* 13 rows with a height of 50 pixels */
+            grid-gap: 10px; /* Gap between grid items */
+            padding: 20px; /* Padding around the grid */
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            grid-column: 2;
+            grid-row: 2;
+            display: flex;
+            align-items: end;
+        }
+
+        .profile-name-box {
+            grid-column:2;
+            grid-row:3;
+            height:40px;
+            width:200px;
+            font-size:20px;
+        }
+        .profile-save {
+            grid-column:3;
+            grid-row:3;
+            font-size: 20px;
+        }
+        .profile-save-button {
+            width:80px;
+            height:30px;
+            background-color:antiquewhite;
+        }
+        .date-title {
+            grid-column:2;
+            grid-row:5;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+
+        .date-text {
+            grid-column:2;
+            grid-row:6;
+            font-size:22px;
+        }
+
+        .email-title {
+            grid-column:2;
+            grid-row:8;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+        .email-text {
+            grid-column:2;
+            grid-row:9;
+            font-size:22px;
+        }
+        .email-change-link {
+            grid-column:3;
+            grid-row:9;
+            font-size: 17px;
+        }
+        .password-title {
+            grid-column:2;
+            grid-row:11;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: end;
+        }
+        .password-text {
+            grid-column:2;
+            grid-row:12;
+            font-size:22px;
+        }
+        .password-change-link {
+            grid-column:3;
+            grid-row:12;
+            font-size: 17px;
+        }
+
+        .logoabout h1 {
+            font-family: 'Georgia', serif;
+            color: #5a2ea6;
+            margin: 0;
+        }
+        .about-us {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            font-family: 'Poppins';
+        }
+
+        .about-us h2 {
+            text-align: center;
+            color: #5a2ea6;
+        }
+
+        .aboutfooter {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+
+        .aboutfooter ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .aboutfooter ul li {
+            margin: 0 10px;
+        }
+
+        .aboutfooter ul li a {
+            text-decoration: none;
+            color: #5a2ea6;
+        }
+
+}
+.nav-link.active {
+    --bs-navbar-active-color: purple;
 }
