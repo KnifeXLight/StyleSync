@@ -6,8 +6,8 @@ from models import User, Outfit, Item, OutfitItem, Category, Filter, Tag
 from rembg import remove
 from PIL import Image
 import os
-import webbrowser
-from io import BytesIO
+# import webbrowser
+# from io import BytesIO
 from werkzeug.utils import secure_filename
 html_routes_bp = Blueprint("html", __name__)
 
