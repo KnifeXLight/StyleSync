@@ -87,7 +87,7 @@ def logout():
 @auth_routes_bp.route("/auth/reset_password")
 def reset_password():
     return render_template("/auth/reset_password.html")
-@auth_routes_bp.route("/auth/reset_password", methods=["POST"])
+# @auth_routes_bp.route("/auth/reset_password", methods=["POST"])
 # def reset_password_post():
 #     email = request.form.get("email")
 #     user = User.query.filter_by(email=email).first()
