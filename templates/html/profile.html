@@ -1,26 +1,66 @@
 {% extends '/html/base.html' %}
 {% block content %}
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
-    <body>
-        <div class="profile-container">
-            <div class="profile-name">Name</div>
-            <div class="profile-name-box">
-                <form>
-                    <input type="text" class="profile-name-box" placeholder="Misha"><br>
-                </form>
-            </div>
-            <div class="profile-save">
-                <button class="profile-save-button" type="button">Save</button> 
-            </div>
-            <div class="date-title">Date Registered</div>
-            <div class="date-text">1-12-2024</div>
-            <div class="email-title">Email</div>
-            <div class="email-text">test@test.com</div>
-            <div class="email-change-link">Change Email</div>
-            <div class="password-title">Password</div>
-            <div class="password-text">********</div>
-            <div class="password-change-link">Change Password</div>
+<head>
+    <style>
+    .col-8 {
+        margin-top: 5%;
+    
+    }
+    
+    .input-group {
+        width: 50%;
+        margin: 0 auto;
+    }
+    
+    #Username-label {
+        position: absolute;
+        top: -25px;
+        left: 0;
+        padding-bottom: 5%;
+    }
+    
+    #email-look {
+        margin-top: 3%;
+    }
+    
+    #email-name {
+        position: absolute; 
+        top: -25px;
+        left: 0;
+        padding-bottom: 5%;
+    }
+    
+    h1 {
+        text-align: center;
+        margin-bottom: 8%;
+    }
+    </style>
+</head>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <h1>Hello {{ current_user.name }}</h1>
+            <form action="/views/profile" method="POST">
+                <div class="input-group mb-3" >
+                    <div id="Username-label">
+                        <label for="username">Username</label>
+                    </div>
+                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button>
+                </div>
+            </form>
         </div>
-{% endblock %} 
+        <div class="col-8" id="email-look">
+            <form action="/views/profile" method="POST">
+                <div class="input-group mb-3" >
+                    <div id="email-name">
+                        <label for="email">Email</label>
+                    </div>
+                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
