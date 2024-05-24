@@ -5,6 +5,9 @@ __pycache__
 *.ipynb_checkpoints
 *.json
 *.db
+<<<<<<< HEAD
 *.coverage
 *.log
 htmlcov
+=======
+>>>>>>> 37b603b (update gitignore)
