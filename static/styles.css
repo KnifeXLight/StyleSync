@@ -294,6 +294,7 @@
         height:50%;
     }
 
+
     .wardrobe-container {
         display:grid;
         grid-template-columns:350px 1fr;
