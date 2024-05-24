@@ -2,6 +2,31 @@
 {% block content %}
 <head>
   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+  <style>
+    .aboutfooter {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+
+        .aboutfooter ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .aboutfooter ul li {
+            margin: 0 10px;
+        }
+
+        .aboutfooter ul li a {
+            text-decoration: none;
+            color: #5a2ea6;
+        }
+  </style>
 </head>
 <div class="container-fluid" style="overflow-x: unset">
   <div class="row flex-nowrap">
@@ -110,5 +135,12 @@
     </div>
   </div>
 </div>
+<footer class="aboutfooter">
+  <ul>
+      <!-- <li><a href="#">Donate</a></li> -->
+      <li><a href="mailto:style@sync.com">Contact</a></li>
+      <li><a href="{{url_for('html.about')}}">About</a></li>
+  </ul>
+</footer>
 
 {% endblock %}
