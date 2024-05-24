@@ -83,7 +83,6 @@ def test_delete_item_route_existing(logged_in_client, test_item):
         item = db.session.query(Item).filter_by(id=item_id).first()
             # Verify that the item has been deleted
         assert item is None
-        # assert db.session.query(Item).filter_by(id=item_id).first() is None
 
 
 # Test uploading a valid file
@@ -173,7 +172,6 @@ def test_update_profile(logged_in_client):
     with logged_in_client:
         response = logged_in_client.post('/views/profile', data={'name': 'Updated Name', 'email': 'updated@example.com'}, follow_redirects=True)
         assert response.status_code == 200
-        # assert b'User information updated' in response.data
 
         user = db.session.query(User).filter_by(email='updated@example.com').first()
         assert user is not None
