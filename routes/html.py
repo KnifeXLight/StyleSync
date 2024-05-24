@@ -225,17 +225,17 @@ def change_name_profile():
         email = request.form.get("email")
         print(name)
         print(email)
-        user = User.query.get(current_user.id)
+        user = db.session.get(User, current_user.id)
         if user:
                 # Update the user's name and/or email if provided
             if name:
                 current_user.name = name
             if email:
                 current_user.email = email
-
             db.session.commit()
 
             print(f"User information updated - Name: {user.name}, Email: {user.email}")
+            flash("Profile updated")
             return redirect(url_for("html.profile"))
 
     return "", 204
