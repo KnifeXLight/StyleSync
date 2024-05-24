@@ -10,7 +10,7 @@ from app import create_app
 # Add the app_folder to the system path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from db import db
-from models import User, Item
+from models import User, Item, Tag, Category, Filter
 
 @pytest.fixture
 def app():
@@ -83,3 +83,27 @@ from sqlalchemy.engine import Engine
 def receive_before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
     if "DELETE" in statement:
         context.execution_options = context.execution_options.union({"suppress_warnings": True})
+
+@pytest.fixture
+def multiple_items(client, app):
+    with client:
+        with app.app_context():
+            test_user = User.query.filter_by(email='test@example.com').first()
+            if test_user:
+                item1 = Item(name="Test Item 1", user_id=test_user.id, image_url="test_image_url_1")
+                item2 = Item(name="Test Item 2", user_id=test_user.id, image_url="test_image_url_2")
+                db.session.add(item1)
+                db.session.add(item2)
+                db.session.commit()
+                yield [item1, item2]
+            else:
+                yield []
+
+@pytest.fixture
+def update_profile(logged_in_client, app):
+    with logged_in_client:
+        with app.app_context():
+        # Send a POST request to update the profile with the provided data
+            response = logged_in_client.post('/views/profile', data={'name': "Updated Name", 'email': "updated@example.com"}, follow_redirects=True)
+            return response
+   

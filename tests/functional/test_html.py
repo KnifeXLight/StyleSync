@@ -3,6 +3,8 @@ from models import Item, User, Category, Filter, Tag
 from db import db
 import io
 
+
+
 # * Test Access to Protected Routes
 def test_access_protected_route_wardrobe(logged_in_client):
     with logged_in_client:
@@ -184,3 +186,65 @@ def test_update_profile_missing_fields(logged_in_client):
 
         user = db.session.query(User).filter_by(name='Updated Name').first()
         assert user is not None
+
+def test_filter_route_logged_in(logged_in_client):
+    with logged_in_client:
+        response = logged_in_client.get('views/wardrobe/filter')
+        assert response.status_code == 200
+
+def test_filter_route_not_logged_in(client):
+    with client:
+        response = client.get('views/wardrobe/filter')
+        assert response.status_code == 302  
+
+
+def test_filter_route_with_multiple_items(logged_in_client, multiple_items):
+    # with logged_in_client:
+        response = logged_in_client.get('/views/wardrobe/filter')
+        assert response.status_code == 200
+        
+        
+        for item in multiple_items:
+            assert item.name in response.get_data(as_text=True)
+
+
+def test_login_new_items(logged_in_client):
+    with logged_in_client:
+        response = logged_in_client.get("views/new_item")
+        assert response.status_code == 200
+
+def test_not_login_new_items(client):
+    with client:
+        response = client.get("views/new_item")
+        assert response.status_code == 302
+
+"""
+This code was used to check if it goes 204 if nothing was inputted
+However, because of response = logged_in_client.post(url_for
+the post immediately triggers the if request.method == "POST":
+block of the route, so it auto runs no matter what.
+It then updates the database if no data was input
+but also does not change anything i believe.
+"""
+# def test_profile_post(app, logged_in_client):
+#     with app.test_request_context(method='POST'):
+#         # Call the route function directly
+#         response = app.html_routes_bp.change_name_profile()
+
+#     # Assert that the response status code is 204
+#     assert response.status_code == 204
+
+def test_about_us_log(client):
+    with client:
+        response = client.get("views/about", follow_redirects=False)
+        assert response.status_code == 302
+
+def test_about_us_notlog(logged_in_client):
+    with logged_in_client:
+        response = logged_in_client.get("views/about")
+        assert response.status_code == 200
+
+def test_profile_updatewow(update_profile):
+    assert update_profile.status_code == 200
+
+

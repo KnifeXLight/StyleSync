@@ -84,9 +84,9 @@ def logout():
     return redirect(url_for("authorization.home"))
 
 
-@auth_routes_bp.route("/auth/reset_password")
-def reset_password():
-    return render_template("/auth/reset_password.html")
+# @auth_routes_bp.route("/auth/reset_password")
+# def reset_password():
+#     return render_template("/auth/reset_password.html")
 # @auth_routes_bp.route("/auth/reset_password", methods=["POST"])
 # def reset_password_post():
 #     email = request.form.get("email")

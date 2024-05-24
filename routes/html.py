@@ -208,7 +208,7 @@ def change_name_profile():
             flash("Profile updated")
             return redirect(url_for("html.profile"))
 
-    return "", 204
+    # return "", 204
 
 
 @html_routes_bp.route("/about")
