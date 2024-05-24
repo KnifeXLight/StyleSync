@@ -162,8 +162,7 @@ def upload_image():
             output_filename = os.path.join(
                 "static/items", 'processed_' + file.filename)
             output_image.save(output_filename)
-            db.session.add(Item(user_id=current_user.id,
-                           image_url=f"items/processed_{filename_final}", name=filename_without_extension))
+            db.session.add(Item(user_id=current_user.id, image_url=f"items/processed_{file.filename}", name=filename_without_extension))
             db.session.commit()
             # Remove the uploaded image
 
