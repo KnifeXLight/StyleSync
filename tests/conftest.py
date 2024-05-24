@@ -2,6 +2,7 @@ import pytest
 import sys
 import os
 from werkzeug.security import generate_password_hash
+from sqlalchemy.orm import configure_mappers
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from app import create_app
@@ -50,12 +51,12 @@ def test_item(client, app):
             item = Item(name="Test Item", user_id=1, image_url="test_image_url")
             db.session.add(item)
             db.session.commit()
-            print(item.image_url)
-            print(item.name)
-            print(item.id)
             yield item
-            # db.session.delete(item)
-            # db.session.commit()
+            # Ensure item exists before attempting to delete
+            item_to_delete = db.session.get(Item, item.id)
+            if item_to_delete:
+                db.session.delete(item_to_delete)
+                db.session.commit()
 
 @pytest.fixture
 def failed_login_password(client, app):
@@ -72,3 +73,13 @@ def failed_login_password(client, app):
             client.post('/auth/login', data={'email': 'test@example.com', 'password': 'wrongpassword'}, follow_redirects=True)
 
     return client
+
+# Suppress specific SQLAlchemy warnings
+configure_mappers()
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+
+@event.listens_for(Engine, "before_cursor_execute")
+def receive_before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+    if "DELETE" in statement:
+        context.execution_options = context.execution_options.union({"suppress_warnings": True})
