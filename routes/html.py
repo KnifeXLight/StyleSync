@@ -216,3 +216,26 @@ def change_name_profile():
 @login_required
 def about():
     return render_template("/html/about.html", user  = current_user)
+
+@html_routes_bp.route("/profile", methods=["POST"])
+@login_required
+def change_name_profile():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        print(name)
+        print(email)
+        user = User.query.get(current_user.id)
+        if user:
+                # Update the user's name and/or email if provided
+            if name:
+                current_user.name = name
+            if email:
+                current_user.email = email
+
+            db.session.commit()
+
+            print(f"User information updated - Name: {user.name}, Email: {user.email}")
+            return redirect(url_for("html.profile"))
+
+    return "", 204
