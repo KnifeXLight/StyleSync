@@ -211,3 +211,8 @@ def change_name_profile():
             return redirect(url_for("html.profile"))
 
     return "", 204
+
+@html_routes_bp.route("/about")
+@login_required
+def about():
+    return render_template("/html/about.html", user  = current_user)
