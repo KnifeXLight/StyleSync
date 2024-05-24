@@ -19,11 +19,6 @@ def home():
     print(request.endpoint)
     return render_template("/html/wardrobe.html", user=current_user)
 
-# @html_routes_bp.route("/homepage")
-# @login_required
-# def homepage():
-#     return render_template("/html/home.html", user  = current_user)
-
 
 @html_routes_bp.route("/newoutfit")
 @login_required
@@ -112,6 +107,7 @@ def filter_post():
 
     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
+
 @html_routes_bp.route("/new_item")
 @login_required
 def new_item():
@@ -189,6 +185,7 @@ def allowed_file(filename):
 def profile():
     return render_template("/html/profile.html", user=current_user)
 
+
 @html_routes_bp.route("/profile", methods=["POST"])
 @login_required
 def change_name_profile():
@@ -199,43 +196,22 @@ def change_name_profile():
         print(email)
         user = db.session.get(User, current_user.id)
         if user:
-                # Update the user's name and/or email if provided
+            # Update the user's name and/or email if provided
             if name:
                 current_user.name = name
             if email:
                 current_user.email = email
             db.session.commit()
 
-            print(f"User information updated - Name: {user.name}, Email: {user.email}")
+            print(
+                f"User information updated - Name: {user.name}, Email: {user.email}")
             flash("Profile updated")
             return redirect(url_for("html.profile"))
 
     return "", 204
+
 
 @html_routes_bp.route("/about")
 @login_required
 def about():
-    return render_template("/html/about.html", user  = current_user)
-
-@html_routes_bp.route("/profile", methods=["POST"])
-@login_required
-def change_name_profile():
-    if request.method == "POST":
-        name = request.form.get("name")
-        email = request.form.get("email")
-        print(name)
-        print(email)
-        user = db.session.get(User, current_user.id)
-        if user:
-                # Update the user's name and/or email if provided
-            if name:
-                current_user.name = name
-            if email:
-                current_user.email = email
-            db.session.commit()
-
-            print(f"User information updated - Name: {user.name}, Email: {user.email}")
-            flash("Profile updated")
-            return redirect(url_for("html.profile"))
-
-    return "", 204
+    return render_template("/html/about.html", user=current_user)
