@@ -5,15 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 from time import time
 
-
-
 auth_routes_bp = Blueprint("authorization", __name__)
 
 
 @auth_routes_bp.route("/")
 def home():
     return render_template("/auth/login.html")
-
 
 
 @auth_routes_bp.route("/auth/register")
@@ -33,6 +30,9 @@ def signup():
         return redirect(url_for("authorization.register"))
     if len(password) < 8:
         flash('Password must be at least 8 characters long')
+        return redirect(url_for("authorization.register"))
+    if User.query.filter_by(email=email).first():
+        flash('Email already exists')
         return redirect(url_for("authorization.register"))
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(
@@ -62,6 +62,7 @@ def signup():
 #         print("Password is incorrect")
 #         return redirect(url_for("authorization.register"))
 #     return redirect(url_for("html.homepage", id=user.id))
+
 @auth_routes_bp.route("/auth/login", methods=["POST"])
 def login_post():
     email = request.form.get("email")
@@ -75,11 +76,14 @@ def login_post():
     login_user(user, remember=remember)
     return redirect(url_for("html.wardrobe"))
 
+
 @auth_routes_bp.route("/auth/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("authorization.home"))
+
+
 @auth_routes_bp.route("/auth/reset_password")
 def reset_password():
     return render_template("/auth/reset_password.html")
