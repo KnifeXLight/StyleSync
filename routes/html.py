@@ -6,8 +6,8 @@ from models import User, Outfit, Item, OutfitItem, Category, Filter, Tag
 from rembg import remove
 from PIL import Image
 import os
-import webbrowser
-from io import BytesIO
+# import webbrowser
+# from io import BytesIO
 from werkzeug.utils import secure_filename
 html_routes_bp = Blueprint("html", __name__)
 
@@ -18,11 +18,6 @@ def home():
     print(current_user)
     print(request.endpoint)
     return render_template("/html/wardrobe.html", user=current_user)
-
-# @html_routes_bp.route("/homepage")
-# @login_required
-# def homepage():
-#     return render_template("/html/home.html", user  = current_user)
 
 
 @html_routes_bp.route("/newoutfit")
@@ -71,6 +66,26 @@ def filter():
     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
 
+# @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
+# @login_required
+# def filter_post():
+#     request_data = request.form.to_dict()
+#     print(request_data)
+#     print(current_user.id)
+#     categories = db.session.query(Category).all()
+#     filters = db.session.query(Filter).all()
+#     item = []
+#     for key, value in request_data.items():
+#         statement = db.session.query(Tag).filter(
+#             Tag.filter_id == value, Item.user_id == current_user.id).all()
+#         print(statement)
+#         for tag in statement:
+#             if tag.item.user_id == current_user.id and tag.item not in item:
+#                 item.append(tag.item)
+#     print(item)
+
+#     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=item)
+
 @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
 @login_required
 def filter_post():
@@ -79,17 +94,18 @@ def filter_post():
     print(current_user.id)
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
-    item = []
-    for key, value in request_data.items():
-        statement = db.session.query(Tag).filter(
-            Tag.filter_id == value, Item.user_id == current_user.id).all()
-        print(statement)
-        for tag in statement:
-            if tag.item.user_id == current_user.id and tag.item not in item:
-                item.append(tag.item)
-    print(item)
+    items = []
 
-    return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=item)
+    for key, value in request_data.items():
+        statement = db.session.query(Item).join(Tag).filter(
+            Tag.filter_id == value, Tag.item_id == Item.id, Item.user_id == current_user.id).all()
+        print(statement)
+        for item in statement:
+            if item not in items:
+                items.append(item)
+    print(items)
+
+    return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
 
 @html_routes_bp.route("/new_item")
@@ -169,6 +185,7 @@ def allowed_file(filename):
 def profile():
     return render_template("/html/profile.html", user=current_user)
 
+
 @html_routes_bp.route("/profile", methods=["POST"])
 @login_required
 def change_name_profile():
@@ -177,17 +194,24 @@ def change_name_profile():
         email = request.form.get("email")
         print(name)
         print(email)
-        user = User.query.get(current_user.id)
+        user = db.session.get(User, current_user.id)
         if user:
-                # Update the user's name and/or email if provided
+            # Update the user's name and/or email if provided
             if name:
                 current_user.name = name
             if email:
                 current_user.email = email
-
             db.session.commit()
 
-            print(f"User information updated - Name: {user.name}, Email: {user.email}")
+            print(
+                f"User information updated - Name: {user.name}, Email: {user.email}")
+            flash("Profile updated")
             return redirect(url_for("html.profile"))
 
-    return "", 204
+    # return "", 204
+
+
+@html_routes_bp.route("/about")
+@login_required
+def about():
+    return render_template("/html/about.html", user=current_user)

@@ -2,6 +2,7 @@ import pytest
 import sys
 import os
 from werkzeug.security import generate_password_hash
+from sqlalchemy.orm import configure_mappers
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from app import create_app
@@ -50,12 +51,12 @@ def test_item(client, app):
             item = Item(name="Test Item", user_id=1, image_url="test_image_url")
             db.session.add(item)
             db.session.commit()
-            print(item.image_url)
-            print(item.name)
-            print(item.id)
             yield item
-            # db.session.delete(item)
-            # db.session.commit()
+            # Ensure item exists before attempting to delete
+            item_to_delete = db.session.get(Item, item.id)
+            if item_to_delete:
+                db.session.delete(item_to_delete)
+                db.session.commit()
 
 @pytest.fixture
 def failed_login_password(client, app):
@@ -73,6 +74,16 @@ def failed_login_password(client, app):
 
     return client
 
+# Suppress specific SQLAlchemy warnings
+configure_mappers()
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+
+@event.listens_for(Engine, "before_cursor_execute")
+def receive_before_cursor_execute(conn, cursor, statement, parameters, context, executemany):
+    if "DELETE" in statement:
+        context.execution_options = context.execution_options.union({"suppress_warnings": True})
+
 @pytest.fixture
 def multiple_items(client, app):
     with client:
@@ -89,25 +100,10 @@ def multiple_items(client, app):
                 yield []
 
 @pytest.fixture
-def setup_filter_data(app, multiple_items):
-    with app.app_context():
-        # Add categories and filters to the database
-        category = Category(name="Test Category")
-        filter1 = Filter(name="Test Filter 1", category=category)
-        filter2 = Filter(name="Test Filter 2", category=category)
-        db.session.add_all([category, filter1, filter2])
-        db.session.commit()
-
-        # Add tags to the items for filtering
-        item1, item2 = multiple_items
-        tag1 = Tag(item_id=item1.id, filter_id=filter1.id, category_id=category.id)
-        tag2 = Tag(item_id=item2.id, filter_id=filter2.id, category_id=category.id)
-        db.session.add_all([tag1, tag2])
-        db.session.commit()
-
-        yield {
-            'category': category,
-            'filter1': filter1,
-            'filter2': filter2,
-            'tags': [tag1, tag2]
-        }
+def update_profile(logged_in_client, app):
+    with logged_in_client:
+        with app.app_context():
+        # Send a POST request to update the profile with the provided data
+            response = logged_in_client.post('/views/profile', data={'name': "Updated Name", 'email': "updated@example.com"}, follow_redirects=True)
+            return response
+   

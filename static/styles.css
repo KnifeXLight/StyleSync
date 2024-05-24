@@ -499,6 +499,7 @@
         .date-text {
             grid-column:2;
             grid-row:6;
+            font-size:22px;
         }
 
         .email-title {
@@ -512,10 +513,12 @@
         .email-text {
             grid-column:2;
             grid-row:9;
+            font-size:22px;
         }
         .email-change-link {
             grid-column:3;
             grid-row:9;
+            font-size: 17px;
         }
         .password-title {
             grid-column:2;
@@ -528,11 +531,56 @@
         .password-text {
             grid-column:2;
             grid-row:12;
+            font-size:22px;
         }
         .password-change-link {
             grid-column:3;
             grid-row:12;
             font-size: 17px;
+        }
+
+        .logoabout h1 {
+            font-family: 'Georgia', serif;
+            color: #5a2ea6;
+            margin: 0;
+        }
+        .about-us {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            font-family: 'Poppins';
+        }
+
+        .about-us h2 {
+            text-align: center;
+            color: #5a2ea6;
+        }
+
+        .aboutfooter {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+
+        .aboutfooter ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .aboutfooter ul li {
+            margin: 0 10px;
+        }
+
+        .aboutfooter ul li a {
+            text-decoration: none;
+            color: #5a2ea6;
         }
 
 }
