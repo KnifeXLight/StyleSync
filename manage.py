@@ -171,7 +171,7 @@ def add_mock_data(app):
         tag64 = Tag(item=item14, category=category3, filter=filter15)
 
         # User 1 tops
-        tag14 = Tag(item=item15, category=category1, filter=filter3)
+        tag14 = Tag(item=item15, category=category1, filter=filter6)
         tag15 = Tag(item=item16, category=category1, filter=filter3)
         tag65 = Tag(item=item15, category=category3, filter=filter14)
         tag66 = Tag(item=item16, category=category3, filter=filter17)

@@ -17,13 +17,70 @@ html_routes_bp = Blueprint("html", __name__)
 def home():
     print(current_user)
     print(request.endpoint)
-    return render_template("/html/wardrobe.html", user=current_user)
+    outfits = db.session.query(Outfit).filter(
+        Outfit.user_id == current_user.id).all()
+    return render_template("/html/homepage.html", user=current_user, outfits=outfits)
 
 
 @html_routes_bp.route("/newoutfit")
 @login_required
 def newoutfit():
-    return render_template("/html/newoutfit.html")
+    categories = db.session.query(Category).all()
+    filters = db.session.query(Filter).all()
+    items = db.session.query(Item).filter(
+        Item.user_id == current_user.id).all()
+    outfit = db.session.query(Outfit).filter(
+        Outfit.user_id == current_user.id).first()
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == outfit.id).all()
+
+    all_items = {}
+    for item in items:
+        for tag in item.item_tags:
+            if tag.filter.name not in all_items:
+                all_items[tag.filter.name] = []
+                all_items[tag.filter.name].append(tag.item)
+            else:
+                all_items[tag.filter.name].append(tag.item)
+    print(all_items)
+    return render_template("/html/newoutfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit)
+
+
+@html_routes_bp.route("/outfit/<int:id>", methods=["GET"])
+@login_required
+def outfit(id):
+    categories = db.session.query(Category).all()
+    filters = db.session.query(Filter).all()
+    items = db.session.query(Item).filter(
+        Item.user_id == current_user.id).all()
+    outfit = db.session.query(Outfit).filter(
+        Outfit.id == id, Outfit.user_id == current_user.id).first()
+    if not outfit:
+        return redirect(url_for("html.home"))
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == outfit.id).all()
+    item_dict = {}
+    print(outfit_items)
+    for item in outfit_items:
+        print(item.item.item_tags)
+        for tag in item.item.item_tags:
+            if tag.filter.name not in item_dict:
+                item_dict[tag.filter.name] = []
+                item_dict[tag.filter.name].append(tag.item)
+            else:
+                item_dict[tag.filter.name].append(tag.item)
+        print(item_dict)
+    all_items = {}
+    for item in items:
+        for tag in item.item_tags:
+            if tag.filter.name not in all_items:
+                all_items[tag.filter.name] = []
+                all_items[tag.filter.name].append(tag.item)
+            else:
+                all_items[tag.filter.name].append(tag.item)
+    print(all_items)
+    print(items)
+    return render_template("/html/outfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)
 
 
 @html_routes_bp.route("/wardrobe")
@@ -33,12 +90,22 @@ def wardrobe():
         Item.user_id == current_user.id).all()
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
+
     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=statement)
 
 
 @html_routes_bp.route("/item/<int:id>")
 @login_required
 def item(id):
+    item = db.session.query(Item).filter(Item.id == id).first()
+    return render_template("/html/item.html", item=item)
+
+
+@html_routes_bp.route("/item/<int:id>", methods=["POST"])
+@login_required
+def oitem(id):
+    request_data = request.form.to_dict()
+    print(request_data)
     item = db.session.query(Item).filter(Item.id == id).first()
     return render_template("/html/item.html", item=item)
 
@@ -203,12 +270,61 @@ def change_name_profile():
                 current_user.email = email
             db.session.commit()
 
-            print(
-                f"User information updated - Name: {user.name}, Email: {user.email}")
-            flash("Profile updated")
+            flash(
+                f"User information updated - Name: {user.name}, Email: {user.email}", category="success")
             return redirect(url_for("html.profile"))
 
-    # return "", 204
+    return "", 204
+
+
+@html_routes_bp.route("/oufit/<int:id>", methods=["POST"])
+@login_required
+def replace_item(id):
+    request_data = request.form.to_dict()
+    print(request_data)
+    outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == id).all()
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_to_be_replaced_id"]).first()
+    item_to_replace = db.session.query(Item).filter(
+        Item.id == request_data["item_to_replace_id"]).first()
+    for outfit_item in outfit_items:
+        if outfit_item.item_id == item.id:
+            db.session.delete(outfit_item)
+            db.session.commit()
+    db.session.add(OutfitItem(outfit=outfit, item=item_to_replace))
+    db.session.commit()
+    return redirect(url_for("html.outfit", id=outfit.id))
+
+
+@html_routes_bp.route("/add_outfit/<int:id>", methods=["POST"])
+@login_required
+def add_item(id):
+    request_data = request.form.to_dict()
+    print(request_data)
+    outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_id"]).first()
+    db.session.add(OutfitItem(outfit=outfit, item=item))
+    db.session.commit()
+    return redirect(url_for("html.outfit", id=outfit.id))
+
+
+@html_routes_bp.route("/newoutfit", methods=["POST"])
+@login_required
+def create_new_outfit():
+    request_data = request.form.to_dict()
+    print(request_data)
+    outfit = Outfit(user_id=current_user.id)
+    db.session.add(outfit)
+    db.session.commit()
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_id"]).first()
+    db.session.add(OutfitItem(outfit=outfit, item=item))
+    db.session.commit()
+
+    return redirect(url_for("html.outfit", id=outfit.id))
 
 
 @html_routes_bp.route("/about")

@@ -1,0 +1,514 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<head>
+    <style>
+        .col {
+            max-width: 415px;
+        }
+        .card {
+            margin-bottom: 1rem;
+            border: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            max-width: 415px;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card-img-top {
+            border-top-left-radius: calc(0.25rem - 1px);
+            border-top-right-radius: calc(0.25rem - 1px);
+            object-fit: cover;
+            height: 150px; /* Adjust this value as needed */
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .column-title {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: #343a40;
+            text-align: center;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 0.5rem;
+        }
+        @media (max-width: 576px) {
+            .column-title {
+                font-size: 1.25rem;
+            }
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-sm {
+            flex: 1;
+            min-width: 300px; /* Ensure columns do not become too narrow */
+        }
+    </style>
+</head>
+<div class="container-fluid">
+
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+                <p class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">StyleSync</span>
+                </p>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <div id="ww_2a86b77fb94b6" v='1.3' loc='auto' a='{"t":"horizontal","lang":"en","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","el_whr":3,"el_phw":3}'><a href="https://weatherwidget.org/" id="ww_2a86b77fb94b6_u" target="_blank">Weather widget</a></div><script async src="https://app2.weatherwidget.org/js/?id=ww_2a86b77fb94b6"></script>
+                    </li>
+                    <li>
+                        <p class="h2">Saved Outfits</p>
+                    </li>
+                    <li class="w-100">
+                        <div>
+                            <form action="/views/wardrobe/filter" method="post">
+                                <div class="accordion w-100 pt-2" id="filterAccordion">
+                                    {% for category in categories %}
+                                    <div class="accordion-item w-100">
+                                        <h2 class="accordion-header" id="heading{{ category.name }}">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ category.name }}" aria-expanded="true" aria-controls="collapse{{ category.name }}">
+                                                {{ category.name }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse{{ category.name }}" class="accordion-collapse collapse" aria-labelledby="heading{{ category.name }}" data-bs-parent="#filterAccordion">
+                                            <div class="accordion-body">
+                                                {% for filter in category.filters %}
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="{{ filter.id }}" id="filter{{ filter.name }}" name="{{filter.name}}">
+                                                    <label class="form-check-label" for="filter{{ filter.name }}">
+                                                        {{ filter.name }}
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Filter</button>
+                                <a href="{{ url_for('html.wardrobe') }}" class="btn btn-secondary mt-2">Clear</a>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="container-fluid py-5">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-4">Outfit</h1>
+                </div>
+            <!-- Loop through the outfit items and show them based on type in columns -->
+            <div class="row">
+                <!-- Accessories Column -->
+                {% if 'Accessories' in item_dict %}
+                <div class="col mb-4 align-self-start">
+                    <h3 class="column-title">Accessories</h3>
+                    {% for item in item_dict['Accessories'] %}
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom{{item.id}}">
+                        <img class="card-img-top object-fit-scale" alt="{{ item.name }}" src="{{ url_for('static', filename=item.image_url) }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                        </div>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottom{{item.id}}" aria-labelledby="offcanvasBottomLabel{{item.id}}">
+                        <div class="offcanvas-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="offcanvas-title" id="offcanvasBottomLabel{{item.id}}">Picture</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                                {% for canvas_item in items['Accessories'] %}
+                                <form action="{{url_for('html.replace_item', id= outfit.id )}}" method="post">
+                                    <input type="hidden" name="item_to_replace_id" value="{{canvas_item.id}}">
+                                    <input type="hidden" name="item_to_be_replaced_id" value="{{item.id}}">
+
+                                    <input type="hidden" name="item_name" value="{{item.name}}">
+                                <button type="submit">
+                                <div class="grid-item">
+                                  <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom" style="width: 25rem">
+                                    <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                    <div class="card-body">
+                                      <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                    </div>
+                                  </div>
+                                </div>
+                                </button   >
+                                </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {%else%}
+                <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Accessories</h3>
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottoma">
+                        <img src="{{ url_for('static', filename='/items/stockpics/hatstock.png') }}" class="card-img-top object-fit-scale" alt="Upperware">
+                        <div class="card-body">
+                            <h5 class="card-title">Add Accessories</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottoma" aria-labelledby="offcanvasBottomLabela">
+                    <div class="offcanvas-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabela">Picture</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                            {% for canvas_item in items['Accessories'] %}
+                            <form action="{{url_for('html.add_item', id=outfit.id)}}" method="post">
+                                <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                <input type="hidden" name="item_to_be_replaced_id" value="">
+
+                                <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                            <button type="submit">
+                            <div class="grid-item">
+                              <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottom" style="width: 25rem">
+                                <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                <div class="card-body">
+                                  <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                </div>
+                            </div>
+                          </div>
+                          </button   >
+                          </form>
+                          {% endfor %}
+                          </div>
+                        </div>
+                    </div>
+                {% endif %}
+    
+                <!-- Upper Wear Column -->
+                {% if 'Upper Wear' in item_dict %}
+                <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Upper Wear</h3>
+                    {% for item in item_dict['Upper Wear'] %}
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom{{item.id}}">
+                        <img class="card-img-top object-fit-scale" alt="{{ item.name }}" src="{{ url_for('static', filename=item.image_url) }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                        </div>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottom{{item.id}}" aria-labelledby="offcanvasBottomLabel{{item.id}}">
+                        <div class="offcanvas-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="offcanvas-title" id="offcanvasBottomLabel{{item.id}}">Picture</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                                {% for canvas_item in items['Upper Wear'] %}
+                                <form action="{{url_for('html.replace_item', id=outfit.id)}}" method="post">
+                                    <input type="hidden" name="item_to_replace_id" value="{{canvas_item.id}}">
+                                    <input type="hidden" name="item_to_be_replaced_id" value="{{item.id}}">
+
+                                    <input type="hidden" name="item_name" value="{{item.name}}">
+                                <button type="submit">
+                                <div class="grid-item">
+                                  <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom" style="width: 25rem">
+                                    <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                    <div class="card-body">
+                                      <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                    </div>
+                                  </div>
+                                </div>
+                                </button   >
+                                </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {%else%}
+                <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Upper Wear</h3>
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottoma">
+                        <img src="{{ url_for('static', filename='/items/stockpics/sweaterstock.png') }}" class="card-img-top object-fit-scale" alt="Upperware">
+                        <div class="card-body">
+                            <h5 class="card-title"> Add Upperware</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottoma" aria-labelledby="offcanvasBottomLabela">
+                    <div class="offcanvas-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabela">Picture</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                            {% for canvas_item in items['Upper Wear'] %}
+                            <form action="{{url_for('html.add_item', id=outfit.id)}}" method="post">
+                                <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                <input type="hidden" name="item_to_be_replaced_id" value="">
+
+                                <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                            <button type="submit">
+                            <div class="grid-item">
+                              <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottom" style="width: 25rem">
+                                <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                <div class="card-body">
+                                  <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                </div>
+                            </div>
+                          </div>
+                          </button   >
+                          </form>
+                          {% endfor %}
+                          </div>
+                        </div>
+                    </div>
+                        {% endif %}
+                <!-- Leg Wear Column -->
+                {% if 'Leg Wear' in item_dict %}
+                <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Leg Wear</h3>
+                    {% for item in item_dict['Leg Wear'] %}
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom{{item.id}}">
+                        <img class="card-img-top object-fit-scale" alt="{{ item.name }}" src="{{ url_for('static', filename=item.image_url) }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                        </div>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottom{{item.id}}" aria-labelledby="offcanvasBottomLabel{{item.id}}">
+                        <div class="offcanvas-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="offcanvas-title" id="offcanvasBottomLabel{{item.id}}">Picture</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                                {% for canvas_item in items['Leg Wear'] %}
+                                <form action="{{url_for('html.replace_item', id=outfit.id)}}" method="post">
+                                    <input type="hidden" name="item_to_replace_id" value="{{canvas_item.id}}">
+                                    <input type="hidden" name="item_to_be_replaced_id" value="{{item.id}}">
+
+                                    <input type="hidden" name="item_name" value="{{item.name}}">
+                                <button type="submit">
+                                <div class="grid-item">
+                                  <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom" style="width: 25rem">
+                                    <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                    <div class="card-body">
+                                      <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                    </div>
+                                  </div>
+                                </div>
+                                </button   >
+                                </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {%else%}
+                <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Leg Wear</h3>
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoml" aria-controls="offcanvasBottoml">
+                        <img src="{{ url_for('static', filename='/items/stockpics/bottomstock.png') }}" class="card-img-top object-fit-scale" alt="Upperware">
+                        <div class="card-body">
+                            <h5 class="card-title">Add Legware</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottoml" aria-labelledby="offcanvasBottomLabell">
+                    <div class="offcanvas-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabell">Picture</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                            {% for canvas_item in items['Leg Wear'] %}
+                            <form action="{{url_for('html.add_item', id=outfit.id)}}" method="post">
+                                <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                <input type="hidden" name="item_to_be_replaced_id" value="">
+
+                                <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                            <button type="submit">
+                            <div class="grid-item">
+                              <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoml" aria-controls="offcanvasBottom" style="width: 25rem">
+                                <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                <div class="card-body">
+                                  <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                </div>
+                            </div>
+                          </div>
+                          </button   >
+                          </form>
+                          {% endfor %}
+                          </div>
+                        </div>
+                    </div>
+                {% endif %}
+                    {% if 'Shoes' in item_dict %}
+                    <div class="col mb-4 align-self-end">
+                        <h3 class="column-title">Shoes</h3>
+                        {% for item in item_dict['Shoes'] %}
+                        <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom{{item.id}}">
+                            <img class="card-img-top object-fit-scale" alt="{{ item.name }}" src="{{ url_for('static', filename=item.image_url) }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.name }}</h5>
+                            </div>
+                        </div>
+                        <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottom{{item.id}}" aria-labelledby="offcanvasBottomLabel{{item.id}}">
+                            <div class="offcanvas-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="offcanvas-title" id="offcanvasBottomLabel{{item.id}}">Picture</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                                    {% for canvas_item in items['Shoes'] %}
+                                    <form action="{{url_for('html.replace_item', id=outfit.id)}}" method="post">
+                                        <input type="hidden" name="item_to_replace_id" value="{{canvas_item.id}}">
+                                        <input type="hidden" name="item_to_be_replaced_id" value="{{item.id}}">
+    
+                                        <input type="hidden" name="item_name" value="{{item.name}}">
+                                    <button type="submit">
+                                    <div class="grid-item">
+                                      <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom{{item.id}}" aria-controls="offcanvasBottom" style="width: 25rem">
+                                        <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                        <div class="card-body">
+                                          <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </button   >
+                                    </form>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {%else%}
+                    <div class="col mb-4 align-self-center">
+                    <h3 class="column-title">Shoes</h3>
+                    <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottomss" aria-controls="offcanvasBottomss">
+                        <img src="{{ url_for('static', filename='/items/stockpics/shoestock.png') }}" class="card-img-top object-fit-scale" alt="Upperware">
+                        <div class="card-body">
+                            <h5 class="card-title"> Add Shoes</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-bottom h-75" tabindex="-1" id="offcanvasBottomss" aria-labelledby="offcanvasBottomLabelss">
+                    <div class="offcanvas-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabelss">Picture</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="grid-container" style="display: grid; grid-template-columns: repeat(3, 400px); gap: 10px">
+                            {% for canvas_item in items['Shoes'] %}
+                            <form action="{{url_for('html.add_item', id=outfit.id)}}" method="post">
+                                <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                <input type="hidden" name="item_to_be_replaced_id" value="">
+
+                                <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                            <button type="submit">
+                            <div class="grid-item">
+                              <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottomss" aria-controls="offcanvasBottomss" style="width: 25rem">
+                                <img class="card-img-top object-fit-scale p-3" width="150" height="150" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/>
+                                <div class="card-body">
+                                  <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                </div>
+                            </div>
+                          </div>
+                          </button   >
+                          </form>
+                          {% endfor %}
+                          </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+    
+                <!-- Shoes Column -->
+            </div>
+            <div class="row justify-content-between">
+                <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#saveOutfit">
+                    Add Outfit
+                </button>
+            </div>
+        </div><div
+              class="offcanvas offcanvas-bottom h-75"
+              tabindex="-1"
+              id="saveOutfit"
+              aria-labelledby="saveOutfitLabel"
+            >
+              <div class="offcanvas-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h5
+                    class="offcanvas-title"
+                    id="saveOutfitLabel"
+                  >
+                    Picture
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div
+                  class="grid-container"
+                  style="
+                    display: grid;
+                    grid-template-columns: repeat(3, 400px);
+                    gap: 10px;
+                  "
+                >
+                  {% for canvas_item in item_list %}
+                  <form
+                    action="{{url_for('html.add_item', id=outfit.id)}}"
+                    method="post"
+                  >
+                    <input
+                      type="hidden"
+                      name="item_id"
+                      value="{{canvas_item.id}}"
+                    />
+
+                    <input
+                      type="hidden"
+                      name="item_name"
+                      value="{{canvas_item.name}}"
+                    />
+                    <button type="submit">
+                      <div class="grid-item">
+                        <div
+                          class="card"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="saveOutfit"
+                          aria-controls="offcanvasBottom"
+                          style="width: 25rem"
+                        >
+                          <img
+                            class="card-img-top object-fit-scale p-3"
+                            width="150"
+                            height="150"
+                            src="{{ url_for('static', filename = canvas_item.image_url) }}"
+                            alt="Image"
+                          />
+                          <div class="card-body">
+                            <h5 class="card-title text-center">
+                              {{canvas_item.name}}
+                            </h5>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  </form>
+                  {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
