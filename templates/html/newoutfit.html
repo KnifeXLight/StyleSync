@@ -2,49 +2,28 @@
 {% block content %}
 <head>
     <style>
-        .col {
-            max-width: 415px;
-        }
-        .card {
-            margin-bottom: 1rem;
-            border: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            max-width: 415px;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .card-img-top {
-            border-top-left-radius: calc(0.25rem - 1px);
-            border-top-right-radius: calc(0.25rem - 1px);
-            object-fit: cover;
-            height: 150px; /* Adjust this value as needed */
-        }
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 500;
-        }
-        .column-title {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            color: #343a40;
+        .aboutfooter {
             text-align: center;
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 0.5rem;
+            padding: 10px 20px;
+            background-color: white;
+            border-top: 1px solid #ddd;
         }
-        @media (max-width: 576px) {
-            .column-title {
-                font-size: 1.25rem;
-            }
-        }
-        .row {
+
+        .aboutfooter ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-wrap: wrap;
+            justify-content: center;
         }
-        .col-sm {
-            flex: 1;
-            min-width: 300px; /* Ensure columns do not become too narrow */
+
+        .aboutfooter ul li {
+            margin: 0 10px;
+        }
+
+        .aboutfooter ul li a {
+            text-decoration: none;
+            color: #5a2ea6;
         }
     </style>
 </head>
@@ -351,4 +330,11 @@
         </div>
     </div>
 </div>
+<footer class="aboutfooter">
+    <ul>
+        <!-- <li><a href="#">Donate</a></li> -->
+        <li><a href="mailto:style@sync.com">Contact</a></li>
+        <li><a href="{{url_for('html.about')}}">About</a></li>
+    </ul>
+  </footer>
 {% endblock %}

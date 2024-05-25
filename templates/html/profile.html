@@ -1,4 +1,7 @@
 {% extends '/html/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+{% endblock %}
 {% block content %}
 <head>
     <style>
@@ -45,7 +48,7 @@
                     <div id="Username-label">
                         <label for="username">Username</label>
                     </div>
-                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button>
                 </div>
             </form>
@@ -56,7 +59,7 @@
                     <div id="email-name">
                         <label for="email">Email</label>
                     </div>
-                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
+                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button>
                 </div>
             </form>

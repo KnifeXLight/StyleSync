@@ -6,8 +6,8 @@ from models import User, Outfit, Item, OutfitItem, Category, Filter, Tag
 from rembg import remove
 from PIL import Image
 import os
-import webbrowser
-from io import BytesIO
+# import webbrowser
+# from io import BytesIO
 from werkzeug.utils import secure_filename
 html_routes_bp = Blueprint("html", __name__)
 
@@ -17,13 +17,9 @@ html_routes_bp = Blueprint("html", __name__)
 def home():
     print(current_user)
     print(request.endpoint)
-    outfits = db.session.query(Outfit).filter(Outfit.user_id == current_user.id).all()
+    outfits = db.session.query(Outfit).filter(
+        Outfit.user_id == current_user.id).all()
     return render_template("/html/homepage.html", user=current_user, outfits=outfits)
-
-# @html_routes_bp.route("/homepage")
-# @login_required
-# def homepage():
-#     return render_template("/html/home.html", user  = current_user)
 
 
 @html_routes_bp.route("/newoutfit")
@@ -31,9 +27,12 @@ def home():
 def newoutfit():
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
-    items = db.session.query(Item).filter(Item.user_id == current_user.id).all()
-    outfit = db.session.query(Outfit).filter(Outfit.user_id == current_user.id).first()
-    outfit_items = db.session.query(OutfitItem).filter(OutfitItem.outfit_id == outfit.id).all()
+    items = db.session.query(Item).filter(
+        Item.user_id == current_user.id).all()
+    outfit = db.session.query(Outfit).filter(
+        Outfit.user_id == current_user.id).first()
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == outfit.id).all()
 
     all_items = {}
     for item in items:
@@ -46,16 +45,20 @@ def newoutfit():
     print(all_items)
     return render_template("/html/newoutfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit)
 
+
 @html_routes_bp.route("/outfit/<int:id>", methods=["GET"])
 @login_required
 def outfit(id):
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
-    items = db.session.query(Item).filter(Item.user_id == current_user.id).all()
-    outfit = db.session.query(Outfit).filter(Outfit.id == id, Outfit.user_id == current_user.id).first()
+    items = db.session.query(Item).filter(
+        Item.user_id == current_user.id).all()
+    outfit = db.session.query(Outfit).filter(
+        Outfit.id == id, Outfit.user_id == current_user.id).first()
     if not outfit:
         return redirect(url_for("html.home"))
-    outfit_items = db.session.query(OutfitItem).filter(OutfitItem.outfit_id == outfit.id).all()
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == outfit.id).all()
     item_dict = {}
     print(outfit_items)
     for item in outfit_items:
@@ -77,7 +80,9 @@ def outfit(id):
                 all_items[tag.filter.name].append(tag.item)
     print(all_items)
     print(items)
-    return render_template("/html/outfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list= items)
+    return render_template("/html/outfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)
+
+
 @html_routes_bp.route("/wardrobe")
 @login_required
 def wardrobe():
@@ -94,6 +99,8 @@ def wardrobe():
 def item(id):
     item = db.session.query(Item).filter(Item.id == id).first()
     return render_template("/html/item.html", item=item)
+
+
 @html_routes_bp.route("/item/<int:id>", methods=["POST"])
 @login_required
 def oitem(id):
@@ -101,6 +108,7 @@ def oitem(id):
     print(request_data)
     item = db.session.query(Item).filter(Item.id == id).first()
     return render_template("/html/item.html", item=item)
+
 
 @html_routes_bp.route("/items/<int:id>")
 @login_required
@@ -125,6 +133,26 @@ def filter():
     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
 
+# @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
+# @login_required
+# def filter_post():
+#     request_data = request.form.to_dict()
+#     print(request_data)
+#     print(current_user.id)
+#     categories = db.session.query(Category).all()
+#     filters = db.session.query(Filter).all()
+#     item = []
+#     for key, value in request_data.items():
+#         statement = db.session.query(Tag).filter(
+#             Tag.filter_id == value, Item.user_id == current_user.id).all()
+#         print(statement)
+#         for tag in statement:
+#             if tag.item.user_id == current_user.id and tag.item not in item:
+#                 item.append(tag.item)
+#     print(item)
+
+#     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=item)
+
 @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
 @login_required
 def filter_post():
@@ -133,17 +161,18 @@ def filter_post():
     print(current_user.id)
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
-    item = []
-    for key, value in request_data.items():
-        statement = db.session.query(Tag).filter(
-            Tag.filter_id == value, Item.user_id == current_user.id).all()
-        print(statement)
-        for tag in statement:
-            if tag.item.user_id == current_user.id and tag.item not in item:
-                item.append(tag.item)
-    print(item)
+    items = []
 
-    return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=item)
+    for key, value in request_data.items():
+        statement = db.session.query(Item).join(Tag).filter(
+            Tag.filter_id == value, Tag.item_id == Item.id, Item.user_id == current_user.id).all()
+        print(statement)
+        for item in statement:
+            if item not in items:
+                items.append(item)
+    print(items)
+
+    return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
 
 @html_routes_bp.route("/new_item")
@@ -181,7 +210,7 @@ def upload_image():
         return jsonify({'error': 'File size exceeds limit'})
 
     filename = secure_filename(file.filename)
-    filename_final = secure_filename(file.filename)
+    # filename_final = secure_filename(file.filename)
     filename_without_extension = filename.rsplit('.', 1)[0]
     print(filename)
     if file:
@@ -201,7 +230,7 @@ def upload_image():
                 "static/items", 'processed_' + file.filename)
             output_image.save(output_filename)
             db.session.add(Item(user_id=current_user.id,
-                           image_url=f"items/processed_{filename_final}", name=filename_without_extension))
+                           image_url=f"items/processed_{file.filename}", name=filename_without_extension))
             db.session.commit()
             # Remove the uploaded image
 
@@ -215,63 +244,73 @@ def upload_image():
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-    return redirect(url_for("html.wardrobe"))
+    # return redirect(url_for("html.wardrobe"))
 
 
-@html_routes_bp.route("/profile")
+@html_routes_bp.route("/profile", methods=["GET"])
 @login_required
 def profile():
     return render_template("/html/profile.html", user=current_user)
+
+
 @html_routes_bp.route("/profile", methods=["POST"])
 @login_required
 def change_name_profile():
-    test = request.method == "POST"
-    print(test)
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
         print(name)
         print(email)
-        user = User.query.get(current_user.id)
+        user = db.session.get(User, current_user.id)
         if user:
-                # Update the user's name and/or email if provided
+            # Update the user's name and/or email if provided
             if name:
                 current_user.name = name
             if email:
                 current_user.email = email
-
             db.session.commit()
 
-            flash(f"User information updated - Name: {user.name}, Email: {user.email}", category="success")
+            flash(
+                f"User information updated - Name: {user.name}, Email: {user.email}", category="success")
             return redirect(url_for("html.profile"))
 
     return "", 204
+
+
 @html_routes_bp.route("/oufit/<int:id>", methods=["POST"])
 @login_required
 def replace_item(id):
     request_data = request.form.to_dict()
     print(request_data)
     outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
-    outfit_items = db.session.query(OutfitItem).filter(OutfitItem.outfit_id == id).all()
-    item = db.session.query(Item).filter(Item.id == request_data["item_to_be_replaced_id"]).first()
-    item_to_replace = db.session.query(Item).filter(Item.id == request_data["item_to_replace_id"]).first()
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == id).all()
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_to_be_replaced_id"]).first()
+    item_to_replace = db.session.query(Item).filter(
+        Item.id == request_data["item_to_replace_id"]).first()
     for outfit_item in outfit_items:
         if outfit_item.item_id == item.id:
             db.session.delete(outfit_item)
             db.session.commit()
-    db.session.add(OutfitItem(outfit= outfit, item = item_to_replace))
+    db.session.add(OutfitItem(outfit=outfit, item=item_to_replace))
     db.session.commit()
     return redirect(url_for("html.outfit", id=outfit.id))
+
+
 @html_routes_bp.route("/add_outfit/<int:id>", methods=["POST"])
 @login_required
 def add_item(id):
     request_data = request.form.to_dict()
     print(request_data)
     outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
-    item = db.session.query(Item).filter(Item.id == request_data["item_id"]).first()
-    db.session.add(OutfitItem(outfit= outfit, item = item))
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_id"]).first()
+    db.session.add(OutfitItem(outfit=outfit, item=item))
     db.session.commit()
     return redirect(url_for("html.outfit", id=outfit.id))
+
+
 @html_routes_bp.route("/newoutfit", methods=["POST"])
 @login_required
 def create_new_outfit():
@@ -280,8 +319,15 @@ def create_new_outfit():
     outfit = Outfit(user_id=current_user.id)
     db.session.add(outfit)
     db.session.commit()
-    item = db.session.query(Item).filter(Item.id == request_data["item_id"]).first()
-    db.session.add(OutfitItem(outfit= outfit, item = item))
+    item = db.session.query(Item).filter(
+        Item.id == request_data["item_id"]).first()
+    db.session.add(OutfitItem(outfit=outfit, item=item))
     db.session.commit()
 
     return redirect(url_for("html.outfit", id=outfit.id))
+
+
+@html_routes_bp.route("/about")
+@login_required
+def about():
+    return render_template("/html/about.html", user=current_user)

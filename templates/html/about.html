@@ -1,117 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends '/html/base.html' %}
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - StyleSync</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: white;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .logo h1 {
-            font-family: 'Georgia', serif;
-            color: #5a2ea6;
-            margin: 0;
-        }
-
-        .weather-widget {
-            text-align: right;
-        }
-
-        .weather-widget p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        .about-us {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 20px auto;
-        }
-
-        .about-us h2 {
-            text-align: center;
-            color: #5a2ea6;
-        }
-
-        footer {
-            text-align: center;
-            padding: 10px 20px;
-            background-color: white;
-            border-top: 1px solid #ddd;
-        }
-
-        footer ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        footer ul li {
-            margin: 0 10px;
-        }
-
-        footer ul li a {
-            text-decoration: none;
-            color: #5a2ea6;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+
 <body>
-    <header>
-        <div class="logo">
-            <h1>stylesync</h1>
-        </div>
-        <div class="weather-widget">
-            <p>23°C</p>
-            <p>Clouds Prague</p>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Outfits</a></li>
-                <li><a href="#">Wardrobe</a></li>
-            </ul>
-        </nav>
-    </header>
     <main>
         <section class="about-us">
             <h2>About Us</h2>
@@ -135,12 +28,11 @@
                 <p>And so, the tale of six students who dared to dream big and chase their passion continues to inspire aspiring entrepreneurs and fashionistas alike, proving that with creativity, determination, and a sprinkle of magic, anything is possible.</p>
         </section>
     </main>
-    <footer>
+    <footer class="aboutfooter">
         <ul>
-            <li><a href="#">Donate</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">About</a></li>
+            <!-- <li><a href="#">Donate</a></li> -->
+            <li><a href="mailto:style@sync.com">Contact</a></li>
+            <li><a href="{{url_for('html.about')}}">About</a></li>
         </ul>
     </footer>
-</body>
-</html>
+{% endblock %} 
