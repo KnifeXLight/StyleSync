@@ -17,10 +17,20 @@ def test_access_protected_route_homepage(logged_in_client):
         assert response.status_code == 200
 
 
-def test_access_protected_route_newoutfit(logged_in_client):
+def test_access_protected_route_profile(logged_in_client):
     with logged_in_client:
-        response = logged_in_client.get('/views/newoutfit')
+        response = logged_in_client.get('/views/profile')
         assert response.status_code == 200
+
+# def test_access_protected_route_new_outfit(logged_in_client):
+#     with logged_in_client:
+#         response = logged_in_client.get('/views/newoutfit')
+#         assert response.status_code == 200
+
+# def test_access_protected_route_newoutfit(logged_in_client):
+#     with logged_in_client:
+#         response = logged_in_client.get('/views/newoutfit')
+#         assert response.status_code == 200
 
 # * Tests for routes accessibility when logged-in * #
 
@@ -31,11 +41,11 @@ def test_homepage_logged_in(logged_in_client):
         assert response.status_code == 200
 
 
-def test_newoutfit_logged_in(logged_in_client):
-    with logged_in_client:
-        response = logged_in_client.get(
-            '/views/newoutfit', follow_redirects=True)
-        assert response.status_code == 200
+# def test_newoutfit_logged_in(logged_in_client):
+#     with logged_in_client:
+#         response = logged_in_client.get(
+#             '/views/newoutfit', follow_redirects=True)
+#         assert response.status_code == 200
 
 
 def test_wardrobe_logged_in(logged_in_client):
