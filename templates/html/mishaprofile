@@ -1,0 +1,98 @@
+{% extends '/html/base.html' %}
+{% block content %}
+<head>
+    <style>
+        .m-profile-container {
+            display:grid;
+            grid-template-columns: 300px 200px 300px 300px;
+            gap:10px;
+            grid-template-rows: 150px 100px 800px;
+
+        }
+        .m-menu-container {
+
+        }
+        .m-accessories-container {
+
+        }
+        .m-hat {
+
+        }
+        .m-accessory1 {
+
+        }
+        .m-accessory2 {
+            
+        }
+        .m-accessory3 {
+            
+        }
+        .m-accessory4 {
+            
+        }
+        .m-upper-lower-container {
+
+        }
+        .m-upper {
+
+        }
+        .m-upper {
+
+        }
+        .m-layers-container {
+
+        }
+        .m-layer1 {
+
+        }
+        .m-layer2 {
+
+        }
+    </style>
+</head>
+<div class="m-profile-container">
+    <div class="m-menu-container">
+        <div class="m-logo"></div>
+        <div class="m-weather"></div>
+        <div class="m-suggest-outfit"></div>
+        <div class="m-saved-outfit"></div>
+        <div class="m-new-outfit"></div>
+    </div>
+
+    <div class="m-accessories-container">
+        <div class="m-hat"></div>
+        <div class="m-accessory1"></div>
+        <div class="m-accessory2"></div>
+        <div class="m-accessory3"></div>
+        <div class="m-accessory4"></div>
+    </div>
+
+    <div class="m-upper-lower-container">
+        <div class="m-upper"></div>
+        <div class="m-lower"></div>
+
+    </div>
+
+    <div class="m-layers-container">
+        <div class="m-layer1"></div>
+        <div class="m-layer2"></div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

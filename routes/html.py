@@ -336,3 +336,8 @@ def create_new_outfit():
 @login_required
 def about():
     return render_template("/html/about.html", user=current_user)
+
+@html_routes_bp.route("/mishaprofile")
+@login_required
+def mishaprofile():
+    return render_template("/html/mishaprofile.html", user=current_user)
