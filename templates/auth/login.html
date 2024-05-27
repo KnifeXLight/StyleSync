@@ -1,7 +1,7 @@
 {% extends '/auth/base.html' %}
 {% block content %}
 <div class="container bg-white p-4 rounded shadow" style="max-width: 400px; text-align: center;">
-    <h1 class="mb-4"><span class="font-weight-bold" style="color: blueviolet;">StyleSync Login</span></h1>
+    <h1 class="mb-4"><span class="font-weight-bold" style="color: #8a2be2;">StyleSync Login</span></h1>
     <form method="post" action="/auth/login">
     {% with messages = get_flashed_messages() %}
         {% if messages %}
