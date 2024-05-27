@@ -39,19 +39,50 @@ def add_mock_data(app):
         user2 = db.session.query(User).filter_by(id=2).first()
 
         # Create Categories
-        category1 = Category(name='Type')
         category2 = Category(name='Weather')
         category3 = Category(name='Style')
+        category4 = Category(name='Upper Wear')
+        category5 = Category(name='Leg Wear')
+        category6 = Category(name='Shoes')
+        category7 = Category(name='Accessories')
 
-        db.session.add_all([category1, category2, category3])
+        db.session.add_all([category2, category3, category4, category5, category6, category7])
         db.session.commit()
 
         # Create Filters
         # Types
-        filter3 = Filter(name='Upper Wear', category=category1)
-        filter4 = Filter(name='Leg Wear', category=category1)
-        filter5 = Filter(name='Shoes', category=category1)
-        filter6 = Filter(name='Accessories', category=category1)
+        filter3 = Filter(name='Shirt', category=category4)
+        filter4 = Filter(name='Suit', category=category4)
+        filter5 = Filter(name='Jacket', category=category4)
+        filter6 = Filter(name='Dress', category=category4)
+        filter18 = Filter(name='Hoodie', category=category4)
+        filter19 = Filter(name='Sweater', category=category4)
+        filter20 = Filter(name='T-shirt', category=category4)
+        filter21 = Filter(name='Vest', category=category4)
+        filter22 = Filter(name='Blouse', category=category4)
+        filter23 = Filter(name='Coat', category=category4)
+
+        filter24 = Filter(name='Shorts', category=category5)
+        filter25 = Filter(name='Skirt', category=category5)
+        filter26 = Filter(name='Jeans', category=category5)
+        filter27 = Filter(name='Pants', category=category5)
+
+        filter28 = Filter(name='Flip Flops', category=category6)
+        filter29 = Filter(name='Boots', category=category6)
+        filter30 = Filter(name='Sandals', category=category6)
+        filter31 = Filter(name='Loafers', category=category6)
+        filter32 = Filter(name='Heels', category=category6)
+        filter33 = Filter(name='Dress Shoes', category=category6)
+
+        filter34 = Filter(name='Scarf', category=category7)
+        filter35 = Filter(name='Socks', category=category7)
+        filter36 = Filter(name='Bracelet', category=category7)
+        filter37 = Filter(name='Hat', category=category7)
+        filter38 = Filter(name='Tote', category=category7)
+        filter39 = Filter(name='Cap', category=category7)
+        filter40 = Filter(name='Purse', category=category7)
+        filter41 = Filter(name='Tie', category=category7)
+
 
         # Weather
         filter7 = Filter(name='Sunny', category=category2)
@@ -69,7 +100,9 @@ def add_mock_data(app):
         filter17 = Filter(name='Fancy', category=category3)
 
         db.session.add_all([filter3,filter4,filter5,filter6,filter7,filter8,filter9,filter10,filter11,filter12,filter13,
-                            filter14,filter15,filter16,filter17])
+                            filter14,filter15,filter16,filter17, filter18, filter19, filter20, filter21, filter22, filter23,
+                            filter24, filter25, filter26, filter27, filter28, filter29, filter30, filter31, filter32, filter33,
+                            filter34, filter35, filter36, filter37, filter38, filter39, filter40, filter41])
         db.session.commit()
 
         # Create Items
@@ -139,12 +172,12 @@ def add_mock_data(app):
         # Create Tags
         # User 1 tags
         # User 1 accessories
-        tag1 = Tag(item=item2, category=category1, filter=filter6)
-        tag2 = Tag(item=item3, category=category1, filter=filter6)
-        tag3 = Tag(item=item4, category=category1, filter=filter6)
-        tag4 = Tag(item=item5, category=category1, filter=filter6)
-        tag5 = Tag(item=item6, category=category1, filter=filter6)
-        tag6 = Tag(item=item7, category=category1, filter=filter6)
+        tag1 = Tag(item=item2, category=category7, filter=filter38)
+        tag2 = Tag(item=item3, category=category7, filter=filter40)
+        tag3 = Tag(item=item4, category=category7, filter=filter36)
+        tag4 = Tag(item=item5, category=category7, filter=filter37)
+        tag5 = Tag(item=item6, category=category7, filter=filter38)
+        tag6 = Tag(item=item7, category=category7, filter=filter39)
         tag40 = Tag(item=item7, category=category2, filter=filter7)
         tag52 = Tag(item=item2, category=category3, filter=filter14)
         tag53 = Tag(item=item3, category=category3, filter=filter12)
@@ -154,13 +187,13 @@ def add_mock_data(app):
         tag57 = Tag(item=item7, category=category3, filter=filter15)
 
         # User 1 bottoms
-        tag7 = Tag(item=item8, category=category1, filter=filter4)
-        tag8 = Tag(item=item9, category=category1, filter=filter4)
-        tag9 = Tag(item=item10, category=category1, filter=filter4)
-        tag10 = Tag(item=item11, category=category1, filter=filter4)
-        tag11 = Tag(item=item12, category=category1, filter=filter4)
-        tag12 = Tag(item=item13, category=category1, filter=filter4)
-        tag13 = Tag(item=item14, category=category1, filter=filter4)
+        tag7 = Tag(item=item8, category=category5, filter=filter25)
+        tag8 = Tag(item=item9, category=category5, filter=filter25)
+        tag9 = Tag(item=item10, category=category5, filter=filter26)
+        tag10 = Tag(item=item11, category=category5, filter=filter25)
+        tag11 = Tag(item=item12, category=category5, filter=filter24)
+        tag12 = Tag(item=item13, category=category5, filter=filter26)
+        tag13 = Tag(item=item14, category=category5, filter=filter25)
         tag41 = Tag(item=item14, category=category2, filter=filter7)
         tag58 = Tag(item=item8, category=category3, filter=filter13)
         tag59 = Tag(item=item9, category=category3, filter=filter14)
@@ -171,17 +204,17 @@ def add_mock_data(app):
         tag64 = Tag(item=item14, category=category3, filter=filter15)
 
         # User 1 tops
-        tag14 = Tag(item=item15, category=category1, filter=filter6)
-        tag15 = Tag(item=item16, category=category1, filter=filter3)
+        tag14 = Tag(item=item15, category=category4, filter=filter6)
+        tag15 = Tag(item=item16, category=category4, filter=filter6)
         tag65 = Tag(item=item15, category=category3, filter=filter14)
         tag66 = Tag(item=item16, category=category3, filter=filter17)
 
-        # User 1 shoes
-        tag16 = Tag(item=item17, category=category1, filter=filter5)
-        tag17 = Tag(item=item18, category=category1, filter=filter5)
-        tag18 = Tag(item=item19, category=category1, filter=filter5)
-        tag19 = Tag(item=item20, category=category1, filter=filter5)
-        tag20 = Tag(item=item21, category=category1, filter=filter5)
+        # User 1 shoes 16-20
+        tag16 = Tag(item=item17, category=category6, filter=filter29)
+        tag17 = Tag(item=item18, category=category6, filter=filter31)
+        tag18 = Tag(item=item19, category=category6, filter=filter32)
+        tag19 = Tag(item=item20, category=category6, filter=filter30)
+        tag20 = Tag(item=item21, category=category6, filter=filter29)
         tag42 = Tag(item=item20, category=category2, filter=filter7)
         tag43 = Tag(item=item21, category=category2, filter=filter8)
         tag67 = Tag(item=item17, category=category3, filter=filter13)
@@ -192,13 +225,13 @@ def add_mock_data(app):
 
         # User 2 tags
         # User 2 accessories
-        tag21 = Tag(item=item22, category=category1, filter=filter6)
-        tag22 = Tag(item=item23, category=category1, filter=filter6)
-        tag23 = Tag(item=item24, category=category1, filter=filter6)
-        tag24 = Tag(item=item25, category=category1, filter=filter6)
-        tag25 = Tag(item=item26, category=category1, filter=filter6)
-        tag26 = Tag(item=item27, category=category1, filter=filter6)
-        tag27 = Tag(item=item28, category=category1, filter=filter6)
+        tag21 = Tag(item=item22, category=category7, filter=filter34)
+        tag22 = Tag(item=item23, category=category7, filter=filter35)
+        tag23 = Tag(item=item24, category=category7, filter=filter36)
+        tag24 = Tag(item=item25, category=category7, filter=filter37)
+        tag25 = Tag(item=item26, category=category7, filter=filter37)
+        tag26 = Tag(item=item27, category=category7, filter=filter34)
+        tag27 = Tag(item=item28, category=category7, filter=filter41)
         tag44 = Tag(item=item22, category=category2, filter=filter8)
         tag45 = Tag(item=item27, category=category2, filter=filter9)
         tag72 = Tag(item=item22, category=category3, filter=filter12)
@@ -210,26 +243,26 @@ def add_mock_data(app):
         tag78 = Tag(item=item28, category=category3, filter=filter14)
 
         # User 2 bottoms
-        tag28 = Tag(item=item29, category=category1, filter=filter4)
+        tag28 = Tag(item=item29, category=category5, filter=filter27)
         tag79 = Tag(item=item29, category=category3, filter=filter12)
 
         # User 2 shoes
-        tag29 = Tag(item=item30, category=category1, filter=filter5)
-        tag30 = Tag(item=item31, category=category1, filter=filter5)
+        tag29 = Tag(item=item30, category=category6, filter=filter28)
+        tag30 = Tag(item=item31, category=category6, filter=filter33)
         tag46 = Tag(item=item30, category=category2, filter=filter7)
         tag80 = Tag(item=item30, category=category3, filter=filter12)
         tag81 = Tag(item=item31, category=category3, filter=filter14)
 
-        # User 2 tops
-        tag31 = Tag(item=item32, category=category1, filter=filter3)
-        tag32 = Tag(item=item33, category=category1, filter=filter3)
-        tag33 = Tag(item=item34, category=category1, filter=filter3)
-        tag34 = Tag(item=item35, category=category1, filter=filter3)
-        tag35 = Tag(item=item36, category=category1, filter=filter3)
-        tag36 = Tag(item=item37, category=category1, filter=filter3)
-        tag37 = Tag(item=item38, category=category1, filter=filter3)
-        tag38 = Tag(item=item39, category=category1, filter=filter3)
-        tag39 = Tag(item=item40, category=category1, filter=filter3)
+        # User 2 tops 31-39
+        tag31 = Tag(item=item32, category=category4, filter=filter3)
+        tag32 = Tag(item=item33, category=category4, filter=filter18)
+        tag33 = Tag(item=item34, category=category4, filter=filter5)
+        tag34 = Tag(item=item35, category=category4, filter=filter18)
+        tag35 = Tag(item=item36, category=category4, filter=filter4)
+        tag36 = Tag(item=item37, category=category4, filter=filter4)
+        tag37 = Tag(item=item38, category=category4, filter=filter19)
+        tag38 = Tag(item=item39, category=category4, filter=filter19)
+        tag39 = Tag(item=item40, category=category4, filter=filter3)
         tag47 = Tag(item=item33, category=category2, filter=filter8)
         tag48 = Tag(item=item34, category=category2, filter=filter9)
         tag49 = Tag(item=item35, category=category2, filter=filter8)
