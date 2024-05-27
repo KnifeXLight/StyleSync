@@ -259,6 +259,7 @@ def change_name_profile():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
+        password = request.form.get("password")
         print(name)
         print(email)
         user = db.session.get(User, current_user.id)
@@ -268,6 +269,10 @@ def change_name_profile():
                 current_user.name = name
             if email:
                 current_user.email = email
+            if password:  # If new password is provided
+                # Hash the new password before storing it
+                hashed_password = generate_password_hash(password)
+                current_user.password = hashed_password
             db.session.commit()
 
             flash(
