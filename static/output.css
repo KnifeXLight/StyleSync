@@ -8561,6 +8561,10 @@ html:has(.drawer-open.drawer-open) {
   margin-inline-end: auto;
 }
 
+.ml-24 {
+  margin-left: 6rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -8579,6 +8583,10 @@ html:has(.drawer-open.drawer-open) {
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mt-28 {
+  margin-top: 7rem;
 }
 
 .mt-3 {
@@ -8702,6 +8710,10 @@ html:has(.drawer-open.drawer-open) {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-1\/4 {
@@ -9082,6 +9094,10 @@ html:has(.drawer-open.drawer-open) {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .flex-row {
   flex-direction: row;
 }
@@ -9264,6 +9280,14 @@ html:has(.drawer-open.drawer-open) {
 
 .justify-items-stretch {
   justify-items: stretch;
+}
+
+.gap-10 {
+  gap: 2.5rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
 }
 
 .gap-4 {
@@ -9949,12 +9973,20 @@ html:has(.drawer-open.drawer-open) {
   padding-bottom: 1.25rem;
 }
 
+.pb-28 {
+  padding-bottom: 7rem;
+}
+
 .pb-3 {
   padding-bottom: 0.75rem;
 }
 
 .pb-4 {
   padding-bottom: 1rem;
+}
+
+.pl-28 {
+  padding-left: 7rem;
 }
 
 .pt-10 {
@@ -10676,6 +10708,11 @@ html:has(.drawer-open.drawer-open) {
 }
 
 @media (prefers-color-scheme: dark) {
+  .dark\:bg-white {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+
   @media (min-width: 1024px) {
     .dark\:lg\:hover\:\[paint-order\:markers\]:hover {
       paint-order: markers;

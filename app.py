@@ -34,7 +34,7 @@ def create_app(testing=False):
             msg.body = "Hello Flask message sent from Flask-Mailhhhh"
             mail.send(msg)
             return "Sent"
-    test_mail()
+    # test_mail()
 
     # Initialize the database
     db.init_app(app)

@@ -37,11 +37,11 @@ def newoutfit():
     all_items = {}
     for item in items:
         for tag in item.item_tags:
-            if tag.filter.name not in all_items:
-                all_items[tag.filter.name] = []
-                all_items[tag.filter.name].append(tag.item)
+            if tag.category.name not in all_items:
+                all_items[tag.category.name] = []
+                all_items[tag.category.name].append(tag.item)
             else:
-                all_items[tag.filter.name].append(tag.item)
+                all_items[tag.category.name].append(tag.item)
     print(all_items)
     return render_template("/html/newoutfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit)
 
@@ -64,20 +64,20 @@ def outfit(id):
     for item in outfit_items:
         print(item.item.item_tags)
         for tag in item.item.item_tags:
-            if tag.filter.name not in item_dict:
-                item_dict[tag.filter.name] = []
-                item_dict[tag.filter.name].append(tag.item)
+            if tag.category.name not in item_dict:
+                item_dict[tag.category.name] = []
+                item_dict[tag.category.name].append(tag.item)
             else:
-                item_dict[tag.filter.name].append(tag.item)
+                item_dict[tag.category.name].append(tag.item)
         print(item_dict)
     all_items = {}
     for item in items:
         for tag in item.item_tags:
-            if tag.filter.name not in all_items:
-                all_items[tag.filter.name] = []
-                all_items[tag.filter.name].append(tag.item)
+            if tag.category.name not in all_items:
+                all_items[tag.category.name] = []
+                all_items[tag.category.name].append(tag.item)
             else:
-                all_items[tag.filter.name].append(tag.item)
+                all_items[tag.category.name].append(tag.item)
     print(all_items)
     print(items)
     return render_template("/html/outfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)

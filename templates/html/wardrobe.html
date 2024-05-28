@@ -27,7 +27,7 @@
     }
   </style>
 </head>
-<div class="container mx-auto px-4">
+<div class="container px-4">
   <div class="flex flex-nowrap">
     <div class="w-1/4 min-h-screen bg-gray-100 p-4">
       <div class="flex flex-col items-center drop-shadow  ">
@@ -50,7 +50,7 @@
                   <button class="btn btn-outline w-full text-left " type="button" data-toggle="collapse-content" data-target="#collapse{{ category.name }}" aria-expanded="true" aria-controls="collapse{{ category.name }}">
                     {{ category.name }}   
                   </button>
-                  </div>q
+                  </div>
                   <div id="collapse{{ category.name }}" class="collapse-content" data-parent="#filterAccordion">
                     <div class="p-2">
                       {% for filter in category.filters %}
@@ -75,9 +75,9 @@
       </div>
     </div>
     <div class="flex-1 py-3">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pl-28">
         {% for item in items %}
-        <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvas{{item.id}}').classList.remove('hidden')">
+        <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow dark:bg-white" onclick="document.getElementById('offcanvas{{item.id}}').classList.remove('hidden')">
           <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = item.image_url) }}" alt="Image"></figure>
           <div class="card-body">
 
