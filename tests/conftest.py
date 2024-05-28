@@ -11,7 +11,7 @@ from app import create_app
 # Add the app_folder to the system path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from db import db
-from models import User, Item, Tag, Category, Filter
+from models import User, Item, Tag, Category, Filter, Outfit, OutfitItem
 
 
 @pytest.fixture

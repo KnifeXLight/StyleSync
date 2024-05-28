@@ -36,6 +36,11 @@ def test_wardrobe_logged_in(logged_in_client):
             '/views/wardrobe', follow_redirects=True)
         assert response.status_code == 200
 
+def test_newoutfit_logged_in(logged_in_client):
+    with logged_in_client:
+        response = logged_in_client.get(
+            '/views/newoutfit', follow_redirects=True)
+        assert response.status_code == 200
 
 # * Tests for routes accessibility when not logged in * #
 def test_homepage_not_logged_in(client):
@@ -134,7 +139,7 @@ def test_filter_items_valid_filter(logged_in_client, app):
             assert b'Test Item' in response.data
 
 
-# Test filtering items with no matching filter
+# * Test filtering items with no matching filter * #
 def test_filter_items_no_matching_filter(logged_in_client, app):
     with logged_in_client:
         with app.app_context():
