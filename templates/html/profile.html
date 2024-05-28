@@ -39,6 +39,63 @@
     }
     </style>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Listen for input changes on the email field
+            document.getElementById("email-label").addEventListener("input", function(event) {
+                updateEmail(event.target.value);
+            });
+    
+            // Function to update the email asynchronously
+            function updateEmail(newEmail) {
+                var formData = new FormData();
+                formData.append('email', newEmail);
+    
+                fetch('/views/profile', {
+                    method: "POST",
+                    body: formData
+                }).then(response => {
+                    // Handle response if needed
+                    console.log("Email updated successfully");
+                }).catch(error => {
+                    console.error("Error updating email:", error);
+                });
+            }
+    
+            // Remaining code for password validation and form submission...
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Listen for input changes on the username field
+            document.getElementById("username").addEventListener("input", function(event) {
+                updateUsername(event.target.value);
+            });
+    
+            // Function to update the username asynchronously
+            function updateUsername(newUsername) {
+                var formData = new FormData();
+                formData.append('name', newUsername);
+    
+                fetch('/views/profile', {
+                    method: "POST",
+                    body: formData
+                }).then(response => {
+                    // Handle response if needed
+                    console.log("Username updated successfully");
+                }).catch(error => {
+                    console.error("Error updating username:", error);
+                });
+            }
+    
+            // Remaining code for password validation and form submission...
+        });
+    </script>
+    
+    
+
+    
+    
+    <script>
         function validatePasswords() {
             var password = document.getElementById("password").value;
             var confirm_password = document.getElementById("confirm_password").value;
@@ -60,8 +117,8 @@
                     <div id="Username-label">
                         <label for="username">Username</label>
                     </div>
-                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button>
+                    <input type="text" class="form-control" id="username" name="name" value="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <!-- <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button> -->
                 </div>
                 <br>
             </form>
@@ -71,8 +128,8 @@
                     <div id="email-name">
                         <label for="email">Email</label>
                     </div>
-                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button>
+                    <input type="text" class="form-control" id="email-label" name="email" value="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
+                    <!-- <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button> -->
                 </div>
                 <br>
             </form>
