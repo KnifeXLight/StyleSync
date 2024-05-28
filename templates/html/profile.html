@@ -38,7 +38,7 @@
         margin-bottom: 8%;
     }
     </style>
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Listen for input changes on the email field
             document.getElementById("email-label").addEventListener("input", function(event) {
@@ -89,13 +89,35 @@
     
             // Remaining code for password validation and form submission...
         });
-    </script>
-    
-    
-
-    
-    
+    </script> -->
     <script>
+        function updateField(field, value) {
+            var formData = new FormData();
+            formData.append(field, value);
+    
+            fetch('/views/profile', {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                // Handle response if needed
+                console.log(`${field} updated successfully`);
+            }).catch(error => {
+                console.error(`Error updating ${field}:`, error);
+            });
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            // Listen for input changes on the email field
+            document.getElementById("email-label").addEventListener("input", function(event) {
+                updateField('email', event.target.value);
+            });
+    
+            // Listen for input changes on the username field
+            document.getElementById("username").addEventListener("input", function(event) {
+                updateField('name', event.target.value);
+            });
+        });
+    
         function validatePasswords() {
             var password = document.getElementById("password").value;
             var confirm_password = document.getElementById("confirm_password").value;
@@ -106,35 +128,45 @@
             }
             return true; // Allow form submission
         }
+    
+        function submitProfileData() {
+            // Add your form submission logic here
+        }
+    
+        function validateAndSubmit() {
+            if (validatePasswords()) {
+                submitProfileData();
+                return true;
+            }
+            return false;
+        }
     </script>
 </head>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-8">
             <h1>Hello {{ current_user.name }}</h1>
-            <form action="/views/profile" method="POST">
+            <form action="/views/profile" method="POST" id="name-form-id">
                 <div class="input-group mb-3">
                     <div id="Username-label">
                         <label for="username">Username</label>
                     </div>
-                    <input type="text" class="form-control" id="username" name="name" value="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <!-- <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button> -->
+                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
                 </div>
                 <br>
             </form>
 
-            <form action="/views/profile" method="POST">
+            <form action="/views/profile" method="POST" id="email-form-id">
                 <div class="input-group mb-3">
                     <div id="email-name">
                         <label for="email">Email</label>
                     </div>
-                    <input type="text" class="form-control" id="email-label" name="email" value="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
-                    <!-- <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button> -->
+                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
                 </div>
                 <br>
             </form>
 
-            <form action="/views/profile" method="POST" onsubmit="return validatePasswords();">
+            <form action="/views/profile" method="POST" onsubmit="return validateAndSubmit()">
                 <div class="input-group mb-3">
                     <div id="email-name">
                         <label for="password">New Password:</label>
@@ -149,11 +181,12 @@
                     <input type="password" class="form-control" id="confirm_password" name="confirm_password">
                 </div>
                 <div class="input-group mb-3">
-                    <input type="submit" value="Update Profile" class="btn btn-primary">
+                    <input type="submit" value="Update Profile" class="btn btn-primary" id="submit-profile-changes">
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
