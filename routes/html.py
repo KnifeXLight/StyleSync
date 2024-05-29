@@ -388,3 +388,10 @@ def change_outfit_name(id):
     outfit.name = request_data["name"]
     db.session.commit()
     return redirect(url_for("html.outfit", id=outfit.id))
+@html_routes_bp.route("/delete_outfit/<int:id>", methods=["GET"])
+@login_required
+def delete_outfit(id):
+    outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
+    db.session.delete(outfit)
+    db.session.commit()
+    return redirect(url_for("html.home"))

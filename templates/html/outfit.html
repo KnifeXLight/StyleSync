@@ -77,12 +77,14 @@
         }
     </style>
 </head>
-<div class="flex justify-center items-center">
+<div class="flex flex-row justify-center items-center ">
     <form method="post" action="{{url_for('html.change_outfit_name', id = outfit.id)}}">
-        <label for="name">Name</label>
-        <input type="text" name="name" value="{{outfit.name}}" />
-        <button type="submit" class="btn btn-primary">Change Name</button>
+        <label class="input input-bordered flex items-center gap-2">
+            Name
+            <input type="text" class="grow" placeholder="{{outfit.name}}" name="name" value="{{outfit.name}}"/>
+        </label>
     </form>
+    <button type="submit" class="btn btn-primary mx-3">Change Name</button>
 </div>
 <div class="grid grid-cols-5 grid-flow-col gap-3">
     <div class="flex flex-nowrap">
@@ -136,7 +138,7 @@
     <div id="row1 ">
         <div class="container-fluid py-5 mt-28 pb-28">
             <div class="grid grid-flow-row gap-4">
-                <h3>Accessories</h3>
+                <h3 class="text-center">Accessories</h3>
                 {% if 'Accessories' in item_dict %}
                 {% for item in item_dict['Accessories'] %}
                 <div class="card  w-2/3 ml-24 shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvas{{item.id}}').classList.remove('hidden')">
@@ -223,7 +225,8 @@
         <div id="row2 px-3">
             <div class="container-fluid py-5 px-3" >
                 <div class="grid grid-flow-row gap-4">
-                    <h3>Upper Wear</h3>
+                    <h3 class="text-center">  </h3>
+                    <br>
                     {% if 'Upper Wear' in item_dict %}
                     {% for item in item_dict['Upper Wear'] %}
                     <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvas{{item.id}}').classList.remove('hidden')">
@@ -231,10 +234,6 @@
                         <div class="card-body">
               
                           <div class="card-actions justify-end">
-                            {% for tag in item.item_tags %}
-                            <div class="badge badge-outline badge-primary p-3"><i class="fa-solid fa-tag -ml-0 m-1"></i>{{ tag.filter.name }}</div>
-
-                            {% endfor %}
                         </div>
                         </div>
                     </div>
@@ -315,9 +314,6 @@
                         <div class="card-body">
               
                           <div class="card-actions justify-end">
-                            {% for tag in item.item_tags %}
-                            <div class="badge badge-outline badge-primary p-3"><i class="fa-solid fa-tag -ml-0 m-1"></i>{{ tag.filter.name }}</div>
-                            {% endfor %}
                           </div>
                         </div>
                     </div>
@@ -398,9 +394,7 @@
                         <div class="card-body">
               
                           <div class="card-actions justify-end">
-                            {% for tag in item.item_tags %}
-                            <div class="badge badge-outline badge-primary p-3"><i class="fa-solid fa-tag -ml-0 m-1"></i>{{ tag.filter.name }}</div>
-                            {% endfor %}
+
                           </div>
                         </div>
                     </div>
@@ -481,7 +475,9 @@
         <div id="row 3">
             <div class="container-fluid py-5">
                 <div class="grid grid-flow-row gap-4">
-                    <h3>Accessories</h3>
+                    <br>
+                    <br>
+                    <h3 class="text-center">Outer Wear</h3>
                     {% if 'Outer Wear' in item_dict %}
                     {% for item in item_dict['Outer Wear'] %}
                     <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasout{{item.id}}').classList.remove('hidden')">
@@ -580,9 +576,11 @@
     </div>
     <div class="justify-center items-center flex my-5">
         <div class="row justify-content-between">
+            <a href="{{url_for('html.home')}}" class="btn btn-secondary">Back</a>
             <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#additem" onclick="document.getElementById('additem').classList.remove('hidden')">
                 Add Item
             </button>
+            <a href="{{url_for('html.delete_outfit', id=outfit.id)}}" class="btn btn-secondary">Delete</a>
         </div>
         <div id="additem" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex justify-center items-end">
             <div class="bg-white w-full h-3/4 overflow-y-auto p-4">
