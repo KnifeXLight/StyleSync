@@ -15,11 +15,44 @@ html_routes_bp = Blueprint("html", __name__)
 @html_routes_bp.route("/home")
 @login_required
 def home():
-    print(current_user)
-    print(request.endpoint)
-    outfits = db.session.query(Outfit).filter(
-        Outfit.user_id == current_user.id).all()
-    return render_template("/html/homepage.html", user=current_user, outfits=outfits)
+    id = 1
+    categories = db.session.query(Category).all()
+    filters = db.session.query(Filter).all()
+    items = db.session.query(Item).filter(
+        Item.user_id == current_user.id).all()
+    outfit = db.session.query(Outfit).filter(
+        Outfit.id == id, Outfit.user_id == current_user.id).first()
+    if not outfit:
+        return redirect(url_for("html.home"))
+    outfit_items = db.session.query(OutfitItem).filter(
+        OutfitItem.outfit_id == outfit.id).all()
+    item_dict = {}
+    # print(outfit_items)
+    for item in outfit_items:
+        # print(item.item.item_tags)
+        for tag in item.item.item_tags:
+            if tag.category.name not in item_dict:
+                item_dict[tag.category.name] = []
+                item_dict[tag.category.name].append(tag.item)
+            else:
+                item_dict[tag.category.name].append(tag.item)
+        # print(item_dict)
+    all_items = {}
+    for item in items:
+        for tag in item.item_tags:
+            if tag.category.name not in all_items:
+                all_items[tag.category.name] = []
+                all_items[tag.category.name].append(tag.item)
+            else:
+                all_items[tag.category.name].append(tag.item)
+    # print(all_items)
+    # print(items)
+    item48 = db.session.query(Item).filter(Item.id == 45).first()
+    print(item48.item_tags)
+    for tag in item48.item_tags:
+        print(tag.category.name)
+    print(all_items)
+    return render_template("/html/homepage.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)
 
 
 @html_routes_bp.route("/newoutfit")
@@ -60,16 +93,16 @@ def outfit(id):
     outfit_items = db.session.query(OutfitItem).filter(
         OutfitItem.outfit_id == outfit.id).all()
     item_dict = {}
-    print(outfit_items)
+    # print(outfit_items)
     for item in outfit_items:
-        print(item.item.item_tags)
+        # print(item.item.item_tags)
         for tag in item.item.item_tags:
             if tag.category.name not in item_dict:
                 item_dict[tag.category.name] = []
                 item_dict[tag.category.name].append(tag.item)
             else:
                 item_dict[tag.category.name].append(tag.item)
-        print(item_dict)
+        # print(item_dict)
     all_items = {}
     for item in items:
         for tag in item.item_tags:
@@ -78,8 +111,13 @@ def outfit(id):
                 all_items[tag.category.name].append(tag.item)
             else:
                 all_items[tag.category.name].append(tag.item)
+    # print(all_items)
+    # print(items)
+    item48 = db.session.query(Item).filter(Item.id == 45).first()
+    print(item48.item_tags)
+    for tag in item48.item_tags:
+        print(tag.category.name)
     print(all_items)
-    print(items)
     return render_template("/html/outfit.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)
 
 

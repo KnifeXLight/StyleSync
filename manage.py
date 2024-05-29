@@ -45,22 +45,23 @@ def add_mock_data(app):
         category5 = Category(name='Leg Wear')
         category6 = Category(name='Shoes')
         category7 = Category(name='Accessories')
+        category8 = Category(name='Outer Wear')
 
-        db.session.add_all([category2, category3, category4, category5, category6, category7])
+        db.session.add_all([category2, category3, category4, category5, category6, category7, category8])
         db.session.commit()
 
         # Create Filters
         # Types
         filter3 = Filter(name='Shirt', category=category4)
         filter4 = Filter(name='Suit', category=category4)
-        filter5 = Filter(name='Jacket', category=category4)
+        filter5 = Filter(name='Jacket', category=category8)
         filter6 = Filter(name='Dress', category=category4)
-        filter18 = Filter(name='Hoodie', category=category4)
-        filter19 = Filter(name='Sweater', category=category4)
+        filter18 = Filter(name='Hoodie', category=category8)
+        filter19 = Filter(name='Sweater', category=category8)
         filter20 = Filter(name='T-shirt', category=category4)
         filter21 = Filter(name='Vest', category=category4)
         filter22 = Filter(name='Top', category=category4)
-        filter23 = Filter(name='Coat', category=category4)
+        filter23 = Filter(name='Coat', category=category8)
 
         filter24 = Filter(name='Shorts', category=category5)
         filter25 = Filter(name='Skirt', category=category5)
@@ -220,14 +221,14 @@ def add_mock_data(app):
         tag101 = Tag(item=item45, category=category4, filter=filter22)
         tag102 = Tag(item=item45, category=category3, filter=filter16)
         tag103 = Tag(item=item45, category=category2, filter=filter10)
-        tag104 = Tag(item=item46, category=category4, filter=filter5)
+        tag104 = Tag(item=item46, category=category8, filter=filter5)
         tag105 = Tag(item=item46, category=category3, filter=filter13)
         tag106 = Tag(item=item46, category=category2, filter=filter8)
-        tag107 = Tag(item=item47, category=category4, filter=filter23)
+        tag107 = Tag(item=item47, category=category8, filter=filter23)
         tag108 = Tag(item=item47, category=category3, filter=filter17)
-        tag109 = Tag(item=item47, category=category2, filter=filter9)
-        tag110 = Tag(item=item48, category=category4, filter=filter5)
-        tag111 = Tag(item=item48, category=category3, filter=filter16)
+        tag109 = Tag(item=item47, category=category2, filter=filter5)
+        tag110 = Tag(item=item48, category=category8, filter=filter8)
+        tag111 = Tag(item=item48, category=category2, filter=filter16)
         tag112 = Tag(item=item48, category=category2, filter=filter11)
 
         # User 1 shoes

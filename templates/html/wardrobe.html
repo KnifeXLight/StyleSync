@@ -40,14 +40,14 @@
             </div>
             <script async src="https://app2.weatherwidget.org/js/?id=ww_2a86b77fb94b6"></script>
           </li>
-          <li class="w-full">
+          <li class="w-full dark:bg-white">
             <form action="/views/wardrobe/filter" method="post">
               <div class="w-full" id="filterAccordion">
                 {% for category in categories %}
                 <div class="mb-2 collapse collapse-plus">
                   <input type="checkbox" name="{{category.name}}"/> 
                   <div class="collapse-title text-xl font-medium">
-                  <button class="btn btn-outline w-full text-left " type="button" data-toggle="collapse-content" data-target="#collapse{{ category.name }}" aria-expanded="true" aria-controls="collapse{{ category.name }}">
+                  <button class="btn btn-outline w-full text-left text-black dark:text-slate-50 " type="button" data-toggle="collapse-content" data-target="#collapse{{ category.name }}" aria-expanded="true" aria-controls="collapse{{ category.name }}">
                     {{ category.name }}   
                   </button>
                   </div>
@@ -83,10 +83,10 @@
 
             <div class="card-actions justify-end">
               {% for tag in item.item_tags %}
-              <div class="badge badge-outline badge-primary p-3"><i class="fa-solid fa-tag -ml-0 m-1"></i>{{ tag.filter.name }}</div>
+              <div class="badge badge-outline badge-primary p-3 dark:bg-green-50"><i class="fa-solid fa-tag -ml-0 m-1"></i>{{ tag.filter.name }}</div>
               {% endfor %}
             </div>
-          </div>
+          </div>  
         </div>  
 
         <!-- Offcanvas element for each item -->
