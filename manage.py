@@ -296,7 +296,7 @@ def add_mock_data(app):
                             outfit_item14, outfit_item15, outfit_item16])
         db.session.commit()
 
-if __name__ == '__main__':
+def main():
     argv = sys.argv
     if len(argv) > 1 and argv[1] == 'drop':
         drop_tables(app=create_app())
@@ -319,3 +319,6 @@ if __name__ == '__main__':
     else:
         print("Invalid command. Please use 'create', 'drop', or 'seed' as arguments")
         sys.exit()
+
+if __name__ == '__main__':
+    main()

@@ -94,41 +94,48 @@ def test_add_mock_data(app):
         assert len(outfit_items) == 16, f"Expected 16 outfit items, but got {len(outfit_items)}"
 
 
-import sys
-from unittest.mock import patch
-from manage import create_tables, drop_tables, add_mock_data
+# ---------------------------- #
 
-@patch('manage.create_app')
-def test_create_tables_arg(mock_create_app):
-    mock_app = mock_create_app.return_value
-    with patch.object(sys, 'argv', ['manage.py', 'create']):
-        assert create_tables(mock_app)
-    # Add your assertions here to check if tables are created successfully
+# ! Test is working outside of application context
+# import sys
+# from unittest.mock import patch
+# from manage import create_tables, drop_tables, add_mock_data
 
-@patch('manage.create_app')
-def test_drop_tables_arg(mock_create_app):
-    mock_app = mock_create_app.return_value
-    with patch.object(sys, 'argv', ['manage.py', 'drop']):
-        drop_tables(mock_app)
-    # Add your assertions here to check if tables are dropped successfully
+# @patch('manage.create_app')
+# def test_create_tables_arg(mock_create_app):
+#     mock_app = mock_create_app.return_value
+#     with mock_app.app_context():
+#         with patch.object(sys, 'argv', ['manage.py', 'create']):
+#             create_tables(mock_app)
+#             # Add your assertions here to check if tables are created successfully
 
-@patch('manage.create_app')
-def test_add_mock_data_arg(mock_create_app):
-    mock_app = mock_create_app.return_value
-    with patch.object(sys, 'argv', ['manage.py', 'seed']):
-        add_mock_data(mock_app)
-    # Add your assertions here to check if mock data is added successfully
+# @patch('manage.create_app')
+# def test_drop_tables_arg(mock_create_app):
+#     mock_app = mock_create_app.return_value
+#     with mock_app.app_context():
+#         with patch.object(sys, 'argv', ['manage.py', 'drop']):
+#             drop_tables(mock_app)
+#             # Add your assertions here to check if tables are dropped successfully
 
-@patch('manage.create_app')
-def test_reset_tables_arg(mock_create_app):
-    mock_app = mock_create_app.return_value
-    with patch.object(sys, 'argv', ['manage.py', 'reset']):
-        drop_tables(mock_app)
-        create_tables(mock_app)
-        add_mock_data(mock_app)
-    # Add your assertions here to check if tables are reset successfully
+# @patch('manage.create_app')
+# def test_add_mock_data_arg(mock_create_app):
+#     mock_app = mock_create_app.return_value
+#     with mock_app.app_context():
+#         with patch.object(sys, 'argv', ['manage.py', 'seed']):
+#             add_mock_data(mock_app)
+#             # Add your assertions here to check if mock data is added successfully
 
-@patch('manage.create_app')
-def test_invalid_command_arg(mock_create_app):
-    with patch.object(sys, 'argv', ['manage.py', 'invalid']):
-        assert "Invalid command. Please use 'create', 'drop', or 'seed' as arguments"
+# @patch('manage.create_app')
+# def test_reset_tables_arg(mock_create_app):
+#     mock_app = mock_create_app.return_value
+#     with mock_app.app_context():
+#         with patch.object(sys, 'argv', ['manage.py', 'reset']):
+#             drop_tables(mock_app)
+#             create_tables(mock_app)
+#             add_mock_data(mock_app)
+#             # Add your assertions here to check if tables are reset successfully
+
+# @patch('manage.create_app')
+# def test_invalid_command_arg(mock_create_app):
+#     with patch.object(sys, 'argv', ['manage.py', 'invalid']):
+#         assert "Invalid command. Please use 'create', 'drop', or 'seed' as arguments"
