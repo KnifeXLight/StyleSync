@@ -4,6 +4,9 @@ from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
 from time import time
+from itsdangerous import URLSafeTimedSerializer
+from flask import current_app
+from flask_mail import Message, Mail
 
 auth_routes_bp = Blueprint("authorization", __name__)
 
@@ -84,16 +87,26 @@ def logout():
     return redirect(url_for("authorization.home"))
 
 
-# @auth_routes_bp.route("/auth/reset_password")
-# def reset_password():
-#     return render_template("/auth/reset_password.html")
-# @auth_routes_bp.route("/auth/reset_password", methods=["POST"])
-# def reset_password_post():
-#     email = request.form.get("email")
-#     user = User.query.filter_by(email=email).first()
-#     if user:
-#         token = user.get_reset_token()
-#         send_email(user)
-#         print(token)
-#         return redirect(url_for("authorization.home"))
-#     return redirect(url_for("authorization.home"))
+@auth_routes_bp.route("/auth/reset_password")
+def reset_password():
+    return render_template("/auth/reset_password.html")
+@auth_routes_bp.route("/auth/reset_password", methods=["POST"])
+def reset_password_post():
+    email = request.form.get("email")
+    user = User.query.filter_by(email=email).first()
+    if user:
+        token = user.get_reset_token()
+        send_email(user)
+        print(token)
+        return redirect(url_for("authorization.home"))
+    return redirect(url_for("authorization.home"))
+def send_reset_email(user): #<---HERE
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request',
+        sender=current_app.config['MAIL_USERNAME'],
+        recipients=[user.email])
+    msg.body = f"""To reset your password follow this link:
+{url_for('users.reset', token=token, _external=True)}
+If you ignore this email no changes will be made
+"""
+    mail.send(msg)

@@ -173,6 +173,40 @@
                           </div>
                         </div>
                     </div>
+                    <div class=" w-1/2 ml-24 shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasrow1').classList.remove('hidden')">
+                        <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = '/items/stockpics/blingstock.png') }}" alt="Image"></figure> 
+                    </div>
+                    <div id="offcanvasrow1" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex justify-center items-end">
+                        <div class="bg-white w-full h-3/4 overflow-y-auto p-4">
+                            <div class="flex justify-between items-center">
+                                <h5 class="text-xl font-bold">Choose Accessory</h5>
+                                <button class="btn btn-sm btn-circle fixed" onclick="document.getElementById('offcanvasrow1').classList.add('hidden')">✕</button>
+                            </div>
+                            <div class="grid grid-flow-col">
+                                {% for canvas_item in items['Accessories'] %}
+                                <div>
+                                <form action="{{url_for('html.add_item', id = outfit.id)}}" method="post">
+                                    <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                    <input type="hidden" name="item_to_be_replaced_id" value="">
+    
+                                    <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                                <button type="submit">
+                                <div class="grid-item">
+                                  <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottom" style="width: 25rem">
+                                    <figure><img class="object-scale-down h-48 p-3" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/></figure>
+                                    <div class="card-body">
+                                      <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                    </div>
+                                </div>
+                              </div>
+                              </button   >
+                              </form>
+    
+                                </div>
+                              {% endfor %}
+                              </div>
+                            </div>
+                        </div>
                 {% endfor %}
                 {% else %}
                 <div class=" w-1/2 ml-24 shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasrow1').classList.remove('hidden')">
@@ -519,27 +553,58 @@
                               </div>
                             </div>
                         </div>
+                        <div class="card compact shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasouter').classList.remove('hidden')">
+                            <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = '/items/stockpics/jacketstock.png') }}" alt="Image"></figure>
+                            <div class="card-body">
+                                <h5 class="card-title"></h5>
+                            </div> 
+                        </div>
+    
+                        <div id="offcanvasouter" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex justify-center items-end">
+                            <div class="bg-white w-full h-3/4 overflow-y-auto p-4">
+                                <div class="flex justify-between items-center">
+                                    <h5 class="text-xl font-bold">Choose Shoes</h5>
+                                    <button class="btn btn-sm btn-circle" onclick="document.getElementById('offcanvasouter').classList.add('hidden')">✕</button>
+                                </div>
+                                <div class="grid grid-cols-4">
+                                    {% for canvas_item in items['Outer Wear'] %}
+                                    <div>
+                                    <form action="{{url_for('html.add_item', id=outfit.id)}}" method="post">
+                                        <input type="hidden" name="item_id" value="{{canvas_item.id}}">
+                                        <input type="hidden" name="item_to_be_replaced_id" value="">
+        
+                                        <input type="hidden" name="item_name" value="{{canvas_item.name}}">
+                                    <button type="submit">
+                                      <div class="card" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottoma" aria-controls="offcanvasBottom" style="width: 25rem">
+                                        <figure><img class="object-scale-down h-48 p-3" src="{{ url_for('static', filename = canvas_item.image_url) }}" alt="Image"/></figure>
+                                        <div class="card-body">
+                                          <h5 class="card-title text-center">{{canvas_item.name}}</h5>
+                                        </div>
+                                    </div>
+                                  
+                                  </button>
+                                  </form>
+                                    </div>
+                                  {% endfor %}
+                                  </div>
+                                </div>
+                            </div>
                     {% endfor %}
                     
                     {% else %}
                     <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasouter').classList.remove('hidden')">
                         <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = '/items/stockpics/sweaterstock.png') }}" alt="Image"></figure>
                         <div class="card-body">
-                            <h5 class="card-title">Add Accessories</h5>
+                            <h5 class="card-title"></h5>
                         </div> 
                     </div>
                     <div class="card compact shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasouter').classList.remove('hidden')">
                         <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = '/items/stockpics/jacketstock.png') }}" alt="Image"></figure>
                         <div class="card-body">
-                            <h5 class="card-title">Add Accessories</h5>
+                            <h5 class="card-title"></h5>
                         </div> 
                     </div>
-                    <!-- <div class="card shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvasa').classList.remove('hidden')">
-                        <figure><img class="object-scale-down w-full h-48 pt-6 "  src="{{ url_for('static', filename = '/items/stockpics/hatstock.png') }}" alt="Image"></figure>
-                        <div class="card-body">
-                            <h5 class="card-title">Add Accessories</h5>
-                        </div> 
-                    </div> -->
+
                     <div id="offcanvasouter" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex justify-center items-end">
                         <div class="bg-white w-full h-3/4 overflow-y-auto p-4">
                             <div class="flex justify-between items-center">
