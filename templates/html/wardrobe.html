@@ -93,12 +93,11 @@
         <div id="offcanvas{{item.id}}" class="fixed inset-0 hidden z-50 bg-black bg-opacity-50 flex justify-center items-end">
           <div class="bg-white w-full h-3/4 overflow-y-auto p-4">
             <div class="flex justify-between items-center">
-              <h5 class="text-xl font-bold">Picture</h5>
+              <h5 class="text-xl font-bold">{{item.name}}</h5>
               <button class="btn btn-sm btn-circle" onclick="document.getElementById('offcanvas{{item.id}}').classList.add('hidden')">✕</button>
             </div>
             <div class="text-center my-4">
-              <p>Selected Picture Details...{{item.id}}</p>
-              <p>{{item.name}}</p>
+              <p>Selected Details...{{item.id}}</p>
               <img src="{{ url_for('static', filename = item.image_url) }}" alt="Image" class="object-cover w-48 h-48 mx-auto">
               <div class="mt-4 space-x-2">
                 <a href="{{url_for('html.item', id=item.id)}}" class="btn bg-green-400">View</a>

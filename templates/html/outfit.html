@@ -79,7 +79,9 @@
 </head>
 <div class="flex justify-center items-center">
     <form method="post" action="{{url_for('html.change_outfit_name', id = outfit.id)}}">
+        <label for="name">Name</label>
         <input type="text" name="name" value="{{outfit.name}}" />
+        <button type="submit" class="btn btn-primary">Change Name</button>
     </form>
 </div>
 <div class="grid grid-cols-5 grid-flow-col gap-3">
@@ -588,7 +590,7 @@
                     <h5 class="text-xl font-bold">Add Item</h5>
                     <button class="btn btn-sm btn-circle" onclick="document.getElementById('additem').classList.add('hidden')">✕</button>
                 </div>
-                <div class="grid grid-cols-4">
+                <div class="grid grid-cols-4 py-6">
                 
                     {% for canvas_item in item_list %}
                     <div>

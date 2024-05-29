@@ -100,6 +100,7 @@ class Tag(db.Model):
 class Outfit(db.Model):
     id = db.Column(Integer, primary_key=True)
     user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
+    name = db.Column(String(200), nullable=False, default="Untitled Outfit")
     created = db.Column(DateTime, nullable=True, default=None)
     rating = db.Column(Integer, nullable=True)
     user = relationship("User", back_populates="outfits")

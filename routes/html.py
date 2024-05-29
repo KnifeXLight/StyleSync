@@ -6,6 +6,7 @@ from models import User, Outfit, Item, OutfitItem, Category, Filter, Tag
 from rembg import remove
 from PIL import Image
 import os
+from sqlalchemy import func
 # import webbrowser
 # from io import BytesIO
 from werkzeug.utils import secure_filename
@@ -15,13 +16,14 @@ html_routes_bp = Blueprint("html", __name__)
 @html_routes_bp.route("/home")
 @login_required
 def home():
-    id = 1
     categories = db.session.query(Category).all()
     filters = db.session.query(Filter).all()
     items = db.session.query(Item).filter(
         Item.user_id == current_user.id).all()
     outfit = db.session.query(Outfit).filter(
-        Outfit.id == id, Outfit.user_id == current_user.id).first()
+        Outfit.user_id == current_user.id).order_by(func.random()).first()
+    alloutfits = db.session.query(Outfit).filter(
+        Outfit.user_id == current_user.id).all()
     if not outfit:
         return redirect(url_for("html.home"))
     outfit_items = db.session.query(OutfitItem).filter(
@@ -52,7 +54,7 @@ def home():
     for tag in item48.item_tags:
         print(tag.category.name)
     print(all_items)
-    return render_template("/html/homepage.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items)
+    return render_template("/html/homepage.html", user=current_user, categories=categories, filters=filters, items=all_items, outfit=outfit, item_dict=item_dict, item_list=items, alloutfits=alloutfits)
 
 
 @html_routes_bp.route("/newoutfit")
@@ -374,3 +376,15 @@ def create_new_outfit():
 @login_required
 def about():
     return render_template("/html/about.html", user=current_user)
+
+@html_routes_bp.route("/change_outfit_name/<int:id>", methods=["POST"])
+@login_required
+def change_outfit_name(id):
+    request_data = request.form.to_dict()
+    print(request_data)
+    outfit = db.session.query(Outfit).filter(Outfit.id == id).first()
+    print(outfit)
+    print(outfit.name)
+    outfit.name = request_data["name"]
+    db.session.commit()
+    return redirect(url_for("html.outfit", id=outfit.id))
