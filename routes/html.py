@@ -173,26 +173,6 @@ def filter():
     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=items)
 
 
-# @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
-# @login_required
-# def filter_post():
-#     request_data = request.form.to_dict()
-#     print(request_data)
-#     print(current_user.id)
-#     categories = db.session.query(Category).all()
-#     filters = db.session.query(Filter).all()
-#     item = []
-#     for key, value in request_data.items():
-#         statement = db.session.query(Tag).filter(
-#             Tag.filter_id == value, Item.user_id == current_user.id).all()
-#         print(statement)
-#         for tag in statement:
-#             if tag.item.user_id == current_user.id and tag.item not in item:
-#                 item.append(tag.item)
-#     print(item)
-
-#     return render_template("/html/wardrobe.html", user=current_user, categories=categories, filters=filters, items=item)
-
 @html_routes_bp.route("/wardrobe/filter", methods=["POST"])
 @login_required
 def filter_post():

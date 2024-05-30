@@ -55,7 +55,7 @@ class Item(db.Model):
     id = db.Column(Integer, primary_key=True)
     name = db.Column(String(200), nullable=False)
     image_url = db.Column(String(200), nullable=False)
-    user_id = db.Column(Integer, ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(Integer, ForeignKey('user.id'), nullable=True)
     user = relationship("User", back_populates="items")
     item_tags = relationship("Tag", back_populates="item", cascade="all, delete-orphan")
     outfit_items = relationship(
