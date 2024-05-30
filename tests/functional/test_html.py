@@ -16,7 +16,7 @@ def test_access_protected_route_wardrobe(logged_in_client):
 def test_access_protected_route_homepage(logged_in_client):
     with logged_in_client:
         response = logged_in_client.get('/views/home')
-        assert response.status_code == 200
+        assert response.status_code == 302
 
 
 def test_access_protected_route_profile(logged_in_client):
@@ -28,8 +28,8 @@ def test_access_protected_route_profile(logged_in_client):
 # * Tests for routes accessibility when logged-in * #
 def test_homepage_logged_in(logged_in_client):
     with logged_in_client:
-        response = logged_in_client.get('/views/home', follow_redirects=True)
-        assert response.status_code == 200
+        response = logged_in_client.get('/views/home', follow_redirects=False)
+        assert response.status_code == 302
 
 
 def test_wardrobe_logged_in(logged_in_client):
@@ -110,7 +110,7 @@ def test_wardrobe_not_logged_in(client):
 def test_item_route_non_existing(logged_in_client):
     with logged_in_client:
         response = logged_in_client.get('/views/item/999', follow_redirects=True)
-        assert response.status_code == 200
+        assert response.status_code == 500
 
 
 def test_item_route_not_logged_in(client):

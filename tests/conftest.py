@@ -47,7 +47,6 @@ def logged_in_client(client, app):
                 sess['user_id'] = test_user.id
     return client
 
-
 @pytest.fixture
 def test_item(client, app):
     with client:

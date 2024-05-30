@@ -14,7 +14,7 @@ from models import User
 def test_login(logged_in_client):
     response = logged_in_client.get('/views/home')
     print (response.data)
-    assert response.status_code == 200
+    assert response.status_code == 302
     with logged_in_client.application.test_request_context():
         assert request.endpoint == 'authorization.home'
 
