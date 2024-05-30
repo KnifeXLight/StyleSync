@@ -23,9 +23,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'
-    - uses: actions/checkout@v4
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v4 
       with:
         python-version: "3.11"
     - name: Install dependencies
