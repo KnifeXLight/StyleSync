@@ -1,102 +1,108 @@
 {% extends '/html/base.html' %}
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/daisyui@1.15.1/dist/full.css" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <head>
     <style>
-    .col-8 {
-        margin-top: 5%;
-    
-    }
-    
-    .input-group {
-        width: 50%;
-        margin: 0 auto;
-    }
-    
-    #Username-label {
-        position: absolute;
-        top: -25px;
-        left: 0;
-        padding-bottom: 5%;
-    }
-    
-    #email-look {
-        margin-top: 3%;
-    }
-    
-    #email-name {
-        position: absolute; 
-        top: -25px;
-        left: 0;
-        padding-bottom: 5%;
-    }
-    
-    h1 {
-        text-align: center;
-        margin-bottom: 8%;
-    }
+        .form-label {
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8%;
+        }
     </style>
     <script>
+        function updateField(field, value) {
+            var formData = new FormData();
+            formData.append(field, value);
+
+            fetch('/views/profile', {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                console.log(`${field} updated successfully`);
+            }).catch(error => {
+                console.error(`Error updating ${field}:`, error);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("email").addEventListener("input", function(event) {
+                updateField('email', event.target.value);
+            });
+            document.getElementById("username").addEventListener("input", function(event) {
+                updateField('name', event.target.value);
+            });
+        });
+
         function validatePasswords() {
             var password = document.getElementById("password").value;
             var confirm_password = document.getElementById("confirm_password").value;
-    
+
             if (password !== confirm_password) {
                 alert("Passwords do not match");
-                return false; // Prevent form submission
+                return false;
             }
-            return true; // Allow form submission
+            return true;
+        }
+
+        function submitProfileData() {
+            // Add your form submission logic here
+        }
+
+        function validateAndSubmit() {
+            if (validatePasswords()) {
+                submitProfileData();
+                return true;
+            }
+            return false;
         }
     </script>
 </head>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <h1>Hello {{ current_user.name }}</h1>
-            <form action="/views/profile" method="POST">
-                <div class="input-group mb-3">
-                    <div id="Username-label">
-                        <label for="username">Username</label>
-                    </div>
-                    <input type="text" class="form-control" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Name</button>
+<div class="container mx-auto">
+    <div class="flex justify-center">
+        <div class="w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-8">Hello {{ current_user.name }}</h1>
+            <form action="/views/profile" method="POST" id="name-form-id" class="mb-4">
+                <div class="form-control mb-4">
+                    <label for="username" class="label">
+                        <span class="label-text">Username</span>
+                    </label>
+                    <input type="text" class="input input-bordered w-full" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
                 </div>
-                <br>
             </form>
 
-            <form action="/views/profile" method="POST">
-                <div class="input-group mb-3">
-                    <div id="email-name">
-                        <label for="email">Email</label>
-                    </div>
-                    <input type="text" class="form-control" id="email-label" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Change Email</button>
+            <form action="/views/profile" method="POST" id="email-form-id" class="mb-4">
+                <div class="form-control mb-4">
+                    <label for="email" class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" class="input input-bordered w-full" id="email" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
                 </div>
-                <br>
             </form>
 
-            <form action="/views/profile" method="POST" onsubmit="return validatePasswords();">
-                <div class="input-group mb-3">
-                    <div id="email-name">
-                        <label for="password">New Password:</label>
-                    </div>
-                    <input type="password" class="form-control" id="password" name="password">
+            <form action="/views/profile" method="POST" onsubmit="return validateAndSubmit()">
+                <div class="form-control mb-4">
+                    <label for="password" class="label">
+                        <span class="label-text">New Password:</span>
+                    </label>
+                    <input type="password" class="input input-bordered w-full" id="password" name="password">
                 </div>
-                <br>
-                <div class="input-group mb-3">
-                    <div id="email-name">
-                        <label for="confirm_password">Confirm New Password:</label>
-                    </div>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                <div class="form-control mb-4">
+                    <label for="confirm_password" class="label">
+                        <span class="label-text">Confirm New Password:</span>
+                    </label>
+                    <input type="password" class="input input-bordered w-full" id="confirm_password" name="confirm_password">
                 </div>
-                <div class="input-group mb-3">
-                    <input type="submit" value="Update Profile" class="btn btn-primary">
+                <div class="form-control mb-4">
+                    <input type="submit" value="Update Profile" class="btn btn-primary w-full">
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 {% endblock %}

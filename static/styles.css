@@ -567,21 +567,12 @@
             border-top: 1px solid #ddd;
         }
 
-        .aboutfooter ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
 
-        .aboutfooter ul li {
-            margin: 0 10px;
-        }
+
 
         .aboutfooter ul li a {
             text-decoration: none;
-            color: #5a2ea6;
+
         }
 
 }

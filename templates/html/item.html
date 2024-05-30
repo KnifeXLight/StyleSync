@@ -1,28 +1,23 @@
 {% extends '/html/base.html' %}
 {% block content %}
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <p>{{item.name}}</p>
-    <div class="item-container">
-        <div class="item-image
-        ">
-        <img src="{{ url_for('static', filename=item.image_url) }}" alt="Image">
-        </div>
-        <div class="item-title">
-            <p>Item Title</p>
-        </div>
-        <div class="item-description">
-            <p>Item Description</p>
-        </div>
-        <div class="item-price">
-            <p>Item Price</p>
-        </div>
-        <div class="item-button">
-            <button>Buy Now</button>
-        </div>
+<body class="flex flex-col items-center py-10">
+  <p class="text-2xl font-bold">{{ item.name }}</p>
+  <div class="card shadow-lg compact bg-base-100 max-w-md w-full">
+    <figure class="px-10 pt-10">
+      <img src="{{ url_for('static', filename=item.image_url) }}" alt="Image" class="rounded-xl">
+    </figure>
+    <div class="card-body items-center text-center">
+      <h2 class="card-title">{{ item.name }}</h2>
+      <p class="text-gray-700">{{ item.description }}</p>
+      <p class="text-lg font-semibold text-green-600">{{ item.price }}</p>
+      <div class="card-actions">
+        <a href="{{ url_for('html.delete_item', id=item.id) }}" class="btn btn-danger">Delete</a>
+        <a href="{{ url_for('html.wardrobe') }}" class="btn btn-primary">Back</a>
+      </div>
     </div>
-
+  </div>
 </body>
 {% endblock %}

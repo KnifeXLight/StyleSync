@@ -1,5 +1,6 @@
 {
-  "dependencies": {
-    "bootstrap-icons": "^1.11.3"
+  "devDependencies": {
+    "daisyui": "^4.11.1",
+    "tailwindcss": "^3.4.3"
   }
 }
