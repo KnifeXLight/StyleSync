@@ -4,6 +4,7 @@ from pathlib import Path
 from routes import auth_routes_bp, html_routes_bp
 from flask_login import LoginManager
 from models import User
+from flask_mail import Mail, Message
 
 def create_app(testing=False):
     # Initialize the Flask app
@@ -20,6 +21,20 @@ def create_app(testing=False):
         app.instance_path = Path("./data").resolve()
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'tanishbansal07787@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'elgggkpszgvqypkj'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    mail = Mail(app)
+    def test_mail():
+        with app.app_context():
+            msg = Message('Hello', sender = app.config['MAIL_USERNAME'], recipients = ['tanish.bansal0007@gmail.com'])
+            msg.body = "Hello Flask message sent from Flask-Mailhhhh"
+            mail.send(msg)
+            return "Sent"
+    # test_mail()
 
     # Initialize the database
     db.init_app(app)

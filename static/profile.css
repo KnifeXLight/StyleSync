@@ -1,0 +1,30 @@
+.col-8 {
+    margin-top: 5%;
+
+}
+
+.input-group {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#Username-label {
+    position: absolute;
+    top: -30px;
+    left: 0;
+}
+
+#email-look {
+    margin-top: 3%;
+}
+
+#email-name {
+    position: absolute; 
+    top: -30px;
+    left: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 8%;
+}

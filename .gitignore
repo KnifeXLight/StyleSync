@@ -7,4 +7,5 @@ __pycache__
 *.db
 *.coverage
 *.log
+**/node_modules
 htmlcov

@@ -1,26 +1,108 @@
 {% extends '/html/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/daisyui@1.15.1/dist/full.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
-    <body>
-        <div class="profile-container">
-            <div class="profile-name">Name</div>
-            <div class="profile-name-box">
-                <form>
-                    <input type="text" class="profile-name-box" placeholder="Misha"><br>
-                </form>
-            </div>
-            <div class="profile-save">
-                <button class="profile-save-button" type="button">Save</button> 
-            </div>
-            <div class="date-title">Date Registered</div>
-            <div class="date-text">1-12-2024</div>
-            <div class="email-title">Email</div>
-            <div class="email-text">test@test.com</div>
-            <div class="email-change-link">Change Email</div>
-            <div class="password-title">Password</div>
-            <div class="password-text">********</div>
-            <div class="password-change-link">Change Password</div>
+<head>
+    <style>
+        .form-label {
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8%;
+        }
+    </style>
+    <script>
+        function updateField(field, value) {
+            var formData = new FormData();
+            formData.append(field, value);
+
+            fetch('/views/profile', {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                console.log(`${field} updated successfully`);
+            }).catch(error => {
+                console.error(`Error updating ${field}:`, error);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("email").addEventListener("input", function(event) {
+                updateField('email', event.target.value);
+            });
+            document.getElementById("username").addEventListener("input", function(event) {
+                updateField('name', event.target.value);
+            });
+        });
+
+        function validatePasswords() {
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+
+            if (password !== confirm_password) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        }
+
+        function submitProfileData() {
+            // Add your form submission logic here
+        }
+
+        function validateAndSubmit() {
+            if (validatePasswords()) {
+                submitProfileData();
+                return true;
+            }
+            return false;
+        }
+    </script>
+</head>
+<div class="container mx-auto">
+    <div class="flex justify-center">
+        <div class="w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-8">Hello {{ current_user.name }}</h1>
+            <form action="/views/profile" method="POST" id="name-form-id" class="mb-4">
+                <div class="form-control mb-4">
+                    <label for="username" class="label">
+                        <span class="label-text">Username</span>
+                    </label>
+                    <input type="text" class="input input-bordered w-full" id="username" name="name" placeholder="{{ current_user.name }}" aria-label="Recipient's username" aria-describedby="button-addon2">
+                </div>
+            </form>
+
+            <form action="/views/profile" method="POST" id="email-form-id" class="mb-4">
+                <div class="form-control mb-4">
+                    <label for="email" class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" class="input input-bordered w-full" id="email" name="email" placeholder="{{ current_user.email }}" aria-label="Test Email" aria-describedby="button-addon2">
+                </div>
+            </form>
+
+            <form action="/views/profile" method="POST" onsubmit="return validateAndSubmit()">
+                <div class="form-control mb-4">
+                    <label for="password" class="label">
+                        <span class="label-text">New Password:</span>
+                    </label>
+                    <input type="password" class="input input-bordered w-full" id="password" name="password">
+                </div>
+                <div class="form-control mb-4">
+                    <label for="confirm_password" class="label">
+                        <span class="label-text">Confirm New Password:</span>
+                    </label>
+                    <input type="password" class="input input-bordered w-full" id="confirm_password" name="confirm_password">
+                </div>
+                <div class="form-control mb-4">
+                    <input type="submit" value="Update Profile" class="btn btn-primary w-full">
+                </div>
+            </form>
         </div>
-{% endblock %} 
+    </div>
+</div>
+{% endblock %}

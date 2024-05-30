@@ -54,7 +54,30 @@ def test_signup_missing_data(client):
         response = client.post("/auth/register", data=form_data, follow_redirects=True)
         # Assuming registration redirects to the same page on validation failure
         assert response.status_code == 200
-            
+        
+        form_data = {
+            "email": "test@example.com",
+            "name": "",
+            "password": "password123"
+        }
+        response = client.post("/auth/register", data=form_data, follow_redirects=True)
+        assert response.status_code == 200
+
+        form_data = {
+            "email": "test@example.com",
+            "name": "Test User",
+            "password": ""
+        }
+        response = client.post("/auth/register", data=form_data, follow_redirects=True)
+        assert response.status_code == 200
+        
+        form_data = {
+            "email": "",
+            "name": "",
+            "password": ""
+        }
+        response = client.post("/auth/register", data=form_data, follow_redirects=True)
+        assert response.status_code == 200
 
 # Test when password is less than 8 characters
 def test_signup_short_password(client):
@@ -68,3 +91,8 @@ def test_signup_short_password(client):
     assert response.status_code == 200
     assert b"Password must be at least 8 characters long" in response.data
 
+# Test when email already exists
+def test_signup_existing_email(client):
+    client.post('/auth/register', data={'name': 'Test User', 'email': 'test@example.com', 'password': 'password'}, follow_redirects=True)
+    response = client.post('/auth/register', data={'name': 'Test User 2', 'email': 'test@example.com', 'password': 'password2'}, follow_redirects=True)
+    assert b'Email already exists' in response.data
