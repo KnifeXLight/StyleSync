@@ -1,120 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <title>StyleSync</title>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <!-- Bootstrap Icons CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/output.css">
     <style>
-      .nav-link.active {
-        --bs-navbar-active-color: #FF76CE;
-      }
-      .container-fluid{
-        --bs-gutter-x : 0;
-      }
-      .navbar-expand-lg{
-        background-color: #41B06E;
-      }
-      .nav-link {
-        font-family: 'Pacifico', cursive;
-        font-size: large;
-      }
+        .nav-link.active {
+            color: #FF76CE;
+        }
+        .container-fluid {
+            padding: 0;
+        }
+        .nav-link {
+            font-family: 'Poppins', cursive;
+            font-size: medium;
+        }
+        .dropdown-content {
+            z-index: 50;
+        }
     </style>
-    {% block head %} {% endblock %} 
-  </head>
-  <body class="container-fluid" style="max-width: 100vw; overflow-x: hidden">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand px-3" href="{{url_for('html.home')}}">StyleSync</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNavAltMarkup"
-        >
-          <div class="navbar-nav px-3">
-            <a
-              class="nav-link {% if request.endpoint == 'html.home' %} active{% else %} {% endif %}"
-              aria-current="page"
-              href="{{url_for('html.home')}}"
-              >My Outfits</a
-            >
-            <a
-              class="nav-link {% if request.endpoint == 'html.newoutfit' %} active bs-purple {% else %} {% endif %}"
-              href="{{url_for('html.newoutfit')}}"
-              >New Outfit</a
-            >
-            <a
-              class="nav-link {% if request.endpoint == 'html.wardrobe' %} active {% else %} {% endif %}"
-              href="{{url_for('html.wardrobe')}}"
-              >Wardrobe</a
-            >
-            <a
-              class="nav-link {% if request.endpoint == 'html.new_item' %} active {% else %} {% endif %}"
-              href="{{url_for('html.new_item')}}"
-              >New Item</a
-            >
-            <div class="dropdown">
-              <a
-                class="nav-link "
-                href="#"
-                role="button"
-                id="dropdownMenuLink"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="bi bi-person-circle"></i>
-              </a>
-
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuicon">
-                <li><a class="dropdown-item" href="{{url_for('html.profile')}}"> <i class="bi bi-person"></i> My Profile</a></li>
-                <!-- <li><a class="dropdown-item" href="#"> <i class="bi bi-gear-fill"></i> Settings</a></li> -->
-                <li>{% if current_user.is_authenticated %}
-                <a class="dropdown-item" href="{{url_for('authorization.logout')}}"> <i class="bi bi-box-arrow-right"></i>Logout</a>
-                {% else %}
-                <a class="nav-link" href="{{url_for('authorization.home')}}">Login</a>
-                <a class="nav-link" href="{{url_for('authorization.register')}}">Register</a>
-                {% endif %}</li>  
-              </ul>
+    {% block head %} {% endblock %}
+</head>
+<body class="container-fluid" style="max-width: 100vw; overflow-x: hidden">
+    <div class="navbar flex justify-between items-center py-4 px-6 mb-3 bg-[#8a2be2]">
+        <a class="navbar-brand text-white h-full" href="{{ url_for('html.home') }}">
+            <div class="w-24 h-full">
+                <img src="../../static/items/Screenshot_2024-05-26_at_4.31.08_PM.png" class="object-scale-down" alt="StyleSync Logo">
             </div>
-          </div>
+        </a>
+        <div class="flex space-x-4 items-center">
+            <a class="nav-link text-white {% if request.endpoint == 'html.home' %} active{% else %} {% endif %}" href="{{ url_for('html.home') }}">My Outfits</a>
+            <a class="nav-link text-white {% if request.endpoint == 'html.newoutfit' %} active{% else %} {% endif %}" href="{{ url_for('html.newoutfit') }}">New Outfit</a>
+            <a class="nav-link text-white {% if request.endpoint == 'html.wardrobe' %} active{% else %} {% endif %}" href="{{ url_for('html.wardrobe') }}">Wardrobe</a>
+            <a class="nav-link text-white {% if request.endpoint == 'html.new_item' %} active{% else %} {% endif %}" href="{{ url_for('html.new_item') }}">New Item</a>
+            <div class="relative">
+                <button class="nav-link text-white focus:outline-none" id="dropdownMenuLink">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+                <ul id="dropdownMenu" class="dropdown-content bg-white shadow rounded-box absolute right-0 mt-2 hidden">
+                    <li><a class="dropdown-item px-4 py-2 flex items-center" href="{{ url_for('html.profile') }}">
+                        <i class="fa-solid fa-user mr-2"></i> My Profile</a></li>
+                    <li>
+                        {% if current_user.is_authenticated %}
+                            <a class="dropdown-item px-4 py-2 flex items-center" href="{{ url_for('authorization.logout') }}">
+                                <i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+                        {% else %}
+                            <a class="dropdown-item px-4 py-2 flex items-center" href="{{ url_for('authorization.home') }}">Login</a>
+                            <a class="dropdown-item px-4 py-2 flex items-center" href="{{ url_for('authorization.register') }}">Register</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-    </nav>
-    {% with messages =
-      get_flashed_messages(with_categories=true) %} {% if messages %} {% include
-      '/html/toast.html' %} {% endif %} {% endwith %}
-    {% block content %} {% endblock %} 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+    </div>
+
+    {% block content %} {% endblock %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="toast">
+        <div class="alert alert-info z-50">
+            {{ messages[0][1] }}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
     <script>
-      $(document).ready(function () {
-        $(".toast").toast("show");
-      });
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownToggle = document.getElementById('dropdownMenuLink');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            dropdownToggle.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.5"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
+    <script src="https://kit.fontawesome.com/704b4776e9.js" crossorigin="anonymous"></script>
+</body>
 </html>
