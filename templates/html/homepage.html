@@ -126,7 +126,7 @@
     <div id="row1 ">
         <div class="container-fluid py-5 mt-28 pb-28">
             <div class="grid grid-flow-row gap-4">
-                <h3>Accessories</h3>
+                <h3 class="text-center">Accessories</h3>
                 {% if 'Accessories' in item_dict %}
                 {% for item in item_dict['Accessories'] %}
                 <div class="card  w-2/3 ml-24 shadow-lg  bg-base-100 cursor-pointer hover: drop-shadow" onclick="document.getElementById('offcanvas{{item.id}}').classList.remove('hidden')">
